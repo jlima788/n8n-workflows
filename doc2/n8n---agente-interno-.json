@@ -1,0 +1,249 @@
+{
+  "createdAt": "2025-07-07T17:35:10.027Z",
+  "updatedAt": "2025-07-07T17:45:17.589Z",
+  "id": "2OFARxNvPIpzeiwv",
+  "name": "N8N - Agente interno",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        300
+      ],
+      "id": "c115861b-6a3e-411e-9e3c-e11f52a7407e",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=Hoje é {{$now}}\nPAPEL:  \nVocê é um assistente interno de reagendamento na clínica, acionado diretamente por um profissional via Telegram para gerenciar situações de remarcação de consultas ou incluir lembretes na lista de compras.\n\nOBJETIVO GERAL:  \n1. Reagendar consultas a pedido do profissional.  \n2. Adicionar lembretes na lista de compras quando solicitado.  \n\nRESUMO DE RESPONSABILIDADES:  \n1. Reagendamento de pacientes  \n   - Acesse o Google Calendar por meio da ferramenta \"MCP Google Calendar\" para identificar as consultas afetadas.  \n   - Extraia o número de telefone na descrição do evento.  \n   - Use a ferramenta \"Reagendar no WhatsApp\" para enviar mensagens de reagendamento aos pacientes.  \n   - Lembre-se de que você apenas envia a mensagem; a resposta do paciente é tratada por outro agente.  \n\n2. Lista de compras da clínica  \n   - Se o profissional solicitar pelo Telegram a inclusão de um item na lista de compras, utilize a ferramenta \"Google Tasks\" para adicionar o lembrete.  \n\nORIENTAÇÕES DE LINGUAGEM E PROCEDIMENTO:  \n- Use uma abordagem empática, profissional e acolhedora.  \n- Nunca envie mensagens para pacientes sem autorização explícita do profissional.  \n- Quando listar eventos ou tarefas, seja objetivo e organizado.  \n- Mantenha clareza e concisão em todas as interações.  \n\nFERRAMENTAS DISPONÍVEIS:  \n- Reagendar no WhatsApp  \n- Google Tasks  \n- MCP Google Calendar  \n\nINSTRUÇÕES FINAIS:  \n- Atenda exclusivamente às solicitações de reagendamento e inclusão de lembretes.  \n- A remarcação de consultas ocorre somente quando o profissional pede, utilizando o MCP Google Calendar para identificar os pacientes e o \"Reagendar no WhatsApp\" para enviar a mensagem.  \n- Para a lista de compras, sempre registre no \"Google Tasks\".  \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        820,
+        60
+      ],
+      "id": "9187e399-f99f-4983-af3a-70ec7fd4ec89",
+      "name": "Assistente clinica interno"
+    },
+    {
+      "parameters": {
+        "task": "bDQ5ZlNVV2lPQ3pYT3NsNA",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {
+          "notes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Notes', ``, 'string') }}",
+          "status": "needsAction"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        300
+      ],
+      "id": "0f29dfa0-83f3-4ae1-acf6-0e094f1c1a3e",
+      "name": "Google Tasks"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use essa ferramenta para enviar WhatsApp",
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/REDACTED/token/REDACTED/send-button-list",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "client-token",
+              "valueProvider": "fieldValue",
+              "value": "REDACTED"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"phone\": \"{telefone}\",\n  \"message\": \"Olá! Aqui é da Clínica Moreira. Estamos entrando em contato para informar que, infelizmente, o Dr. João Paulo Ferreira *não poderá realizar sua consulta na data agendada* devido a um imprevisto de última hora.\\n\\nPedimos desculpas pelo transtorno e agradecemos sua compreensão. Por favor, clique no botão abaixo para reagendarmos sua consulta o quanto antes.\",\n  \"buttonList\": {\n    \"buttons\": [\n      {\n        \"id\": \"{id_evento_google_calendar}\",\n        \"label\": \"Reagendar\"\n      }\n    ]\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        300
+      ],
+      "id": "90a7e6cf-f13f-4c17-b4b6-a441659f2cd0",
+      "name": "Reagendar no WhatsApp"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://n8n.fazer.ai/mcp/google-calendar/sse"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        300
+      ],
+      "id": "e3a66de1-086c-4d87-a67d-7465623df5c5",
+      "name": "MCP Google Calendar"
+    },
+    {
+      "parameters": {
+        "chatId": "1239148307",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        60
+      ],
+      "id": "51295c0d-3855-4e25-9d56-e9c107706067",
+      "name": "Responder Telegram",
+      "webhookId": "21855174-4f7f-49f5-b8f4-a284d6ee4ddf"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        540,
+        60
+      ],
+      "id": "c67fbd1c-c0cb-4987-9f08-0780ed513dcf",
+      "name": "Receber Mensagem Telegram",
+      "webhookId": "f2b29356-d5d3-4f5d-9ef1-273001c0a820"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "100",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        880,
+        300
+      ],
+      "id": "34f9e541-eac6-4108-b783-1c32e29f5b37",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "DqpVg9t5M5TqzU6t",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assistente clinica interno": {
+      "main": [
+        [
+          {
+            "node": "Responder Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reagendar no WhatsApp": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receber Mensagem Telegram": {
+      "main": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Assistente clinica interno",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e20c6594-69a0-4d06-b8f8-4f9e6b91ede4",
+  "triggerCount": 0,
+  "tags": []
+}
