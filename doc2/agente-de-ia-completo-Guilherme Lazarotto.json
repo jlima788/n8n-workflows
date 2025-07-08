@@ -1,0 +1,591 @@
+{
+  "createdAt": "2025-07-04T22:02:19.695Z",
+  "updatedAt": "2025-07-07T13:22:06.941Z",
+  "id": "AOXKfbUSCAQaELpy",
+  "name": "Agente de IA COMPLETO",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d2e649b1-a79c-4d63-a110-c3249a88e035",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        140
+      ],
+      "id": "1398c94e-031c-492a-ba6f-d9ccbe9b5f65",
+      "name": "Webhook",
+      "webhookId": "d2e649b1-a79c-4d63-a110-c3249a88e035"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0500d720-c18a-4e2d-8008-ba7c1fce7a62",
+              "name": "instance",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "605137d9-69dd-4e8f-9185-09da8741ab62",
+              "name": "remoteJid",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "d6ed47af-7c1d-486a-9a81-8a57e12e6926",
+              "name": "id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "6e1bca5c-542c-4e5a-8927-b4d9f38cc540",
+              "name": "fromMe",
+              "value": "={{ $json.body.data.key.fromMe }}",
+              "type": "string"
+            },
+            {
+              "id": "f27896f0-18f0-4aac-8744-dcf62c9e9451",
+              "name": "conversation",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "e6edae34-be13-4c62-83de-ea54319a9939",
+              "name": "messageType",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "a21dccc4-02b6-4402-8ff9-106479c4f323",
+              "name": "pushName",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        140
+      ],
+      "id": "35880eea-7be7-448a-bc9f-5fdf45386845",
+      "name": "Dados"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "Você é um assistente de turismo na cidade de Santos"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        120
+      ],
+      "id": "1550600f-5190-4dfb-993f-707bc3992fa2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        380
+      ],
+      "id": "ba1d1ccc-f2be-4cba-b167-a8c79241211f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DyF90rEUbOzy0jcz",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instance }}",
+        "remoteJid": "={{ $('Dados').item.json.remoteJid }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {
+          "delay": 3600,
+          "linkPreview": true
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        120
+      ],
+      "id": "3a387316-ea0f-4b2d-8e70-f4b0e8597b3a",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "wDLKzaLPE1UlobfZ",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "=conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4f1438cc-28bc-495a-b986-79f319cdbd68"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "79ee2e2a-05c5-4c1b-b1ae-8a31830c413d",
+                    "leftValue": "={{ $json.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        180,
+        140
+      ],
+      "id": "3557a84e-0658-4aa3-85c9-084c09b4a041",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4076484-4613-4c04-a220-448b817e3083",
+              "name": "message",
+              "value": "={{ $('Dados').item.json.conversation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1260,
+        120
+      ],
+      "id": "8af472e2-b774-44a8-8001-2b2967015486",
+      "name": "Set Text Message"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14277e2c-67b2-4fea-adb6-58e2fceefb14",
+              "name": "message",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1420,
+        120
+      ],
+      "id": "7682717b-8650-474e-90cf-743f3d16ccf1",
+      "name": "Message"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $json.instance }}",
+        "messageId": "={{ $json.remoteJid }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        400,
+        380
+      ],
+      "id": "bb692749-3d30-4892-bbe4-74c64f9a5be7",
+      "name": "Obter m dia em base64",
+      "credentials": {
+        "evolutionApi": {
+          "id": "wDLKzaLPE1UlobfZ",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "options": {
+          "mimeType": "audio/mpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        620,
+        380
+      ],
+      "id": "047b72b4-a399-4a5c-bec2-bda3e212315b",
+      "name": "Convert to File",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "whisper-large-v3-turbo"
+            },
+            {
+              "name": "temperature",
+              "value": "0"
+            },
+            {
+              "name": "response_format",
+              "value": "verbose_json"
+            },
+            {
+              "name": "language",
+              "value": "pt"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        380
+      ],
+      "id": "dd2d2c7d-7911-40f8-843b-05f876590777",
+      "name": "HTTP Request",
+      "credentials": {
+        "groqApi": {
+          "id": "l8IZ6KR6cNBS1mJa",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40bba0b3-7bc7-4ced-bc6b-70596c1adec3",
+              "name": "message",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1060,
+        380
+      ],
+      "id": "cab32013-68b1-4c91-9a75-d0d563a28e71",
+      "name": "Set Audio Message"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1bbf5a9-6540-45c6-bef7-dbcbf17d7ed5",
+              "leftValue": "={{ $('Dados').item.json.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1640,
+        120
+      ],
+      "id": "5a7a3d07-3d02-4a0b-9c8c-4df073b0d1b0",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        2100,
+        380
+      ],
+      "id": "b13d090f-814e-4e80-957e-429735472afa",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "e5RgmpUubhuzMHLL",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set Text Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Obter m dia em base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Text Message": {
+      "main": [
+        [
+          {
+            "node": "Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base64": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Set Audio Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Audio Message": {
+      "main": [
+        [
+          {
+            "node": "Set Text Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "54fc3763-dda2-4633-ae60-c3e05decb9ef",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-07-07T13:22:03.492Z",
+      "updatedAt": "2025-07-07T13:22:03.492Z",
+      "id": "3k3UgURdReFioZdo",
+      "name": "Guilherme Lazarotto"
+    }
+  ]
+}
