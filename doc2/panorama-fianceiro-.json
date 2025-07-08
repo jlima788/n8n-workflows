@@ -1,0 +1,291 @@
+{
+  "createdAt": "2025-07-03T16:38:15.129Z",
+  "updatedAt": "2025-07-07T21:15:38.422Z",
+  "id": "1AcLJi0FjhQkZ3lo",
+  "name": "Panorama Fianceiro",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "custom",
+              "cronExpression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "e36b2afc-a36a-4a5e-95b6-49b173903ed2",
+      "name": "Trigger Diário",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        100,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.hgbrasil.com/finance",
+        "options": {}
+      },
+      "id": "cf70677c-8a97-4d9a-8f0f-3df59bfc8f72",
+      "name": "API HG Brasil",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        560,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.exchangerate-api.com/v4/latest/USD",
+        "options": {}
+      },
+      "id": "23d7a82c-126e-4720-9843-936cbf9419c3",
+      "name": "API Forex",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        780,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,brl",
+        "options": {}
+      },
+      "id": "e9e11b4b-4348-4c02-9a46-c87049333977",
+      "name": "API Crypto",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        980,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d",
+        "options": {}
+      },
+      "id": "e1a5dbd7-cfcc-433b-8101-2617c427a0de",
+      "name": "API Yahoo Finance",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1180,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Captura os dados dos nodes anteriores pelo nome\nconst hgData = $items(\"API HG Brasil\")[0]?.json || {};\nconst forexData = $items(\"API Forex\")[0]?.json || {};\nconst cryptoData = $items(\"API Crypto\")[0]?.json || {};\nconst yahooData = $items(\"API Yahoo Finance\")[0]?.json || {};\n\n// Função para formatar números\nfunction formatNumber(num, decimals = 2) {\n  if (typeof num !== 'number') return 'N/D';\n  return num.toLocaleString('pt-BR', {\n    minimumFractionDigits: decimals,\n    maximumFractionDigits: decimals\n  });\n}\n\n// Função para formatar percentual\nfunction formatPercent(num) {\n  if (typeof num !== 'number') return 'N/D';\n  const sign = num >= 0 ? '+' : '';\n  return `${sign}${num.toFixed(2)}%`;\n}\n\n// Extrair dados do Brasil\nconst ibovespa = hgData?.results?.stocks?.IBOVESPA || {};\nconst usdBrl = hgData?.results?.currencies?.USD || {};\n\n// Extrair dados de Forex\nconst eurUsd = forexData?.rates?.EUR ? (1 / forexData.rates.EUR).toFixed(4) : 'N/D';\nconst gbpUsd = forexData?.rates?.GBP ? (1 / forexData.rates.GBP).toFixed(4) : 'N/D';\nconst usdJpy = forexData?.rates?.JPY || 'N/D';\n\n// Extrair dados de Crypto\nconst bitcoin = cryptoData?.bitcoin || {};\nconst ethereum = cryptoData?.ethereum || {};\n\n// Obter data atual\nconst hoje = new Date();\nconst dataFormatada = hoje.toLocaleDateString('pt-BR', {\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric'\n}).replace(/^\\w/, c => c.toUpperCase());\n\n// Montar o relatório\nconst relatorio = `🏦 RELATÓRIO DE MERCADO - ${dataFormatada}\n⏰ Atualizado às 08:00 BRT\n\n📊 MERCADO BRASILEIRO\n• Ibovespa: ${formatNumber(ibovespa.points)} (${formatPercent(ibovespa.variation)})\n• Dólar: R$ ${formatNumber(usdBrl.buy, 3)} (${formatPercent(usdBrl.variation)})\n• Variação: ${ibovespa.variation >= 0 ? '📈' : '📉'} ${Math.abs(ibovespa.variation || 0).toFixed(2)}%\n\n🌎 MERCADOS INTERNACIONAIS\n• S&P 500: Em análise\n• Nasdaq: Em análise\n• Europa/Ásia: Dados em processamento\n\n💱 FOREX\n• EUR/USD: ${eurUsd}\n• GBP/USD: ${gbpUsd}\n• USD/JPY: ${formatNumber(usdJpy, 2)}\n\n🚀 CRIPTO\n• Bitcoin: $${formatNumber(bitcoin.usd)} / R$${formatNumber(bitcoin.brl)}\n• Ethereum: $${formatNumber(ethereum.usd)} / R$${formatNumber(ethereum.brl)}\n\n📈 ANÁLISE RÁPIDA\n${ibovespa.variation >= 0 ? 'Mercado brasileiro em alta' : 'Mercado brasileiro em baixa'} com o Ibovespa ${ibovespa.variation >= 0 ? 'subindo' : 'caindo'} ${Math.abs(ibovespa.variation || 0).toFixed(2)}%. Dólar ${usdBrl.variation >= 0 ? 'em alta' : 'em baixa'} a R$ ${formatNumber(usdBrl.buy, 3)}.\n\n📅 AGENDA HOJE\nAcompanhe os indicadores econômicos e decisões de política monetária.\n\n---\n💡 Este é um resumo informativo. Consulte sempre fontes oficiais para decisões de investimento.`;\n\nreturn [{ json: { relatorio } }];\n"
+      },
+      "id": "9ad46683-67f4-4d6c-b370-905cf0e6a82d",
+      "name": "Processar Dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1380,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ new Date().getDay() }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "condition2",
+              "leftValue": "={{ new Date().getDay() }}",
+              "rightValue": 6,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "20549524-7a67-4953-9a5b-7fb6c981411f",
+      "name": "Verificar Dia Útil",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        300,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "5513988491908"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.relatorio }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1580,
+        380
+      ],
+      "id": "f374bcfb-700a-47f4-be3f-8b504cef31e1",
+      "name": "Envia para Grupo WhatsApp"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        380
+      ],
+      "id": "d49ef016-4259-431e-8e09-29c1fd1fd0c9",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Trigger Diário": {
+      "main": [
+        [
+          {
+            "node": "Verificar Dia Útil",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Dia Útil": {
+      "main": [
+        [
+          {
+            "node": "API HG Brasil",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "API HG Brasil": {
+      "main": [
+        [
+          {
+            "node": "API Forex",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Forex": {
+      "main": [
+        [
+          {
+            "node": "API Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processar Dados": {
+      "main": [
+        [
+          {
+            "node": "Envia para Grupo WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Crypto": {
+      "main": [
+        [
+          {
+            "node": "API Yahoo Finance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Yahoo Finance": {
+      "main": [
+        [
+          {
+            "node": "Processar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia para Grupo WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6341e02a-e0d1-467c-a324-e73758ca40cf",
+  "triggerCount": 1,
+  "tags": []
+}
