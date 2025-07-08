@@ -1,0 +1,247 @@
+{
+  "createdAt": "2025-07-07T20:23:31.079Z",
+  "updatedAt": "2025-07-07T20:58:57.876Z",
+  "id": "sAs7IopEBU6Jo5ru",
+  "name": "Morning Call",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "custom",
+              "cronExpression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "4cd7b404-63ef-4ca9-a31d-2a3f07eb60af",
+      "name": "Trigger Diário",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "weekday1",
+              "leftValue": "={{ new Date().getDay() }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "weekday2",
+              "leftValue": "={{ new Date().getDay() }}",
+              "rightValue": 6,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c74fcdb1-6c78-4241-a786-c77b85e6ba6e",
+      "name": "Verificar Dia Útil",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        60,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "120363419584060697@g.us"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c9749381-4c76-401e-bc27-124649245e58",
+      "name": "Enviar para Grupo WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um analista financeiro com experiência em macroeconomia, mercado internacional e brasileiro. Elabore um boletim matinal (Morning Call) com uma linguagem objetiva, clara e profissional, no formato abaixo:\n\n📈 **Morning Call – Café com Trade**  \n📅 {{ $node[\"FormatDate\"].json[\"data_formatada\"] }}\n\n🇺🇸 **EUA**: [Atualize com panorama dos futuros, decisões de política monetária, inflação, dados macro, ou fatos políticos relevantes].\n\n🌏 **Ásia**: [Resumo dos fechamentos das principais bolsas asiáticas (Japão, China, etc.) e fatores que impactaram, como inflação, dados dos EUA, etc.].\n\n🇪🇺 **Europa**: [Tendência dos mercados europeus e principais notícias econômicas/políticas da região].\n\n🇧🇷 **Brasil**: [Dados macroeconômicos, indicadores divulgados, destaque político ou econômico relevante do dia].\n\n🛢️ **Commodities**: [Movimento de petróleo, minério de ferro, dólar e o impacto das expectativas globais].\n\n📰 **Política**: [Principais acontecimentos políticos que impactam o mercado, tanto no Brasil quanto no exterior].\n\n📊 **Corporativo**:  \n- [Empresas brasileiras com destaque no pregão de hoje, anúncios de dividendos, fusões, balanços, etc.]\n\n---\n\n☕ Tenha um excelente dia e bons trades!  \n📍 **Café com Trade**\n\n⚠️ O texto deve ter no máximo **1600 caracteres**, para que seja enviado por WhatsApp.\n\nEvite repetir palavras e mantenha tom **profissional, informativo e direto ao ponto**.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        500,
+        240
+      ],
+      "id": "d06cdebc-e690-4daa-8c55-56a97f1e3465",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        460,
+        440
+      ],
+      "id": "5f3ae128-db18-4cc9-98ac-b157d16c1481",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DyF90rEUbOzy0jcz",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const date = new Date();\nreturn [{\n  json: {\n    data_formatada: date.toLocaleDateString(\"pt-BR\", { \n      weekday: 'long', \n      day: '2-digit', \n      month: 'long', \n      year: 'numeric' \n    })\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        300,
+        240
+      ],
+      "id": "c5894cc4-173f-466d-b046-28b199ca5e3d",
+      "name": "FormatDate"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        240
+      ],
+      "id": "5c3f04c8-3ce3-4a4f-865e-5d2f3ecaaa7a",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Grupo WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Dia Útil": {
+      "main": [
+        [
+          {
+            "node": "FormatDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Diário": {
+      "main": [
+        [
+          {
+            "node": "Verificar Dia Útil",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FormatDate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar para Grupo WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8fe5b2ae-b46c-4fa4-8e73-d1fcb265cff1",
+  "triggerCount": 1,
+  "tags": []
+}
