@@ -1,0 +1,726 @@
+{
+  "createdAt": "2025-07-02T00:02:32.597Z",
+  "updatedAt": "2025-07-02T00:02:32.597Z",
+  "id": "FGWF76LFEJHR6Qj3",
+  "name": "NoCode StartUp",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Olá! 👋\nComo posso te ajudar?",
+        "options": {
+          "title": "Ola 👋"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f4d9d610-58d8-42cf-b03f-df98d501d8fc",
+      "name": "When chat message received",
+      "webhookId": "5578ac8a-83af-4daa-ac27-d57e99d9c101"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "Você é um agente de suporte, seja educado, engraçao e utilize emojis."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        700,
+        0
+      ],
+      "id": "19bbf472-880f-40bc-83fd-6582c2739623",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA",
+          "mode": "list",
+          "cachedResultName": "Curso N8N Gratuito - Tutorial #1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Case 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "IdConversa": "={{ $json.IdConversa }}",
+            "Mensagem": "={{ $json.Mensagem }}",
+            "Quem Enviou?": "Usuário"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "IdConversa",
+              "displayName": "IdConversa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quem Enviou?",
+              "displayName": "Quem Enviou?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        0
+      ],
+      "id": "0464eb7c-de53-4035-9258-586d8cebd428",
+      "name": "Google Sheets1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        600,
+        220
+      ],
+      "id": "02155f4e-0c2a-4466-b5cf-41de6b4ddc6a",
+      "name": "Groq Chat Model"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51463003-beb3-42ae-a4ba-66a5436e0501",
+              "name": "IdConversa",
+              "value": "={{ $json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "2d64eb86-4cf0-46a6-a502-0c308e521f32",
+              "name": "Mensagem",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "9bf6c162-8616-4038-ba56-7e87eb16374d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields').item.json.IdConversa }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        740,
+        220
+      ],
+      "id": "91cba807-bc18-4c28-8187-4e48f2b89beb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        220
+      ],
+      "id": "a9c2ab27-1600-4bf8-bafc-ce6675b50393",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        880,
+        220
+      ],
+      "id": "5ea41383-62d0-4356-ab44-f9041ed3412b",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "e56eb391-4ab3-4bdb-972e-d97f2ad09dfe",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields1').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "Você é um agente de suporte, seja educado, engraçao e utilize emojis."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        720,
+        840
+      ],
+      "id": "ce0b2693-2342-4f12-97aa-c14b82f629fe",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA",
+          "mode": "list",
+          "cachedResultName": "Curso N8N Gratuito - Tutorial #1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1302171393,
+          "mode": "list",
+          "cachedResultName": "Case 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZIyZrOkvoxyptGpg0f4Km1FOPQNkEtliXr651pFQyuA/edit#gid=1302171393"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "WhatsApp": "={{ $json.IdConversa }}",
+            "Nome": "={{ $json.Nome }}"
+          },
+          "matchingColumns": [
+            "WhatsApp"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        480,
+        840
+      ],
+      "id": "58c9dc26-15ab-4f02-b86d-c09a03643489",
+      "name": "Google Sheets"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        620,
+        1060
+      ],
+      "id": "c77ed2c1-136a-4a6b-946f-3371c9b98025",
+      "name": "Groq Chat Model1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51463003-beb3-42ae-a4ba-66a5436e0501",
+              "name": "IdConversa",
+              "value": "={{ $('Webhook').item.json.body.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2d64eb86-4cf0-46a6-a502-0c308e521f32",
+              "name": "Mensagem",
+              "value": "={{ $('Webhook').item.json.body.text.message }}",
+              "type": "string"
+            },
+            {
+              "id": "4d5885bf-d1db-49af-86fb-22b8a5fe81c7",
+              "name": "Nome",
+              "value": "={{ $('Webhook').item.json.body.chatName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        840
+      ],
+      "id": "60745c70-6501-41f0-b973-ec60e2765799",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields1').item.json.IdConversa }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        760,
+        1060
+      ],
+      "id": "35406c78-21d9-45cb-b245-7904d6e1415f",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        1060
+      ],
+      "id": "3dcd9deb-cd1c-4ec4-9fd0-6025245e6f7c",
+      "name": "Calculator1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1060
+      ],
+      "id": "74c75e19-b5f4-4787-a135-146d2ca3096f",
+      "name": "Wikipedia1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        840
+      ],
+      "id": "ca99cb63-57e4-4d59-9792-e1404498c34c",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "receber-mensagem-whatsapp",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        840
+      ],
+      "id": "34017878-77e5-4e92-a2db-af5e4a21f042",
+      "name": "Webhook",
+      "webhookId": "018ef395-f9e7-4f6f-9afb-2dffd9ec1e38"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3e159d22-1e35-4ac6-b7c4-23dcd61b2c65",
+              "leftValue": "={{ $json.body.isGroup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b3e67eed-ee63-4f85-9e8c-31cb3c84dea5",
+              "leftValue": "={{ $json.body.isNewsletter }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "6ee1e0b8-3aa2-4964-aecd-5c41f7417f56",
+              "leftValue": "={{ $json.body.fromApi }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "2288f863-9d64-4a5b-8414-6dc359375d0e",
+              "leftValue": "={{ $json.body.broadcast }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        60,
+        840
+      ],
+      "id": "eb9e4193-4dd8-4172-b68a-f932ece8eab4",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        280,
+        1060
+      ],
+      "id": "092cd791-d031-4617-b09d-73166acf0dd7",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/SUA_INSTANCIA/token/SEU_TOKEN/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "client-token",
+              "value": "{{security-token}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "5511999998888"
+            },
+            {
+              "name": "message",
+              "value": "Welcome to *Z-API*"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        840
+      ],
+      "id": "49e18379-9630-4208-a921-475b05c8bcb7",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "268979d2-4c33-4edb-b0c1-12b14cc6a761",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-07-01T23:57:29.675Z",
+      "updatedAt": "2025-07-01T23:57:29.675Z",
+      "id": "hO1XJ03xogM2ge03",
+      "name": "NoCode StartUp"
+    }
+  ]
+}
