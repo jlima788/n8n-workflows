@@ -1,0 +1,488 @@
+{
+  "createdAt": "2025-07-01T19:35:13.077Z",
+  "updatedAt": "2025-07-01T23:54:58.022Z",
+  "id": "Gapo4wJbLSp4rmIx",
+  "name": "Case 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c0d5f959-82a9-4065-9df3-6ebeee51557a",
+              "name": "idConversa",
+              "value": "={{ $json.body.sender.split('@')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbe9630-8fb3-4666-ae4c-c37cc80d614d",
+              "name": "mensagem",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "0557642d-d96f-4044-946b-abd7101b972b",
+              "name": "nome",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -40
+      ],
+      "id": "b1fa4c40-9a09-4dd6-b3c7-567cc164896e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.mensagem }}",
+        "options": {
+          "systemMessage": "Você é um super agente de suporte, seja educado, engraçado e utilize emojis em suas respostas para deixar as conversas mais humanizadas"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        160,
+        -40
+      ],
+      "id": "56958b17-04ff-4fe6-92b1-4626e9dd1f7b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1779IaUG_9DjCAC13msJ_pB3LCsGJjTUNgv_2rVQWCgY",
+          "mode": "list",
+          "cachedResultName": "Automação N8N",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1779IaUG_9DjCAC13msJ_pB3LCsGJjTUNgv_2rVQWCgY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 57182258,
+          "mode": "list",
+          "cachedResultName": "Página2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1779IaUG_9DjCAC13msJ_pB3LCsGJjTUNgv_2rVQWCgY/edit#gid=57182258"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "WhatsApp": "={{ $json.idConversa }}",
+            "Nome": "={{ $json.nome }}"
+          },
+          "matchingColumns": [
+            "WhatsApp"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "WhatsApp",
+              "displayName": "WhatsApp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        -40
+      ],
+      "id": "a6055f30-17c8-4054-b2e4-32002a68a15d",
+      "name": "Adiciona linha na planilha",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        60,
+        160
+      ],
+      "id": "6dd4b245-a105-4c78-bdab-ebaa8c13487c",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "eRfUN1eblvwUOMMV",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields').item.json.idConversa }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        160
+      ],
+      "id": "cad5063c-9992-4f59-b6ec-dbf42697e483",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        560,
+        160
+      ],
+      "id": "109288c9-ca03-4e3b-87dd-5faccfb3816b",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        400,
+        160
+      ],
+      "id": "f5ad39fd-fbf9-4e75-b269-246aaa5fd398",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        660,
+        -40
+      ],
+      "id": "97522645-4a07-4356-9e88-32fd13a6b3a2",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "receber-mensagens",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        -40
+      ],
+      "id": "4cf0bdac-adf8-4223-9042-805ae17dbd59",
+      "name": "Webhook",
+      "webhookId": "b196bc48-e3e2-46a9-84de-a33b17b72e9e"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "11fdc6ef-9cfc-42a3-b68f-e89b8d18210f",
+              "leftValue": "={{ $json.body.instance }}",
+              "rightValue": "n8n",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c579d0dd-efb3-452c-9aa9-cbce846a14a3",
+              "leftValue": "={{ $json.body.data.key.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        -40
+      ],
+      "id": "457ca5ff-3872-4239-8c4e-bb6958e1396e",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        140
+      ],
+      "id": "0293bbc2-e4ea-4920-a3c6-880937204367",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.idConversa }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        -40
+      ],
+      "id": "4a02f1e1-7959-4ac0-946b-03bf87cac0bf",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Adiciona linha na planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adiciona linha na planilha": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.everaldolima.com.br",
+            "user-agent": "axios/1.10.0",
+            "content-length": "610",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "5.161.253.237",
+            "cf-ipcountry": "US",
+            "cf-ray": "95897c288ac8a9c4-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.70.42.165",
+            "x-forwarded-host": "n8n.everaldolima.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "678825274e56",
+            "x-real-ip": "172.70.42.165"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "n8n",
+            "data": {
+              "key": {
+                "remoteJid": "5513988491908@s.whatsapp.net",
+                "fromMe": true,
+                "id": "3EB03DBC4D99D149520F79"
+              },
+              "pushName": "Everaldo",
+              "status": "SERVER_ACK",
+              "message": {
+                "conversation": "teste"
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1751410464,
+              "instanceId": "dd1d2756-65c8-4f28-b470-3197a9756c85",
+              "source": "web"
+            },
+            "destination": "https://n8n.everaldolima.com.br/webhook-test/receber-mensagens",
+            "date_time": "2025-07-01T19:54:24.071Z",
+            "sender": "5513988491908@s.whatsapp.net",
+            "server_url": "https://evo.everaldolima.com.br:8080",
+            "apikey": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+          },
+          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/receber-mensagens",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "a344db5f-1706-4403-a8e2-49c0211a4731",
+  "triggerCount": 1,
+  "tags": []
+}
