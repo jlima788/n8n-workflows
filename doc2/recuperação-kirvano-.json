@@ -1,0 +1,264 @@
+{
+  "createdAt": "2025-07-03T13:13:47.107Z",
+  "updatedAt": "2025-07-03T13:57:55.797Z",
+  "id": "WRWcoooELabvImhB",
+  "name": "Recuperação Kirvano",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5f39a65f-816c-456b-9b45-d81f2bf6af13",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "badc3beb-1513-4dc3-b08a-1b233c921553",
+      "name": "Webhook",
+      "webhookId": "5f39a65f-816c-456b-9b45-d81f2bf6af13"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "619ee06d-566b-43a5-ba5e-a8f947373813",
+              "name": "API_URL",
+              "value": "https://evo.everaldolima.com.br",
+              "type": "string"
+            },
+            {
+              "id": "b86710b9-2e78-49f5-b174-27254b59a85c",
+              "name": "API_KEY",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2",
+              "type": "string"
+            },
+            {
+              "id": "3848e6c7-7b9d-4754-8141-c19189ede3bc",
+              "name": "INSTANCE",
+              "value": "n8n",
+              "type": "string"
+            },
+            {
+              "id": "8fd63748-3d3c-4049-9533-92754701a970",
+              "name": "NOME",
+              "value": "={{ $json.body.customer.name }}",
+              "type": "string"
+            },
+            {
+              "id": "9d2b3427-f7ee-4616-a920-580e3cc833bd",
+              "name": "NUMERO",
+              "value": "={{ $json.body.customer.phone_number }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "8eac6f91-385c-4dec-b7c1-ddaa0a7ed848",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "2ad4bf54-6e2e-4abc-a6cd-f4fad07f17f1",
+      "name": "Wait",
+      "webhookId": "e5b6d4cc-075c-4a25-807a-02b983b8b3ef"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.API_URL }}/message/sendText/{{ $json.INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "apikey",
+              "value": "={{ $json.API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=5513988491908"
+            },
+            {
+              "name": "text",
+              "value": "=Oi, {{ $('Edit Fields').item.json.NOME }}, vi que quase comprou a sala de sinais, ficou com alguma dúvida? Posso te ajudar?"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "0cceee35-18cb-42db-a9ee-f9183b2a58c5",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.everaldolima.com.br",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1688",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "baggage": "sentry-environment=production,sentry-public_key=894f284f41064dcaa15f50a785a55ff7,sentry-trace_id=7b22ef472dc0f076a92369ff8f4eee17,sentry-org_id=4504850859163648,sentry-sampled=false,sentry-sample_rand=0.22300900494618325,sentry-sample_rate=0.001",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "44.197.54.29",
+            "cf-ipcountry": "US",
+            "cf-ray": "9596a49f189fc991-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "newrelic": "eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkFwcCIsImFjIjoiNjIzNjE5MiIsImFwIjoiMTU0MTc0OTc5MiIsInR4IjoiMGFlZjc3ODg0NTdmNmQxZSIsInRyIjoiYmNlNjVjMTNiNTk4Yzc2NjdjN2MzZTRiMzUyMDYyMzciLCJwciI6MC4zODM2MjYsInNhIjpmYWxzZSwidGkiOjE3NTE1NDg0MzYxNTZ9fQ==",
+            "sentry-trace": "7b22ef472dc0f076a92369ff8f4eee17-2ffae895f251aa90-0",
+            "traceparent": "00-bce65c13b598c7667c7c3e4b35206237-20901b0bd3cde10b-00",
+            "tracestate": "6236192@nr=0-0-6236192-1541749792-20901b0bd3cde10b-0aef7788457f6d1e-0-0.383626-1751548436156",
+            "x-forwarded-for": "172.68.245.121",
+            "x-forwarded-host": "n8n.everaldolima.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "678825274e56",
+            "x-real-ip": "172.68.245.121"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "BANK_SLIP_GENERATED",
+            "event_description": "Boleto gerado",
+            "checkout_id": "Q8J1N6K3",
+            "sale_id": "D2RP8RQ7",
+            "payment_method": "BANK_SLIP",
+            "total_price": "R$ 169,80",
+            "type": "ONE_TIME",
+            "status": "PENDING",
+            "created_at": "2025-07-03 10:13:56",
+            "customer": {
+              "name": "João da Silva",
+              "document": "23875090127",
+              "email": "exemplo@email.com",
+              "phone_number": "5511987654321"
+            },
+            "payment": {
+              "method": "BANK_SLIP",
+              "link": "https://pay-api.kirvano.com/bankslip/e13ae427-a837-4858-b39e-6ab0112d89d5/download",
+              "digitable_line": "30282023186900000000500000179044184750000016980",
+              "barcode": "30281847500000169802023169000000000000017904",
+              "expires_at": "2025-07-05 10:13:56"
+            },
+            "products": [
+              {
+                "id": "31b7ce9c-520f-4e1c-8411-8f3dbaa44bfd",
+                "name": "Mercado de Ações no Brasil",
+                "offer_id": "157fb23a-56cb-491c-bfd9-8cdc3efa0127",
+                "offer_name": "Mercado de Ações no Brasil",
+                "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+                "price": "R$ 119,90",
+                "photo": "https://s3.amazonaws.com/production.kirvano.com/products/3c3e2ec8-5056-4927-bc8f-cc3cae2f5de5/cover-1751548436155.jpg",
+                "is_order_bump": false
+              },
+              {
+                "id": "57492dbb-2f47-4a63-a53c-52558ce2e60d",
+                "name": "Excel para Investidores",
+                "offer_id": "edcd7f9f-5970-45aa-a728-001dc5b81131",
+                "offer_name": "Excel para Investidores",
+                "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+                "price": "R$ 49,90",
+                "photo": "https://s3.amazonaws.com/production.kirvano.com/products/85f762ed-f7bc-42b9-886c-0e6551264c99/cover-1751548436155.jpg",
+                "is_order_bump": true
+              }
+            ],
+            "utm": {
+              "src": "google",
+              "utm_source": "broadcast",
+              "utm_medium": "email",
+              "utm_campaign": "register",
+              "utm_term": "codes",
+              "utm_content": "link"
+            }
+          },
+          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/5f39a65f-816c-456b-9b45-d81f2bf6af13",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "e7689b1c-246c-4224-bc30-7b4801d97f7f",
+  "triggerCount": 0,
+  "tags": []
+}
