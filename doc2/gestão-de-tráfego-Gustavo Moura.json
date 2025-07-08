@@ -1,0 +1,510 @@
+{
+  "createdAt": "2025-07-07T15:24:43.574Z",
+  "updatedAt": "2025-07-07T15:24:43.574Z",
+  "id": "zxhv8PYjoKlVBrAO",
+  "name": "Gestão de Tráfego",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        -160
+      ],
+      "id": "bd2a6200-2bf4-4465-9ae5-e3c8c9d415d6",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v21.0",
+        "node": "me/adaccounts?fields=id,name,account_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -460
+      ],
+      "id": "a7ea9699-6ad0-4ad6-82a5-59dad9a2de19",
+      "name": "Lista contas de anúncios"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v21.0",
+        "node": "/act_4226651320888453/campaigns?fields=id,name,objective,status,created_time",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -460
+      ],
+      "id": "ad5c0c0b-07e8-46a2-a018-1cbba789f603",
+      "name": "list campanha de conta anuncio"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "=/act_4226651320888453/insights?fields=impressions,clicks,spend,cpc,ctr,reach,campaign_name,date_start,date_stop&action_report_time=conversion&time_range={'since':'{{ $json.inicio }}','until':'{{ $json.fim }}'}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        140,
+        40
+      ],
+      "id": "c13e4fbe-1748-4ff0-833c-87458032b6ff",
+      "name": "list insights campaign"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('list insights campaign').item.json.data }}",
+        "options": {
+          "systemMessage": "=Você é um assistente especializado em gerar relatórios claros e profissionais de campanhas de marketing da Meta (Facebook Ads).\n\nSua tarefa é receber os seguintes dados da campanha:\n\n* Nome do cliente\n* Conta de anúncios (ex: Facebook Ads)\n* Período da campanha (ex: 07/08/2024)\n* Impressões (número)\n* Alcance (número)\n* Taxa de clique (em %)\n* Cliques (número)\n* Ações (número)\n* Custo por cadastro (R\\$ valor)\n* Valor investido (R\\$ valor)\n\nE gerar uma mensagem de texto no seguinte formato:\n\n```\nBom dia [nome do cliente]! Segue abaixo relatório das campanhas\n\n✅ Conta de anúncios Facebook Ads\n📅 Período: [data]\n\n📊 Impressões: [impressões]\n✅ Alcance: [alcance]\n📉 Taxa de clique: [taxa de clique]%\n🖱 Cliques: [cliques]\n🧑‍💻 Cadastros: [cadastros]\n💰 Custo por cadastro: R$ [custo por cadastro]\n💵 Valor investido: R$ [valor investido]\n\n==============================\n```\n\n* Use a tool Calculator para fazer operações matemáticas.\n* Use o emoji correto para cada métrica, conforme o modelo.\n* Garanta que os números estejam formatados com ponto de milhar e vírgula decimal conforme o padrão brasileiro.\n* Sempre comece com \"Bom dia \\[nome do cliente]!\" e finalize com a linha de \"=\".\n* Se tiver multiplas campanhas no periodo, some-as.\n* Use Bom dia, Boa tarde ou Boa noite com base no Data/Hora atual.\n* Substitua o campo Ações pelo nome de ação adequado.\n\nData/Hora atual: {{ $('Date & Time').item.json.currentDate }}\nNome cliente: {{ $('Edit Fields').item.json.nome }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        320,
+        40
+      ],
+      "id": "34e97bd0-4ab6-472c-b1c6-bd0662d0a09d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        240
+      ],
+      "id": "b1f56968-9bd7-40a4-ac58-f39118ede97b",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        560,
+        240
+      ],
+      "id": "d3a97d2e-e6c8-4fe4-a6d2-4086d174d086",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3067b6b9-159e-49c9-aa46-d272e22fb3ad",
+              "name": "nome",
+              "value": "Gustavo Moura",
+              "type": "string"
+            },
+            {
+              "id": "c6c51bf1-8fe0-437e-941e-cfbdec10f3cc",
+              "name": "numero",
+              "value": "558698665574",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -520,
+        40
+      ],
+      "id": "2bbc9f81-43ed-4077-bb2d-f1952f146200",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        40
+      ],
+      "id": "a037174a-6500-4b24-aa31-905588298ce3",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "content": "## Lista as contas de anúncios",
+        "height": 300,
+        "width": 380,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -940,
+        -560
+      ],
+      "typeVersion": 1,
+      "id": "8dec9c44-a9e2-4652-8b43-62255817e75b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Lista as campanhas da conta de anúncio",
+        "height": 300,
+        "width": 380,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -500,
+        -560
+      ],
+      "typeVersion": 1,
+      "id": "f7293320-de37-4094-bfb4-4c9e18177fe9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "198146d0-46de-42ce-8a20-faffe9ebf7fd",
+              "name": "inicio",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 1\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            },
+            {
+              "id": "53a99c1e-3b1c-49b9-bcda-1d846db4f327",
+              "name": "fim",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 1\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -220,
+        -160
+      ],
+      "id": "3ba426c8-d7d6-4ed6-8c0c-73c80f28e9ac",
+      "name": "1 dia"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "198146d0-46de-42ce-8a20-faffe9ebf7fd",
+              "name": "inicio",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 8\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            },
+            {
+              "id": "53a99c1e-3b1c-49b9-bcda-1d846db4f327",
+              "name": "fim",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 1\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -220,
+        40
+      ],
+      "id": "51bb0cf2-f11c-4382-97da-a950c360471b",
+      "name": "7 dias"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "198146d0-46de-42ce-8a20-faffe9ebf7fd",
+              "name": "inicio",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 31\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            },
+            {
+              "id": "53a99c1e-3b1c-49b9-bcda-1d846db4f327",
+              "name": "fim",
+              "value": "={{ \n  new Date(\n    new Date($('Date & Time').item.json.currentDate).setDate(\n      new Date($('Date & Time').item.json.currentDate).getDate() - 1\n    )\n  ).toISOString().substring(0, 10)\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -220,
+        240
+      ],
+      "id": "811042ad-c828-44d9-b165-1d5964227e92",
+      "name": "30 dias"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        40
+      ],
+      "id": "e2b45ed3-72ea-4a67-b6fe-f333fbe2a8b7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "teste",
+        "remoteJid": "558698665574",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        660,
+        40
+      ],
+      "id": "66aa5ad3-da2b-471b-9450-89bd3767d3a9",
+      "name": "Enviar texto"
+    },
+    {
+      "parameters": {
+        "content": "# Período dos dados",
+        "height": 660,
+        "width": 380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -360,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "31071f9c-3333-445c-bd1e-326e5501dd0e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Gatilhos",
+        "height": 500,
+        "width": 220,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -940,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "196ccdf0-7548-435f-a877-92a3a4416a68",
+      "name": "Sticky Note3"
+    }
+  ],
+  "connections": {
+    "list insights campaign": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "30 dias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "30 dias": {
+      "main": [
+        [
+          {
+            "node": "list insights campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "list insights campaign": [
+      {
+        "json": {
+          "data": [
+            {
+              "campaign_name": "Campanha Maio-June 2025",
+              "date_start": "2025-05-01",
+              "date_stop": "2025-06-07",
+              "impressions": "150000",
+              "clicks": "4500",
+              "spend": "2300.50",
+              "cpc": "0.51",
+              "ctr": "0.0300",
+              "reach": "120000",
+              "actions": [
+                {
+                  "action_type": "offsite_conversion.fb_pixel_lead",
+                  "value": "150"
+                },
+                {
+                  "action_type": "offsite_conversion.fb_pixel_purchase",
+                  "value": "75"
+                }
+              ]
+            },
+            {
+              "campaign_name": "Campanha Promocional Maio 2025",
+              "date_start": "2025-05-01",
+              "date_stop": "2025-06-07",
+              "impressions": "80000",
+              "clicks": "2400",
+              "spend": "980.75",
+              "cpc": "0.41",
+              "ctr": "0.0300",
+              "reach": "70000",
+              "actions": [
+                {
+                  "action_type": "offsite_conversion.fb_pixel_lead",
+                  "value": "120"
+                },
+                {
+                  "action_type": "offsite_conversion.fb_pixel_purchase",
+                  "value": "60"
+                }
+              ]
+            }
+          ],
+          "paging": {
+            "cursors": {
+              "before": "QVFIUk1uX0...",
+              "after": "QVFIUjNBS2..."
+            },
+            "next": "https://graph.facebook.com/v{versão}/act_<AD_ACCOUNT_ID>/insights?after=QVFIUjNBS2..."
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "0c4d2b27-cdb5-4622-ad02-a4a9aac0fdac",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-07-07T15:22:39.931Z",
+      "updatedAt": "2025-07-07T15:22:39.931Z",
+      "id": "Vpkmm1T3ZTKfKXJt",
+      "name": "Gustavo Moura"
+    },
+    {
+      "createdAt": "2025-07-07T15:22:39.942Z",
+      "updatedAt": "2025-07-07T15:22:39.942Z",
+      "id": "qLjzan71jqK5mmDk",
+      "name": "Construa com IA"
+    }
+  ]
+}
