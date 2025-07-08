@@ -1,0 +1,108 @@
+{
+  "createdAt": "2025-07-07T17:34:31.681Z",
+  "updatedAt": "2025-07-07T17:34:31.681Z",
+  "id": "qRPb8Y1AmXej9iCR",
+  "name": "N8N - Ferramenta escalar para um humano",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "telefone"
+            },
+            {
+              "name": "nome"
+            },
+            {
+              "name": "ultima_mensagem"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ab59d5de-0696-4876-8762-53717dc14e35",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.z-api.io/instances/REDACTED/token/REDACTED/chats/{{ $json.telefone }}/tags/10/add",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "client-token",
+              "value": "REDACTED"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "id": "7df63917-1262-42d5-a67d-848a4e94c99a",
+      "name": "Colocar etiqueta agente-off"
+    },
+    {
+      "parameters": {
+        "chatId": "1239148307",
+        "text": "=Assistente desabilitado para o usuário {{ $('When Executed by Another Workflow').item.json.nome || '(usuário não cadastrado)' }} ({{ $('When Executed by Another Workflow').item.json.telefone }}).\n\nÚltima mensagem:\n\n---\n\n{{ $('When Executed by Another Workflow').item.json.ultima_mensagem }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        0
+      ],
+      "id": "42bea447-6af1-4e17-9a28-5f9c38a35649",
+      "name": "Enviar alerta",
+      "webhookId": "153d7fb2-c401-4894-95a5-c123c8bbdd0d"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Colocar etiqueta agente-off",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Colocar etiqueta agente-off": {
+      "main": [
+        [
+          {
+            "node": "Enviar alerta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "b1a42e2b-d2ad-4283-aa03-b276bf951568",
+  "triggerCount": 0,
+  "tags": []
+}
