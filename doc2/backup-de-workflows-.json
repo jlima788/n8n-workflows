@@ -1,0 +1,170 @@
+{
+  "createdAt": "2025-07-07T13:31:47.866Z",
+  "updatedAt": "2025-07-07T16:50:28.921Z",
+  "id": "vBh2oDhP7D9WycfT",
+  "name": "Backup de Workflows",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d63664a8-4547-40b4-9ab5-886fc79ba1d5",
+      "name": "Todos os dias à meia-noite"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "a6a04094-c15c-4766-8c5e-3e3b108bb404",
+      "name": "Get many workflows",
+      "credentials": {
+        "n8nApi": {
+          "id": "oRQ73Pvm8juOku6Z",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "fileName": "={{ $json.name }}.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "ac363f69-1172-4f15-8a00-813693606246",
+      "name": "Gera arquivos json dos workflows"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/files/{{ $binary.data.fileName }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        760,
+        -60
+      ],
+      "id": "a1a2cb2f-4e08-4254-8cd8-cc35fea8410e",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1vD6vX3fi9ywz-hn4GdYl0v2Wa6rdzbv0",
+          "mode": "list",
+          "cachedResultName": "BACKUP WORKFLOWS N8N",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1vD6vX3fi9ywz-hn4GdYl0v2Wa6rdzbv0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        760,
+        140
+      ],
+      "id": "5d2ae152-1e2b-4ce3-9a12-6ee9976f9a31",
+      "name": "Salva os Workflows",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1EpZnqidGhgmUKND",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Todos os dias à meia-noite": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows": {
+      "main": [
+        [
+          {
+            "node": "Gera arquivos json dos workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gera arquivos json dos workflows": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Salva os Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Todos os dias à meia-noite": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f396a611-d3d0-419b-adca-fdaa8fb08141",
+  "triggerCount": 1,
+  "tags": []
+}
