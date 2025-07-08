@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-07-08T01:27:54.569Z",
-  "updatedAt": "2025-07-08T01:28:42.239Z",
+  "updatedAt": "2025-07-08T01:42:10.352Z",
   "id": "FJUAjcKK1FLjLQGG",
   "name": "Backup Workflows Github",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -48,7 +48,8 @@
         "operation": "toJson",
         "mode": "each",
         "options": {
-          "format": true
+          "format": true,
+          "fileName": "={{ $json.name }}.json"
         }
       },
       "type": "n8n-nodes-base.convertToFile",
@@ -150,15 +151,15 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "value": "CabralNeves",
+          "value": "jlima788",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "n8n-backupAula",
+          "value": "n8n-workflows",
           "mode": "list",
-          "cachedResultName": "n8n-backupAula",
-          "cachedResultUrl": "https://github.com/CabralNeves/n8n-backupAula"
+          "cachedResultName": "n8n-workflows",
+          "cachedResultUrl": "https://github.com/jlima788/n8n-workflows"
         },
         "filePath": "=doc2/{{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
@@ -185,15 +186,15 @@
         "resource": "file",
         "owner": {
           "__rl": true,
-          "value": "CabralNeves",
+          "value": "jlima788",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "n8n-backupAula",
+          "value": "n8n-workflows",
           "mode": "list",
-          "cachedResultName": "n8n-backupAula",
-          "cachedResultUrl": "https://github.com/CabralNeves/n8n-backupAula"
+          "cachedResultName": "n8n-workflows",
+          "cachedResultUrl": "https://github.com/jlima788/n8n-workflows"
         },
         "filePath": "=doc2/{{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
@@ -540,12 +541,16 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8cfc521c-758e-4319-bcf0-09a42a45fabf",
-  "triggerCount": 0,
+  "versionId": "97324aa5-50f6-45dc-8f3b-50f252e1fd37",
+  "triggerCount": 1,
   "tags": []
 }
