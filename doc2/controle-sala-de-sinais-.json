@@ -1,0 +1,327 @@
+{
+  "createdAt": "2025-07-07T18:12:02.619Z",
+  "updatedAt": "2025-07-07T22:41:11.392Z",
+  "id": "1w2AmXxW2sD7Vpwk",
+  "name": "Controle Sala de Sinais",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Google Sheets - Ler Clientes",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 2,
+      "position": [
+        -580,
+        20
+      ],
+      "id": "3d70740e-1908-4c7d-9e5b-0bd924a3d7d5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 20,
+        "options": {}
+      },
+      "name": "Split In Batches (Opcional)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        -380,
+        20
+      ],
+      "id": "af0833a3-516c-4571-bf35-200d46948ce5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Status }}",
+              "operation": "equal",
+              "value2": "Ativo"
+            },
+            {
+              "value1": "={{ DateTime.fromISO($json.Data_de_Vencimento).diffNow('days').days }}",
+              "operation": "greaterThanEqual",
+              "value2": 3
+            },
+            {
+              "value1": "={{ DateTime.fromISO($json.Data_de_Vencimento).diffNow('days').days }}",
+              "operation": "lessThanEqual",
+              "value2": 7
+            },
+            {
+              "value1": "={{ !$json.Último_Lembrete_Enviado || DateTime.fromISO($json.Último_Lembrete_Enviado).startOf('day') < DateTime.now().startOf('day') }}",
+              "operation": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Filter - Clientes Ativos (Lembrete)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        -80
+      ],
+      "id": "497251a4-6822-43b2-b301-e55228a43642"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "phone",
+              "value": "={{ $json.Telefone_do_Cliente }}"
+            },
+            {
+              "name": "message",
+              "value": "Olá {{ $json.Nome_do_Cliente }}! Sua assinatura na Kirvano vence em {{ DateTime.fromISO($json.Data_de_Vencimento).toFormat('dd/MM/yyyy') }}. Renove para continuar aproveitando!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set - Mensagem Ativo",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        20,
+        -80
+      ],
+      "id": "527bdedf-9cbc-43c0-806b-28522d5923ce"
+    },
+    {
+      "parameters": {
+        "url": "SUA_URL_DA_EVOLUTION_API/message/sendText/SUA_INSTANCIA",
+        "jsonParameters": true,
+        "options": {}
+      },
+      "name": "HTTP Request - WhatsApp Ativo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        220,
+        -80
+      ],
+      "id": "cd6fe610-f6bc-4bb6-9060-07ad0a225fca"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "options": {}
+      },
+      "name": "Google Sheets - Atualizar Lembrete",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 2,
+      "position": [
+        420,
+        -80
+      ],
+      "id": "5848288c-d5e9-49b6-9771-7408bdf98ac7",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Status }}",
+              "operation": "equal",
+              "value2": "Inativo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Filter - Clientes Inativos",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        120
+      ],
+      "id": "5788005d-b4f0-4fe6-9114-cd016c1e16b9"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "phone",
+              "value": "={{ $json.Telefone_do_Cliente }}"
+            },
+            {
+              "name": "message",
+              "value": "Olá {{ $json.Nome_do_Cliente }}! Percebemos que sua assinatura na Kirvano está inativa. Gostaríamos de saber se você tem interesse em reativar e continuar aproveitando nossos benefícios! Responda para saber mais."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set - Mensagem Inativo",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        20,
+        120
+      ],
+      "id": "aa82cab8-5613-4939-afa8-5bdcb10620e7"
+    },
+    {
+      "parameters": {
+        "url": "SUA_URL_DA_EVOLUTION_API/message/sendText/SUA_INSTANCIA",
+        "jsonParameters": true,
+        "options": {}
+      },
+      "name": "HTTP Request - WhatsApp Inativo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        220,
+        120
+      ],
+      "id": "b6ee19ac-d61a-4344-8eca-a4f4bec41e2a"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -780,
+        20
+      ],
+      "id": "07a72661-ec16-4b85-8863-2e19954a78db",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "connections": {
+    "Google Sheets - Ler Clientes": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches (Opcional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches (Opcional)": {
+      "main": [
+        [
+          {
+            "node": "Filter - Clientes Ativos (Lembrete)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter - Clientes Inativos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - Clientes Ativos (Lembrete)": {
+      "main": [
+        [
+          {
+            "node": "Set - Mensagem Ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Mensagem Ativo": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - WhatsApp Ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - WhatsApp Ativo": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Atualizar Lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - Clientes Inativos": {
+      "main": [
+        [
+          {
+            "node": "Set - Mensagem Inativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Mensagem Inativo": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request - WhatsApp Inativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Ler Clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "bd67035a-8d9e-423b-b42f-17be9eb2b6a1",
+  "triggerCount": 0,
+  "tags": []
+}
