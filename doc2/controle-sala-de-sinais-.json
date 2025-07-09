@@ -1,30 +1,11 @@
 {
   "createdAt": "2025-07-07T18:12:02.619Z",
-  "updatedAt": "2025-07-07T22:41:11.392Z",
+  "updatedAt": "2025-07-08T14:10:03.552Z",
   "id": "1w2AmXxW2sD7Vpwk",
   "name": "Controle Sala de Sinais",
   "active": false,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "options": {}
-      },
-      "name": "Google Sheets - Ler Clientes",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 2,
-      "position": [
-        -580,
-        20
-      ],
-      "id": "3d70740e-1908-4c7d-9e5b-0bd924a3d7d5",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "cCDJJSGKMXzPs2pS",
-          "name": "Google Sheets account"
-        }
-      }
-    },
     {
       "parameters": {
         "batchSize": 20,
@@ -42,27 +23,25 @@
     {
       "parameters": {
         "conditions": {
-          "string": [
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
             {
-              "value1": "={{ $json.Status }}",
-              "operation": "equal",
-              "value2": "Ativo"
-            },
-            {
-              "value1": "={{ DateTime.fromISO($json.Data_de_Vencimento).diffNow('days').days }}",
-              "operation": "greaterThanEqual",
-              "value2": 3
-            },
-            {
-              "value1": "={{ DateTime.fromISO($json.Data_de_Vencimento).diffNow('days').days }}",
-              "operation": "lessThanEqual",
-              "value2": 7
-            },
-            {
-              "value1": "={{ !$json.Último_Lembrete_Enviado || DateTime.fromISO($json.Último_Lembrete_Enviado).startOf('day') < DateTime.now().startOf('day') }}",
-              "operation": "true"
+              "id": "720f82a5-fb99-49a4-be17-c3a8774e8ee0",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "ATIVO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
@@ -81,11 +60,11 @@
           "string": [
             {
               "name": "phone",
-              "value": "={{ $json.Telefone_do_Cliente }}"
+              "value": "={{ $json.Celular }}"
             },
             {
               "name": "message",
-              "value": "Olá {{ $json.Nome_do_Cliente }}! Sua assinatura na Kirvano vence em {{ DateTime.fromISO($json.Data_de_Vencimento).toFormat('dd/MM/yyyy') }}. Renove para continuar aproveitando!"
+              "value": "=Olá {{ $json.Nome }}! Sua assinatura na Kirvano vence em {{ DateTime.fromISO($json.Data_de_Vencimento).toFormat('dd/MM/yyyy') }}. Renove para continuar aproveitando!"
             }
           ]
         },
@@ -99,21 +78,6 @@
         -80
       ],
       "id": "527bdedf-9cbc-43c0-806b-28522d5923ce"
-    },
-    {
-      "parameters": {
-        "url": "SUA_URL_DA_EVOLUTION_API/message/sendText/SUA_INSTANCIA",
-        "jsonParameters": true,
-        "options": {}
-      },
-      "name": "HTTP Request - WhatsApp Ativo",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 2,
-      "position": [
-        220,
-        -80
-      ],
-      "id": "cd6fe610-f6bc-4bb6-9060-07ad0a225fca"
     },
     {
       "parameters": {
@@ -138,13 +102,25 @@
     {
       "parameters": {
         "conditions": {
-          "string": [
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
             {
-              "value1": "={{ $json.Status }}",
-              "operation": "equal",
-              "value2": "Inativo"
+              "id": "3c4f01d3-9757-4939-9ee2-93a42e324f22",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "INATIVO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
@@ -163,11 +139,11 @@
           "string": [
             {
               "name": "phone",
-              "value": "={{ $json.Telefone_do_Cliente }}"
+              "value": "={{ $json.Celular }}"
             },
             {
               "name": "message",
-              "value": "Olá {{ $json.Nome_do_Cliente }}! Percebemos que sua assinatura na Kirvano está inativa. Gostaríamos de saber se você tem interesse em reativar e continuar aproveitando nossos benefícios! Responda para saber mais."
+              "value": "=Olá {{ $json.Nome }}! Percebemos que sua assinatura na Kirvano está inativa. Gostaríamos de saber se você tem interesse em reativar e continuar aproveitando nossos benefícios! Responda para saber mais."
             }
           ]
         },
@@ -181,21 +157,6 @@
         120
       ],
       "id": "aa82cab8-5613-4939-afa8-5bdcb10620e7"
-    },
-    {
-      "parameters": {
-        "url": "SUA_URL_DA_EVOLUTION_API/message/sendText/SUA_INSTANCIA",
-        "jsonParameters": true,
-        "options": {}
-      },
-      "name": "HTTP Request - WhatsApp Inativo",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 2,
-      "position": [
-        220,
-        120
-      ],
-      "id": "b6ee19ac-d61a-4344-8eca-a4f4bec41e2a"
     },
     {
       "parameters": {
@@ -216,20 +177,116 @@
       ],
       "id": "07a72661-ec16-4b85-8863-2e19954a78db",
       "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs",
+          "mode": "list",
+          "cachedResultName": "Clientes Sala XAUUSD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -580,
+        20
+      ],
+      "id": "f65fc1f9-b92a-4e42-8d0e-19a0ea1fdea1",
+      "name": "Google Sheets - Ler Clientes",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.Celular }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        -80
+      ],
+      "id": "4820684c-3c2e-4b9a-8d71-06964368ec5a",
+      "name": "HTTP Request - WhatsApp Ativo"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.Celular }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        120
+      ],
+      "id": "e1d2f2ea-5594-480e-892f-5a62f8a027b8",
+      "name": "HTTP Request - WhatsApp Inativo"
     }
   ],
   "connections": {
-    "Google Sheets - Ler Clientes": {
-      "main": [
-        [
-          {
-            "node": "Split In Batches (Opcional)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Split In Batches (Opcional)": {
       "main": [
         [
@@ -268,17 +325,6 @@
         ]
       ]
     },
-    "HTTP Request - WhatsApp Ativo": {
-      "main": [
-        [
-          {
-            "node": "Google Sheets - Atualizar Lembrete",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Filter - Clientes Inativos": {
       "main": [
         [
@@ -311,6 +357,28 @@
           }
         ]
       ]
+    },
+    "Google Sheets - Ler Clientes": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches (Opcional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request - WhatsApp Ativo": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Atualizar Lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -321,7 +389,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bd67035a-8d9e-423b-b42f-17be9eb2b6a1",
+  "versionId": "8414c320-d5ea-442a-8ff3-cfca1ede7c47",
   "triggerCount": 0,
   "tags": []
 }
