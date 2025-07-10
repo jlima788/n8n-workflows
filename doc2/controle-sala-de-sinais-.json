@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-07T18:12:02.619Z",
-  "updatedAt": "2025-07-08T14:10:03.552Z",
+  "updatedAt": "2025-07-09T16:15:21.733Z",
   "id": "1w2AmXxW2sD7Vpwk",
   "name": "Controle Sala de Sinais",
   "active": false,
@@ -64,7 +64,7 @@
             },
             {
               "name": "message",
-              "value": "=Olá {{ $json.Nome }}! Sua assinatura na Kirvano vence em {{ DateTime.fromISO($json.Data_de_Vencimento).toFormat('dd/MM/yyyy') }}. Renove para continuar aproveitando!"
+              "value": "=Olá {{ $json.Nome }}! Sua assinatura na Kirvano vence em {{ $json['Data de Vencimento'] }}. Renove para continuar aproveitando!"
             }
           ]
         },
@@ -191,7 +191,7 @@
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "Página1",
+          "cachedResultName": "Controle",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit#gid=0"
         },
         "options": {}
@@ -389,7 +389,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8414c320-d5ea-442a-8ff3-cfca1ede7c47",
+  "versionId": "8c9f00ee-9d7d-4889-8d29-1c2c0a131efc",
   "triggerCount": 0,
   "tags": []
 }
