@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-07T13:31:47.866Z",
-  "updatedAt": "2025-07-07T16:50:28.921Z",
+  "updatedAt": "2025-07-09T16:19:37.111Z",
   "id": "vBh2oDhP7D9WycfT",
   "name": "Backup de Workflows",
   "active": true,
@@ -109,7 +109,8 @@
           "id": "1EpZnqidGhgmUKND",
           "name": "Google Drive account"
         }
-      }
+      },
+      "disabled": true
     }
   ],
   "connections": {
@@ -164,7 +165,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f396a611-d3d0-419b-adca-fdaa8fb08141",
+  "versionId": "0b90199c-6869-40aa-8c2a-7274434dc40a",
   "triggerCount": 1,
   "tags": []
 }
