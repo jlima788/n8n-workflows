@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-09T22:52:51.292Z",
-  "updatedAt": "2025-07-10T02:47:07.413Z",
+  "updatedAt": "2025-07-10T23:04:25.314Z",
   "id": "1QmnZ0QGMrfHe1A1",
   "name": "AGENTE_BASE_V8_3",
   "active": false,
@@ -18,7 +18,12 @@
         3200,
         1980
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -33,7 +38,12 @@
         2640,
         2040
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -107,7 +117,12 @@
         4440,
         2060
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -203,7 +218,12 @@
       ],
       "id": "cc42af31-6285-4ba9-9f30-cc0f698f96cc",
       "name": "OpenAI Chat Model",
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -320,7 +340,12 @@
       ],
       "id": "24458ba5-fc82-473b-8723-f180fd681f46",
       "name": "OpenAI Chat Model2",
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -353,32 +378,6 @@
         4340,
         2260
       ]
-    },
-    {
-      "parameters": {
-        "resource": "messages-api",
-        "instanceName": "Breno2",
-        "remoteJid": "={{ $('Dados').item.json.Telefone }}",
-        "messageText": "={{ $json.output }}",
-        "options_message": {
-          "delay": 4200,
-          "linkPreview": false
-        }
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        5320,
-        1900
-      ],
-      "id": "94bc13f8-4c5c-47c6-b23a-ee50d22cd213",
-      "name": "Evolution API",
-      "credentials": {
-        "evolutionApi": {
-          "id": "wDLKzaLPE1UlobfZ",
-          "name": "Evolution account"
-        }
-      }
     },
     {
       "parameters": {
@@ -702,8 +701,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1521,8 +1520,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1543,8 +1542,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1701,7 +1700,12 @@
         1000,
         2040
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1753,8 +1757,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1775,8 +1779,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1834,13 +1838,13 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1640,
+        1620,
         1840
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -1860,8 +1864,8 @@
       ],
       "credentials": {
         "redis": {
-          "id": "rRwpW4T2wYJLB9LN",
-          "name": "Redis account 2"
+          "id": "8yKSOcBKs47egJ0f",
+          "name": "Redis account 3"
         }
       }
     },
@@ -2015,7 +2019,12 @@
         1160,
         1840
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2035,7 +2044,12 @@
         2720
       ],
       "typeVersion": 1.2,
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2160,7 +2174,12 @@
         360,
         2780
       ],
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2614,7 +2633,7 @@
             },
             {
               "id": "c33f9527-e661-49e5-8e5e-64f3b430928a",
-              "name": "message.content_type",
+              "name": "=message.content_type",
               "value": "={{ $('Webhook EVO').item.json.body.data.message.extendedTextMessage ? 'text' : '' }}{{ $('Webhook EVO').item.json.body.data.message.conversation ? 'text' : '' }}{{ $('Webhook EVO').item.json.body.data.message.audioMessage ? 'audio' : '' }}{{ $('Webhook EVO').item.json.body.data.message.imageMessage ? 'image' : '' }}",
               "type": "string"
             },
@@ -2675,8 +2694,7 @@
     },
     {
       "parameters": {
-        "amount": 1,
-        "unit": "minutes"
+        "amount": 1
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -2772,7 +2790,12 @@
       ],
       "id": "70c35ab6-5f18-46c2-b189-760620e930bd",
       "name": "OpenAI Chat Model4",
-      "disabled": true
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -3316,6 +3339,32 @@
           "name": "Google Drive account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "n8n",
+        "remoteJid": "={{ $('Dados').item.json.Telefone }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {
+          "delay": 4200,
+          "linkPreview": false
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        5320,
+        1900
+      ],
+      "id": "94bc13f8-4c5c-47c6-b23a-ee50d22cd213",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "wDLKzaLPE1UlobfZ",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -3368,7 +3417,7 @@
         [],
         [
           {
-            "node": "Evolution API",
+            "node": "Enviar texto",
             "type": "main",
             "index": 0
           }
@@ -3459,17 +3508,6 @@
           {
             "node": "Basic LLM Chain1",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Evolution API": {
-      "main": [
-        [
-          {
-            "node": "1 segundo",
-            "type": "main",
             "index": 0
           }
         ]
@@ -4043,7 +4081,13 @@
     },
     "Rotas": {
       "main": [
-        [],
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Supabase",
@@ -4313,6 +4357,17 @@
           }
         ]
       ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "1 segundo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4323,36 +4378,31 @@
       "recurrenceRules": []
     }
   },
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
-    "Agente Rag": [
-      {
-        "json": {
-          "output": "sem dica de resposta"
-        }
-      }
-    ],
     "Webhook EVO": [
       {
         "json": {
           "headers": {
             "host": "n8n.everaldolima.com.br",
             "user-agent": "axios/1.10.0",
-            "content-length": "9242",
+            "content-length": "930",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, br",
             "cdn-loop": "cloudflare; loops=1",
             "cf-connecting-ip": "5.161.253.237",
             "cf-ipcountry": "US",
-            "cf-ray": "95ccadeb8bd7b83d-IAD",
+            "cf-ray": "95d304a8eb125001-IAD",
             "cf-visitor": "{\"scheme\":\"https\"}",
             "content-type": "application/json",
-            "x-forwarded-for": "104.23.209.40",
+            "x-forwarded-for": "104.23.211.46",
             "x-forwarded-host": "n8n.everaldolima.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "678825274e56",
-            "x-real-ip": "104.23.209.40"
+            "x-real-ip": "104.23.211.46"
           },
           "params": {},
           "query": {},
@@ -4361,45 +4411,33 @@
             "instance": "n8n",
             "data": {
               "key": {
-                "remoteJid": "5513988482638@s.whatsapp.net",
+                "remoteJid": "5521993232635@s.whatsapp.net",
                 "fromMe": false,
-                "id": "F502072A78635A49337B48A361995712",
-                "senderLid": "160696352420020@lid"
+                "id": "FBC0EF776E7536FBB1B7450800812B54",
+                "senderLid": "169909543764177@lid"
               },
-              "pushName": "Silvia Lima",
+              "pushName": "Eve Automação",
               "status": "DELIVERY_ACK",
               "message": {
-                "audioMessage": {
-                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/40984109_1066262038405200_1476770970933533705_n.enc?ccb=11-4&oh=01_Q5Aa2AEnQYyUQR6FmZh3yTYOsply23vszyFiNEQbJTkZzq4csw&oe=68969735&_nc_sid=5e03e0&mms3=true",
-                  "mimetype": "audio/ogg; codecs=opus",
-                  "fileSha256": "Ss20oTMtpyJXaQoY523ALNV+kwqeM01ijsGDSnEFs94=",
-                  "fileLength": "5689",
-                  "seconds": 2,
-                  "ptt": true,
-                  "mediaKey": "ILVlr3FB5S8op0CNa3bCJ/WVCC/UkPVLDsEVvHvl/18=",
-                  "fileEncSha256": "C/gXmEBYVfDwtJ4Cz9H6MRk7rJv8DTrIg109SCGnL1U=",
-                  "directPath": "/v/t62.7117-24/40984109_1066262038405200_1476770970933533705_n.enc?ccb=11-4&oh=01_Q5Aa2AEnQYyUQR6FmZh3yTYOsply23vszyFiNEQbJTkZzq4csw&oe=68969735&_nc_sid=5e03e0",
-                  "mediaKeyTimestamp": "1752115046",
-                  "waveform": "AAAACQ8AACwnCQAAAAovYGFgWVNSVV5gYGBgX1ZJOiUAAAAAAAM3TlBQWT9YYV5ZUk5KKw4nBgAWJhYEAAAAAA=="
-                },
+                "conversation": "Tudo bem",
                 "messageContextInfo": {
                   "deviceListMetadata": {
+                    "senderKeyHash": "T1MRQ+uJY03byg==",
+                    "senderTimestamp": "1752180426",
                     "recipientKeyHash": "iYMAeWGZDebQtw==",
                     "recipientTimestamp": "1751905220"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "rWAMAWtVuNusGDAKYKD6ChR/b9h/V84Yvr6VpQs+Cl4="
-                },
-                "base64": "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"
+                  "messageSecret": "KFchuXZSNMNor0khakpCuNZUYf2mNIVm/i0uYETTirc="
+                }
               },
-              "contextInfo": null,
-              "messageType": "audioMessage",
-              "messageTimestamp": 1752115047,
+              "messageType": "conversation",
+              "messageTimestamp": 1752181515,
               "instanceId": "dd1d2756-65c8-4f28-b470-3197a9756c85",
               "source": "android"
             },
             "destination": "https://n8n.everaldolima.com.br/webhook/aula",
-            "date_time": "2025-07-09T23:37:27.861Z",
+            "date_time": "2025-07-10T18:05:15.640Z",
             "sender": "5513988491908@s.whatsapp.net",
             "server_url": "https://evo.everaldolima.com.br:8080",
             "apikey": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
@@ -4410,7 +4448,7 @@
       }
     ]
   },
-  "versionId": "dc0ac929-0b0a-4641-ab18-e5b5a42e2d9b",
+  "versionId": "b3c57600-9610-4d40-8395-2a70c0c9c13f",
   "triggerCount": 2,
   "tags": [
     {
