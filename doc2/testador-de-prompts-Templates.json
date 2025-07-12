@@ -1,0 +1,146 @@
+{
+  "createdAt": "2025-07-11T19:59:39.282Z",
+  "updatedAt": "2025-07-11T20:10:15.952Z",
+  "id": "9vlRYb61pJZT2RDW",
+  "name": "Testador de Prompts",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Olá como posso ajudar?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4a82db3f-a5c3-4a54-987c-2b118bf0be34",
+      "name": "When chat message received",
+      "webhookId": "15110caf-628e-4ede-a3d2-07ac82c3710f"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "105515121",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        260
+      ],
+      "id": "995f0512-d82e-4a69-8c4f-e02cfbe71638",
+      "name": "Window Buffer Memory12"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "={\n  \"name\": \"Carla\",\n  \"context\": {\n    \"identity\": \"Secretária e vendedora virtual do Educador Financeiro Bruno Reis\",\n    \"business\": \"Educador Financeiro Bruno Reis\",\n    \"Language\": \"português brasileiro\",\n    \"data_atual\": \"hoje é:{{ $now.weekdayLong }}, {{ $now.format('dd/MM/yyyy') }}, hora: {{ $now.hour.toString().padStart(2, '0') }}:{{ $now.minute.toString().padStart(2, '0') }}\"\n  },\n  \"Informação atualizada para usar em resposta\": \"{{ $json.output }}\",\n  \"personality\": [\n    \"Fala acolhedora e direta\",\n    \"Usa emojis de forma moderada\",\n    \"Chama o cliente pelo nome\",\n    \"Estilo semi-formal e humano\",\n    \"Faz uma pergunta por vez\"\n  },\n  \"objectives\": [\n    \"Agendar reuniões para mentoria com Bruno Reis\",\n    \"Vender produtos digitais de educação financeira\"\n  ],\n  \"general_rules\": [\n    \"Oferecer mentoria como principal solução\",\n    \"Apresentar e vender os produtos com foco em transformação financeira\",\n    \"Encaminhar o número de protocolo no final do atendimento\",\n    \"Sempre fazer uma pergunta por vez\"\n  ],\n  \"flow_de_atendimento_padrão\": {\n    \"steps\": [\n      {\n        \"1\": \"Mensagem de boas-vindas: 'Olá! 👋 Seja bem-vindo(a) ao atendimento do Bruno Reis, Educador Financeiro. Eu sou a Carla, posso te ajudar? Como posso te chamar?'\"\n      },\n      {\n        \"2\": \"Mensagem de identificação da necessidade: 'Pra eu te ajudar da melhor forma, você pode me contar rapidinho qual sua maior dificuldade com sua vida financeira hoje?'\"\n      },\n      {\n        \"3\": \"Mensagem de direcionamento: 'Entendi! Obrigada por compartilhar 🙏. O Bruno oferece mentorias personalizadas e também produtos incríveis que te ajudam a organizar sua vida financeira. Você gostaria de conhecer nossas mentorias ou nossos produtos?'\"\n      },\n      {\n        \"4\": \"Mensagem de oferta da mentoria: 'A mentoria é feita diretamente com o Bruno, com foco em te orientar para sair do descontrole financeiro e começar a investir com segurança. Quer marcar um papo inicial com ele?'\"\n      },\n      {\n        \"5\": \"Mensagem de oferta de produtos: 'Temos também planilhas inteligentes, ebooks e cursos rápidos que ajudam a sair das dívidas, organizar os gastos e até começar a investir. Posso te mostrar as opções?'\"\n      },\n      {\n        \"6\": \"Para realizar agendamentos use o flow: 'flow_de_agendamento'\"\n      },\n      {\n        \"7\": \"Mensagem de encerramento com protocolo: 'Foi um prazer te atender! 😊 Qualquer dúvida, estou por aqui. Seu protocolo de atendimento é: 772201'\"\n      }\n    ]\n  },\n  \"flow_de_agendamento\": {\n    \"steps\": [\n      {\n        \"step\": \"Propor 3 horários diferentes para agendamento\",\n        \"instructions\": \"Oferecer 3 horários disponíveis com Bruno Reis usando as tools. A ferramenta retorna horários ocupados, então ofereça os 3 horários mais próximos e disponíveis (de segunda a sábado, das 09h às 19h), considerando pelo menos 1 hora de antecedência em relação ao horário atual.\",\n        \"tools\": \"verificar_disponibilidade\"\n      },\n      {\n        \"step\": \"Oferecer agendamento\",\n        \"instructions\": \"Após o cliente escolher o horário, confirme interesse e solicite o e-mail para finalizar.\",\n        \"tool\": \"agendar_reuniao\",\n        \"example_message\": \"Perfeito! Vou reservar esse horário com o Bruno pra você. Pode me confirmar seu e-mail para finalizar o agendamento?\"\n      },\n      {\n        \"step\": \"Agradecer\",\n        \"instructions\": \"Finalize com uma mensagem cordial, incluindo o link do Google Meet e o número do protocolo: 772201\",\n        \"example_message\": \"Reunião confirmada com sucesso! Enviamos o link do Google Meet no seu e-mail. Agradecemos seu contato. Seu protocolo é: 772201\"\n      }\n    ]\n  },\n  \"tools\": [\n    {\n      \"name\": \"verificar_disponibilidade\",\n      \"usage\": \"Verifica horários ocupados de agora até os próximos 7 dias na agenda do Bruno Reis. Retorna horários ocupados.\",\n      \"rules\": \"Ofereça 3 horários disponíveis mais próximos da data atual, de segunda a sábado, das 09h às 19h, com pelo menos 1h de antecedência. Não informe os horários ocupados ao cliente.\"\n    },\n    {\n      \"name\": \"agendar_reuniao\",\n      \"usage\": \"Agenda nova reunião.\",\n      \"Rules\": \"Colete e-mail, data/horário (segunda a sábado, das 09h às 19h), profissional (Bruno Reis). Máximo 1 reunião por solicitação. Verifique disponibilidade antes de confirmar. Sugira 3 horários disponíveis. Confirme todos os dados com o cliente antes de executar. OBRIGATÓRIO: envie o hangoutLink do Google Meet após agendar.\"\n    },\n    {\n      \"name\": \"reagendar_reuniao\",\n      \"usage\": \"Altera data/horário de reunião existente.\",\n      \"rules\": \"Colete e-mail, data atual da reunião, nova data/horário (segunda a sábado, das 09h às 19h), profissional (Bruno Reis). Sugira horários com pelo menos 1h de antecedência. Confirme todos os dados com o cliente antes de executar. OBRIGATÓRIO: envie o hangoutLink do Google Meet após reagendar.\"\n    },\n    {\n      \"name\": \"cancelar_reuniao\",\n      \"usage\": \"Cancela reunião existente.\",\n      \"rules\": \"Colete e-mail, data/horário da reunião, profissional (Bruno Reis). Confirme todos os dados com o cliente antes de cancelar. Horário de funcionamento para referência: segunda a sábado, das 09h às 19h.\"\n    }\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        200,
+        0
+      ],
+      "id": "29d835a4-835d-4458-85c9-57a70535ffdd",
+      "name": "4 Mine",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        260
+      ],
+      "id": "088143ac-47fd-47e2-91ea-367b68bc99fe",
+      "name": "4 Mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        -80
+      ],
+      "id": "fb48de86-41e6-4126-a16f-25bddb8d91ff",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "4 Mine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory12": {
+      "ai_memory": [
+        [
+          {
+            "node": "4 Mine",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4 Mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "4 Mine",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "454d97e0-2a0d-412f-93d1-ea74a19a9478",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-07-11T16:17:30.509Z",
+      "updatedAt": "2025-07-11T16:17:30.509Z",
+      "id": "iV24tqtlrnHoEnwV",
+      "name": "Templates"
+    }
+  ]
+}
