@@ -1,0 +1,140 @@
+{
+  "createdAt": "2025-07-14T22:57:21.519Z",
+  "updatedAt": "2025-07-15T01:06:15.694Z",
+  "id": "5U9TUigvaeFmeM2v",
+  "name": "PRIMEIRO CHAT BOT",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gestor",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        -60
+      ],
+      "id": "94c0fa9b-9e23-4de9-831c-eecf03916a94",
+      "name": "Webhook",
+      "webhookId": "6ab51530-1374-493a-991f-ab444adfaf36"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é um computador de piadas curtas baseado no tema que recebe do usuário.\n\nTema do usuário: {{ $json.body.data.message.conversation }}\n\nMande somente a piada, sem nada adicional."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -320,
+        -60
+      ],
+      "id": "e285ebaa-6f43-4a5b-8158-38301946a5a9",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid.split(\"@\")[0] }}",
+        "messageText": "={{ $json.message.content }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        20,
+        -60
+      ],
+      "id": "e2b4ccc2-14be-459a-a059-7a2980b77d95",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  telefone_limpo: $json.body.data.key.remoteJid.replace(\"@s.whatsapp.net\", \"\")\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -500,
+        -60
+      ],
+      "id": "ec2ab9f9-256a-4b5c-8594-6598708fb276",
+      "name": "Formatar celular"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Formatar celular",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar celular": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7c4357ac-845e-4753-a9a4-e41c117cd946",
+  "triggerCount": 1,
+  "tags": []
+}
