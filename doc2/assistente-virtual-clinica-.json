@@ -1,0 +1,453 @@
+{
+  "createdAt": "2025-07-15T00:37:20.788Z",
+  "updatedAt": "2025-07-15T02:19:13.629Z",
+  "id": "SQyjrJIXQ9azPnMd",
+  "name": "ASSISTENTE VIRTUAL CLINICA",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "={{ $('Recebe  mensagem usuário').item.json.body.data.key.remoteJid.split(\"@\")[0] }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -140
+      ],
+      "id": "3524680b-2037-401c-b09b-64c7127ab789",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_wkFobVYdfZnejyfL1HdCqzrq",
+          "mode": "list",
+          "cachedResultName": "ASSISTENTE VIRTUAL"
+        },
+        "prompt": "define",
+        "text": "={{ $('Recebe  mensagem usuário').item.json.body.data.message.conversation }}",
+        "memory": "threadId",
+        "threadId": "={{ $json.Thread_id }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -20,
+        -140
+      ],
+      "id": "9a2f669f-9b3f-44dd-a5ad-36ae9ff1cb6f",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  telefone_limpo: $json.body.data.key.remoteJid.replace(\"@s.whatsapp.net\", \"\")\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        -140
+      ],
+      "id": "66bbf6fb-c2ad-4fd4-8bf3-534a5c8cce76",
+      "name": "Formatar celular"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "Dados",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Numero",
+              "condition": "eq",
+              "keyValue": "={{ $json.telefone_limpo }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -780,
+        -140
+      ],
+      "id": "28fb7690-bce5-4565-858b-7728db540a38",
+      "name": "Verifica se usuário tem cadastro",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Numero }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "b5af41cd-880f-47d0-bb82-203b6f10dc14"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastrado"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "12c3c7c0-3ae7-4114-9e2f-39b6b1f2efcd",
+                    "leftValue": "={{ $json.Numero }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sem cadastro"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -600,
+        -140
+      ],
+      "id": "76399c8b-9b5f-4ccb-a3dd-f352596430b9",
+      "name": "Valida se usuário está cadastrado"
+    },
+    {
+      "parameters": {
+        "tableId": "Dados",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Nome",
+              "fieldValue": "={{ $('Recebe  mensagem usuário').item.json.body.data.pushName }}"
+            },
+            {
+              "fieldId": "Numero",
+              "fieldValue": "={{ $('Formatar celular').item.json.telefone_limpo }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        100
+      ],
+      "id": "5f7105c3-745a-46ff-a998-d51bdfcbcb2d",
+      "name": "Cadastra usuário no BD",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -360
+      ],
+      "id": "ee8d13dd-e5f6-4369-9513-d5ea4b8b1d82",
+      "name": "Cria a thread",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Dados",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Verifica se tem thread criada').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Thread_id",
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        20,
+        -360
+      ],
+      "id": "4ef504ec-4175-4235-b7c5-5b7122ecf5b1",
+      "name": "Salva Thread no BD",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a74343c2-df19-4831-a7be-93645c2ea590",
+              "leftValue": "={{ $json.Thread_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        -160
+      ],
+      "id": "71378372-9a50-498b-b97b-7436a27c9f13",
+      "name": "Verifica se tem thread criada"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clinica",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1140,
+        -140
+      ],
+      "id": "8cdca62e-a0bc-47c3-a051-0ebdd3f61cee",
+      "name": "Recebe  mensagem usuário",
+      "webhookId": "ab3e00e1-c2a9-4c2e-8f40-cd5b9ad9469c"
+    }
+  ],
+  "connections": {
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar celular": {
+      "main": [
+        [
+          {
+            "node": "Verifica se usuário tem cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se usuário tem cadastro": {
+      "main": [
+        [
+          {
+            "node": "Valida se usuário está cadastrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida se usuário está cadastrado": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastra usuário no BD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastra usuário no BD": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria a thread": {
+      "main": [
+        [
+          {
+            "node": "Salva Thread no BD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se tem thread criada": {
+      "main": [
+        [
+          {
+            "node": "Cria a thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recebe  mensagem usuário": {
+      "main": [
+        [
+          {
+            "node": "Formatar celular",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva Thread no BD": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ea3a210f-8055-4125-beb7-aabc7f2a7b04",
+  "triggerCount": 1,
+  "tags": []
+}
