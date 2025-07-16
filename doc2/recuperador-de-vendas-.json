@@ -1,0 +1,393 @@
+{
+  "createdAt": "2025-07-15T19:13:56.315Z",
+  "updatedAt": "2025-07-15T21:13:57.682Z",
+  "id": "qNY5SuuDLJyeWEzj",
+  "name": "RECUPERADOR DE VENDAS",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pix-gerado",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -820,
+        0
+      ],
+      "id": "92ec6ffe-d613-404f-8423-f2ba300bcce9",
+      "name": "Webhook",
+      "webhookId": "6a227fc4-e697-46ef-a1cb-f1f7c3c7bc5e"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "={{ $json.body.customer.phone_number }}",
+        "messageText": "=Olá, {{ $json.body.customer.name }}! Seu pix foi gerado.\n\nSegue codigo para pagamento",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        0
+      ],
+      "id": "7bdbbe55-c261-4fd3-a497-eec52d9bd756",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -380,
+        0
+      ],
+      "id": "dbc7dbac-8c5f-44dd-a228-5c6cbeb0290e",
+      "name": "Wait",
+      "webhookId": "63291352-502e-4d89-a9be-1db450383d8a"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "={{ $json.body.customer.phone_number }}",
+        "messageText": "={{ $('Webhook').item.json.body.payment.qrcode }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        0
+      ],
+      "id": "1381c1b7-a231-459d-8913-6fb5f37a01f1",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        40,
+        0
+      ],
+      "id": "6d25209f-f258-48f1-a476-134e141040ba",
+      "name": "Wait1",
+      "webhookId": "534dc451-d3cc-4af4-bd1c-c01305fd5be7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce934c12-6283-4260-97a5-b9091c8df9f8",
+              "name": "texto",
+              "value": "Olá, ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ],
+      "id": "523461b0-a326-42eb-b57e-e211f1de9473",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        460,
+        0
+      ],
+      "id": "cc6a6c41-7eef-43b1-9be2-889111f51519",
+      "name": "Generate audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "destinationKey": "base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        680,
+        0
+      ],
+      "id": "00b71db0-cc69-4f53-821f-9a81158067d5",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-audio",
+        "instanceName": "Automação IA",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        900,
+        0
+      ],
+      "id": "ab4b2716-6a01-4eb6-b375-c3c26ed5e67b",
+      "name": "Enviar audio",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Generate audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Enviar audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.everaldolima.com.br",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1638",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "baggage": "sentry-environment=production,sentry-public_key=894f284f41064dcaa15f50a785a55ff7,sentry-trace_id=2309c653e4c9e672d0d14a2ead251732,sentry-org_id=4504850859163648,sentry-sampled=false,sentry-sample_rand=0.04828041124069071,sentry-sample_rate=0.001",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "54.160.206.24",
+            "cf-ipcountry": "US",
+            "cf-ray": "95fb94b0bf79d6e1-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "newrelic": "eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkFwcCIsImFjIjoiNjIzNjE5MiIsImFwIjoiMTU0MTc0OTc5MiIsInR4IjoiN2RjNmU1NjQzOTIzYTRhZiIsInRyIjoiZjZlY2ZiODk0NmI1MjZkMTgxMzI3ZDE4Y2UzNzIxMmUiLCJwciI6MS4wMzg0NjEsInNhIjp0cnVlLCJ0aSI6MTc1MjYwNjg0NTQ0NCwiaWQiOiJkMWJiMjJjNzE4MDViOWViIn19",
+            "sentry-trace": "2309c653e4c9e672d0d14a2ead251732-0b0727628e23d8d6-0",
+            "traceparent": "00-f6ecfb8946b526d181327d18ce37212e-d1bb22c71805b9eb-01",
+            "tracestate": "6236192@nr=0-0-6236192-1541749792-d1bb22c71805b9eb-7dc6e5643923a4af-1-1.038461-1752606845444",
+            "x-forwarded-for": "172.71.194.245",
+            "x-forwarded-host": "n8n.everaldolima.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "678825274e56",
+            "x-real-ip": "172.71.194.245"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "PIX_GENERATED",
+            "event_description": "PIX gerado",
+            "checkout_id": "Q8J1N6K3",
+            "sale_id": "D2RP8RQ7",
+            "payment_method": "PIX",
+            "total_price": "R$ 169,80",
+            "type": "ONE_TIME",
+            "status": "PENDING",
+            "created_at": "2025-07-15 16:14:05",
+            "customer": {
+              "name": "João da Silva",
+              "document": "23875090127",
+              "email": "exemplo@email.com",
+              "phone_number": "5511987654321"
+            },
+            "payment": {
+              "method": "PIX",
+              "qrcode": "00020201011325br.gov.bcb.pixBADE53BA66C4121804702BR5823KIRVANO PAGAMENTOS LTDA***7213D5D7",
+              "qrcode_image": "https://pay-api.kirvano.com/pix/fa1e3f89-ab4a-4615-ab38-e6dd0b255eda",
+              "expires_at": "2025-07-15 17:14:05"
+            },
+            "products": [
+              {
+                "id": "85090a0b-8c1d-4dc3-9d34-d787f874fb32",
+                "name": "Mercado de Ações no Brasil",
+                "offer_id": "f5bd36b5-ee47-4f95-aea6-9ad8683eaf50",
+                "offer_name": "Mercado de Ações no Brasil",
+                "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+                "price": "R$ 119,90",
+                "photo": "https://s3.amazonaws.com/production.kirvano.com/products/96f87302-7631-4c39-bdef-5a9d2f480f17/cover-1752606845443.jpg",
+                "is_order_bump": false
+              },
+              {
+                "id": "d30d800f-dd06-45f2-8e09-a876311d51ef",
+                "name": "Excel para Investidores",
+                "offer_id": "9c8549e5-fb34-4aef-a1ad-7293bbe37347",
+                "offer_name": "Excel para Investidores",
+                "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+                "price": "R$ 49,90",
+                "photo": "https://s3.amazonaws.com/production.kirvano.com/products/47914682-1a81-482a-9864-e7cce04a8302/cover-1752606845443.jpg",
+                "is_order_bump": true
+              }
+            ],
+            "utm": {
+              "src": "google",
+              "utm_source": "broadcast",
+              "utm_medium": "email",
+              "utm_campaign": "register",
+              "utm_term": "codes",
+              "utm_content": "link"
+            }
+          },
+          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/pix-gerado",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Wait": [
+      {
+        "json": {
+          "success": true,
+          "data": {
+            "key": {
+              "remoteJid": "5511987654321@s.whatsapp.net",
+              "fromMe": true,
+              "id": "3EB0FF3A0B82727DE64014423439FF3F21A9FA4A"
+            },
+            "pushName": "Você",
+            "status": "PENDING",
+            "message": {
+              "conversation": "Olá, João da Silva! Seu pix foi gerado.\n\nSegue codigo para pagamento"
+            },
+            "contextInfo": null,
+            "messageType": "conversation",
+            "messageTimestamp": 1752607060,
+            "instanceId": "b8ce8df9-fbcd-4249-9ae1-67b9a10a15a5",
+            "source": "unknown"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "fa40fe86-586a-43d2-88bf-1f690a0ecc5e",
+  "triggerCount": 0,
+  "tags": []
+}
