@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-15T00:37:20.788Z",
-  "updatedAt": "2025-07-15T02:19:13.629Z",
+  "updatedAt": "2025-07-15T19:11:22.212Z",
   "id": "SQyjrJIXQ9azPnMd",
   "name": "ASSISTENTE VIRTUAL CLINICA",
   "active": false,
@@ -17,8 +17,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        300,
-        -140
+        580,
+        -160
       ],
       "id": "3524680b-2037-401c-b09b-64c7127ab789",
       "name": "Enviar texto",
@@ -47,8 +47,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        -20,
-        -140
+        260,
+        -160
       ],
       "id": "9a2f669f-9b3f-44dd-a5ad-36ae9ff1cb6f",
       "name": "Message a model",
@@ -66,8 +66,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -960,
-        -140
+        -1140,
+        -160
       ],
       "id": "66bbf6fb-c2ad-4fd4-8bf3-534a5c8cce76",
       "name": "Formatar celular"
@@ -89,8 +89,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -780,
-        -140
+        -960,
+        -160
       ],
       "id": "28fb7690-bce5-4565-858b-7728db540a38",
       "name": "Verifica se usuário tem cadastro",
@@ -163,8 +163,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -600,
-        -140
+        -780,
+        -160
       ],
       "id": "76399c8b-9b5f-4ccb-a3dd-f352596430b9",
       "name": "Valida se usuário está cadastrado"
@@ -181,6 +181,10 @@
             {
               "fieldId": "Numero",
               "fieldValue": "={{ $('Formatar celular').item.json.telefone_limpo }}"
+            },
+            {
+              "fieldId": "Atendimento",
+              "fieldValue": "Aberto"
             }
           ]
         }
@@ -188,8 +192,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -580,
-        100
+        -560,
+        0
       ],
       "id": "5f7105c3-745a-46ff-a998-d51bdfcbcb2d",
       "name": "Cadastra usuário no BD",
@@ -224,7 +228,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -200,
+        -160,
         -360
       ],
       "id": "ee8d13dd-e5f6-4369-9513-d5ea4b8b1d82",
@@ -316,12 +320,46 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -1140,
-        -140
+        -1320,
+        -160
       ],
       "id": "8cdca62e-a0bc-47c3-a051-0ebdd3f61cee",
       "name": "Recebe  mensagem usuário",
       "webhookId": "ab3e00e1-c2a9-4c2e-8f40-cd5b9ad9469c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9249dc89-b1bf-4034-a900-73224730cfa9",
+              "leftValue": "={{ $json.Atendimento }}",
+              "rightValue": "Fechado",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        -340
+      ],
+      "id": "5ad6237c-656e-404e-84f1-6e2717e32a0f",
+      "name": "Verifica atendimento"
     }
   ],
   "connections": {
@@ -362,7 +400,7 @@
       "main": [
         [
           {
-            "node": "Verifica se tem thread criada",
+            "node": "Verifica atendimento",
             "type": "main",
             "index": 0
           }
@@ -437,6 +475,18 @@
           }
         ]
       ]
+    },
+    "Verifica atendimento": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -446,8 +496,80 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "ea3a210f-8055-4125-beb7-aabc7f2a7b04",
+  "pinData": {
+    "Recebe  mensagem usuário": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.everaldolima.com.br",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1039",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "5.161.253.237",
+            "cf-ipcountry": "US",
+            "cf-ray": "95fb521768b4d69c-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.71.194.246",
+            "x-forwarded-host": "n8n.everaldolima.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "678825274e56",
+            "x-real-ip": "172.71.194.246"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Automação IA",
+            "data": {
+              "key": {
+                "remoteJid": "5513988491908@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB0313DBC150C55FB3934",
+                "senderLid": "273984704741630@lid"
+              },
+              "pushName": "Everaldo",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Oi",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "gGlStNL/Dx5nxA==",
+                    "senderTimestamp": "1752337100",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "T1MRQ+uJY03byg==",
+                    "recipientTimestamp": "1752180426"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "JB1J4kRb17KIzBzhxMr8cAGoYZN5VObQK7FT8njK9Pw=",
+                  "limitSharingV2": {
+                    "trigger": "UNKNOWN",
+                    "initiatedByMe": false
+                  }
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1752604117,
+              "instanceId": "b8ce8df9-fbcd-4249-9ae1-67b9a10a15a5",
+              "source": "web"
+            },
+            "destination": "https://n8n.everaldolima.com.br/webhook-test/clinica",
+            "date_time": "2025-07-15T15:28:37.648Z",
+            "sender": "5521993232635@s.whatsapp.net",
+            "server_url": "https://evo.everaldolima.com.br:8080",
+            "apikey": "BAAF972F66A7-4B25-89A1-88C0885871E7"
+          },
+          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/clinica",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "bc54d2ad-d62f-4ce2-9a62-ddf08735d0ba",
   "triggerCount": 1,
   "tags": []
 }
