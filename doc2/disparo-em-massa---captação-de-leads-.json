@@ -1,0 +1,323 @@
+{
+  "createdAt": "2025-07-19T16:05:13.865Z",
+  "updatedAt": "2025-07-19T16:25:45.630Z",
+  "id": "nQqkQDmn9P68k0es",
+  "name": "Disparo em massa - Captação de Leads",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e6ef10d5-ca4c-457f-aeae-1d0be147d189",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "bb00553f-7704-466c-ae92-809ecfe9fbe9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17bc87fc-a5a6-4989-a85a-742f5467594b",
+              "name": "telefone",
+              "value": "={{ $json.phone.replace(/\\D/g, '') + '@s.whatsapp.net' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        0
+      ],
+      "id": "d97cb882-0733-4f3a-b7e0-99df1def36d4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "0c0af512-8786-4d15-a3e6-6fe08dbae67c",
+      "name": "Wait",
+      "webhookId": "943f37ee-f55b-42fb-9691-84a5df9b85d3"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        224,
+        0
+      ],
+      "id": "909b25cb-c14d-4871-99cf-f5e12cc4b17f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Enviado": "Sim"
+          },
+          "matchingColumns": [
+            "Telefone"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Especialidade",
+              "displayName": "Especialidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Endereço",
+              "displayName": "Endereço",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Endereço 1",
+              "displayName": "Endereço 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Enviado",
+              "displayName": "Enviado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "23f12fa5-3732-430b-beb4-59fdf2288c09",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "=5521993232635",
+        "messageText": "Olá! Tudo bem?\nGostaria de automatizar 100% do seu atendimento com IA?",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        912,
+        0
+      ],
+      "id": "08fedab6-9b14-4b1d-8177-1b2808936f2e",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a1fa40fe-ab9d-4aab-8b49-bab325b83320",
+  "triggerCount": 0,
+  "tags": []
+}
