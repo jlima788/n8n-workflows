@@ -1,0 +1,701 @@
+{
+  "createdAt": "2025-07-19T16:21:27.860Z",
+  "updatedAt": "2025-07-19T16:48:17.381Z",
+  "id": "DsxURUyqAMyQF0Ch",
+  "name": "Disparo em massa - Captação de Leads - V2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        -112
+      ],
+      "id": "8811fbcd-ae98-46c9-b1cd-81144b6b1bc6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -576,
+        -112
+      ],
+      "id": "d6c8ddb8-0175-43a3-be2f-28ced7f60fe8",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -352,
+        -112
+      ],
+      "id": "31d67fe1-7c96-4578-a830-0e6dd9a3e6a1",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6106e8bd-c508-4b39-a57e-1fea55ebfcea",
+              "name": "telefone",
+              "value": "={{ $json.Telefone.replace(/\\D/g, '') + '@s.whatsapp.net' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        -96
+      ],
+      "id": "b0f7a894-1697-48e1-add0-70068f63d5c9",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        -96
+      ],
+      "id": "ff9cec17-d1ce-45cd-a39c-b11bdcd3d1a7",
+      "name": "Wait",
+      "webhookId": "0bf1a332-63ef-412a-b2bb-93879b7d9cff"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Enviado": "Sim"
+          },
+          "matchingColumns": [
+            "Telefone"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Especialidade",
+              "displayName": "Especialidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Endereço",
+              "displayName": "Endereço",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Endereço 1",
+              "displayName": "Endereço 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Enviado",
+              "displayName": "Enviado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        288,
+        -96
+      ],
+      "id": "54ec0592-dbaa-4cad-8e7d-cf402d348325",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "5513988491908",
+        "messageText": "Olá",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -96
+      ],
+      "id": "9b35a609-15d2-49c1-9b55-76cb807574da",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "y7hI6SRUiB0drSYF",
+          "name": "Automação IA"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        []
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Edit Fields": [
+      {
+        "json": {
+          "telefone": "13991881229@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991674792@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13982327564@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13992053899@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1338770538@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997393374@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991001231@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1330400948@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996522362@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997130024@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13988235322@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1333260822@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13988304828@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997206829@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13976003352@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981345602@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996709626@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991717272@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981188453@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991828673@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991172907@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981893388@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13974102503@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991029393@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13974088948@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997366804@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13992060094@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997994116@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996609445@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1330402747@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13988360647@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13988073312@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996711601@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991936367@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981640159@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991345216@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981152000@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991795871@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13982110335@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991852620@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991623774@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "11941834892@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997007866@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13982329287@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997286554@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13974064709@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13974033435@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997562807@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996484458@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997419333@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996859861@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981298287@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991648838@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1320282059@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997632453@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981313784@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13988250808@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997052500@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1332226682@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996923717@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991623774@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "11941834892@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981203957@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13981124691@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997481210@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13978190303@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997239815@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991458969@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13991294472@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13974043592@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13997689677@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "13996011401@s.whatsapp.net"
+        }
+      },
+      {
+        "json": {
+          "telefone": "1332278888@s.whatsapp.net"
+        }
+      }
+    ]
+  },
+  "versionId": "d40baf59-dae1-499e-8cfb-92dbe8f5303b",
+  "triggerCount": 0,
+  "tags": []
+}
