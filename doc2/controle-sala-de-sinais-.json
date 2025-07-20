@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-07-07T18:12:02.619Z",
-  "updatedAt": "2025-07-09T16:15:21.733Z",
+  "updatedAt": "2025-07-20T01:18:02.044Z",
   "id": "1w2AmXxW2sD7Vpwk",
   "name": "Controle Sala de Sinais",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
@@ -389,7 +389,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8c9f00ee-9d7d-4889-8d29-1c2c0a131efc",
+  "versionId": "effe22bd-80e9-4b37-a316-b725b7512395",
   "triggerCount": 0,
   "tags": []
 }
