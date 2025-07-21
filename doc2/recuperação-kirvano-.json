@@ -1,27 +1,11 @@
 {
   "createdAt": "2025-07-03T13:13:47.107Z",
-  "updatedAt": "2025-07-20T02:08:08.353Z",
+  "updatedAt": "2025-07-20T17:50:34.935Z",
   "id": "WRWcoooELabvImhB",
   "name": "Recuperação Kirvano",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "sala-sinais-abandonado",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        0,
-        0
-      ],
-      "id": "badc3beb-1513-4dc3-b08a-1b233c921553",
-      "name": "Webhook",
-      "webhookId": "5f39a65f-816c-456b-9b45-d81f2bf6af13"
-    },
     {
       "parameters": {
         "assignments": {
@@ -35,13 +19,13 @@
             {
               "id": "b86710b9-2e78-49f5-b174-27254b59a85c",
               "name": "API_KEY",
-              "value": "A4FBF5D7C817-46C1-8275-8CD37271A6F2",
+              "value": "HfFf9Dn7Ll75Syq0TtcskSgAHAf8U5eu",
               "type": "string"
             },
             {
               "id": "3848e6c7-7b9d-4754-8141-c19189ede3bc",
               "name": "INSTANCE",
-              "value": "n8n",
+              "value": "Automação IA",
               "type": "string"
             },
             {
@@ -63,22 +47,22 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        224,
-        0
+        304,
+        -160
       ],
       "id": "8eac6f91-385c-4dec-b7c1-ddaa0a7ed848",
       "name": "Edit Fields"
     },
     {
       "parameters": {
-        "amount": 2,
+        "amount": 3,
         "unit": "minutes"
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        448,
-        0
+        528,
+        -160
       ],
       "id": "2ad4bf54-6e2e-4abc-a6cd-f4fad07f17f1",
       "name": "Wait",
@@ -106,11 +90,11 @@
           "parameters": [
             {
               "name": "number",
-              "value": "=5513988491908"
+              "value": "={{ $('Edit Fields').item.json.NUMERO }}"
             },
             {
               "name": "text",
-              "value": "=Oi, {{ $('Edit Fields').item.json.NOME }}, vi que quase comprou a sala de sinais, ficou com alguma dúvida? Posso te ajudar?"
+              "value": "=Somos da Kirvano, a plataforma onde o produto {{ $('Carrinho abandonado').item.json.body.products[0].name }} está cadastrado.\n\nVimos que você deixou ele no seu carrinho, mas não finalizou a compra 😥\n\nNão perca esta oportunidade! Para finalizar a compra e garantir seu acesso ao produto {{ $('Carrinho abandonado').item.json.body.products[0].name }}, acesse o link abaixo ⬇️\n{{ $('Carrinho abandonado').item.json.body.checkout_url }}\n\nÉ rápido, prático e 100% confiável ✅\n\nSe tiver alguma dúvida, envie uma mensagem para o(a) produtor(a) deste conteúdo, Bruno Reis: brunodosreislima@yahoo.com.br\n\nCaso já tenha efetuado a compra, ignore esta mensagem.\n\nAbraços,\nBruno Reis."
             }
           ]
         },
@@ -119,129 +103,61 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        672,
-        0
+        752,
+        -160
       ],
       "id": "0cceee35-18cb-42db-a9ee-f9183b2a58c5",
       "name": "HTTP Request"
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -160
+      ],
+      "id": "4495a3f9-9c44-4ab9-af71-01b11bdaf5c6",
+      "name": "No Operation, do nothing"
+    },
+    {
       "parameters": {
         "resource": "messages-api",
         "instanceName": "Automação IA",
         "remoteJid": "={{ $json.body.customer.phone_number }}",
-        "messageText": "=Olá, {{ $json.body.customer.name }}! Seu pix foi gerado.\n\nSegue codigo para pagamento",
+        "messageText": "=Assunto: Falta só 1 passo para garantir seu acesso ao {{ $json.body.products[0].name }} 🚀\n\nOlá, {{ $json.body.customer.name }}!\n\nPercebemos que você iniciou a compra do Café com FX via PIX, mas ainda não finalizou o pagamento.\n\n⚠️ Importante: seu acesso ao conteúdo só será liberado após a confirmação do pagamento.\n\nPara não perder esta oportunidade, finalize o pagamento do seu PIX o quanto antes ✅\nPara finalizar, basta copiar o código PIX abaixo e fazer o pagamento direto no seu app bancário:\n👉 {{ $json.body.payment.qrcode }}\n\nSe tiver qualquer dúvida, pode me chamar diretamente:\n📧 brunodosreislima@yahoo.com.br\n\nAssim que o pagamento for confirmado, seu acesso será liberado automaticamente.\n\nAbraços,\nBruno Reis",
         "options_message": {}
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -64,
-        -192
+        288,
+        192
       ],
-      "id": "f3a073bf-ccf7-4700-9a1f-6136e55a6bb0",
+      "id": "61f0c1d4-fa02-42bd-841d-364ce5c020f3",
       "name": "Enviar texto",
       "credentials": {
         "evolutionApi": {
-          "id": "y7hI6SRUiB0drSYF",
-          "name": "Automação IA"
+          "id": "hOyxWkN5vjtX4B08",
+          "name": "Evolution account"
         }
       }
     },
     {
       "parameters": {
-        "resource": "messages-api",
-        "instanceName": "Automação IA",
-        "remoteJid": "={{ $json.body.customer.phone_number }}",
-        "messageText": "={{ $('Webhook1').item.json.body.payment.qrcode }}",
-        "options_message": {}
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        368,
-        -192
-      ],
-      "id": "0eff6c14-12d0-4791-b85c-b33f4ce4df12",
-      "name": "Enviar texto1",
-      "credentials": {
-        "evolutionApi": {
-          "id": "y7hI6SRUiB0drSYF",
-          "name": "Automação IA"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "amount": 3
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        592,
-        -192
-      ],
-      "id": "7a393174-39a3-4c83-90c2-814acb41c4a3",
-      "name": "Wait1",
-      "webhookId": "534dc451-d3cc-4af4-bd1c-c01305fd5be7"
-    },
-    {
-      "parameters": {
-        "resource": "audio",
+        "httpMethod": "POST",
+        "path": "sala-sinais-abandonado",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
       "position": [
-        1008,
-        -192
+        80,
+        -160
       ],
-      "id": "a38e18fd-b736-486a-a6d0-b6e4500e2fe1",
-      "name": "Generate audio",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "binaryToPropery",
-        "destinationKey": "base64",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1,
-      "position": [
-        1232,
-        -192
-      ],
-      "id": "aa59a0be-7029-45cb-8604-f69f1bd064bb",
-      "name": "Extract from File"
-    },
-    {
-      "parameters": {
-        "resource": "messages-api",
-        "operation": "send-audio",
-        "instanceName": "Automação IA",
-        "options_message": {}
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        1456,
-        -192
-      ],
-      "id": "f92cb75a-1605-4efa-bc01-882ff340737d",
-      "name": "Enviar audio",
-      "credentials": {
-        "evolutionApi": {
-          "id": "y7hI6SRUiB0drSYF",
-          "name": "Automação IA"
-        }
-      },
-      "disabled": true
+      "id": "badc3beb-1513-4dc3-b08a-1b233c921553",
+      "name": "Carrinho abandonado",
+      "webhookId": "5f39a65f-816c-456b-9b45-d81f2bf6af13"
     },
     {
       "parameters": {
@@ -252,63 +168,56 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -272,
-        -192
+        80,
+        192
       ],
-      "id": "aa2d439e-3ee6-4a54-952d-0bd8133333dc",
-      "name": "Webhook1",
+      "id": "e381ec91-ba58-4a05-932a-a74a5c179550",
+      "name": "PIX gerado",
       "webhookId": "6a227fc4-e697-46ef-a1cb-f1f7c3c7bc5e"
     },
     {
-      "parameters": {
-        "amount": 3
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
       "position": [
-        160,
-        -192
+        496,
+        192
       ],
-      "id": "c94a9676-beba-4fc8-a87a-9963c684109c",
-      "name": "Wait2",
-      "webhookId": "63291352-502e-4d89-a9be-1db450383d8a"
+      "id": "6b917eba-1536-4311-a3e4-e37017bac83a",
+      "name": "No Operation, do nothing1"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ce934c12-6283-4260-97a5-b9091c8df9f8",
-              "name": "texto",
-              "value": "Olá, ",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
+        "content": "PIX GERADO",
+        "height": 272,
+        "width": 1104
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.stickyNote",
       "position": [
-        784,
-        -192
+        32,
+        96
       ],
-      "id": "f5f24e36-f4bf-4e01-88e2-d2f3b836a86a",
-      "name": "Edit Fields1"
+      "typeVersion": 1,
+      "id": "5bfa9a61-697b-4129-a0dc-e2b8dafcdcfc",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "PIX GERADO",
+        "height": 272,
+        "width": 1104
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "21f45c04-d7e9-40c8-81a2-ab5f82278f2f",
+      "name": "Sticky Note1"
     }
   ],
   "connections": {
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields": {
       "main": [
         [
@@ -331,88 +240,44 @@
         ]
       ]
     },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Enviar texto": {
       "main": [
         [
           {
-            "node": "Wait2",
+            "node": "No Operation, do nothing1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Enviar texto1": {
+    "Carrinho abandonado": {
       "main": [
         [
           {
-            "node": "Wait1",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait1": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate audio": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract from File": {
-      "main": [
-        [
-          {
-            "node": "Enviar audio",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook1": {
+    "PIX gerado": {
       "main": [
         [
           {
             "node": "Enviar texto",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait2": {
-      "main": [
-        [
-          {
-            "node": "Enviar texto1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Generate audio",
             "type": "main",
             "index": 0
           }
@@ -427,33 +292,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Wait2": [
-      {
-        "json": {
-          "success": true,
-          "data": {
-            "key": {
-              "remoteJid": "5511987654321@s.whatsapp.net",
-              "fromMe": true,
-              "id": "3EB0FF3A0B82727DE64014423439FF3F21A9FA4A"
-            },
-            "pushName": "Você",
-            "status": "PENDING",
-            "message": {
-              "conversation": "Olá, João da Silva! Seu pix foi gerado.\n\nSegue codigo para pagamento"
-            },
-            "contextInfo": null,
-            "messageType": "conversation",
-            "messageTimestamp": 1752607060,
-            "instanceId": "b8ce8df9-fbcd-4249-9ae1-67b9a10a15a5",
-            "source": "unknown"
-          }
-        }
-      }
-    ]
-  },
-  "versionId": "d7b147a5-6c70-4757-bc62-2412b4ecaf16",
-  "triggerCount": 0,
+  "pinData": {},
+  "versionId": "b2fdda44-730f-41a9-a29a-5606abba448b",
+  "triggerCount": 2,
   "tags": []
 }
