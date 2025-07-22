@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-19T21:55:58.337Z",
-  "updatedAt": "2025-07-20T01:15:40.568Z",
+  "updatedAt": "2025-07-21T13:09:35.667Z",
   "id": "byte7a1o6tvClnCS",
   "name": "Controle de Clientes - Sou Bruno Reis",
   "active": true,
@@ -94,7 +94,7 @@
             },
             {
               "name": "text",
-              "value": "={{ \n  $json.tipo === 'lembrete' \n    ? `Olá ${$json.Nome}, seu acesso vence em 2 dias. Renove aqui: ${$json['Link Pagamento']}` \n    : $json.tipo === 'cobranca_hoje' \n      ? `Hoje é o vencimento do seu acesso. Renove aqui: ${$json['Link Pagamento']}` \n      : `Seu acesso expirou. Deseja continuar? Renove aqui: ${$json['Link Pagamento']}` \n}}"
+              "value": "={{ \n  $json.tipo === 'lembrete' \n    ? `Assunto: Lembrete: finalize sua compra do Café com FX antes que o link expire ⏳\n\nOlá, ${$json.Nome}!\n\nNotamos que sua compra do Café com FX ainda não foi concluída, e o prazo para pagamento vence em 2 dias.\n\nPara garantir seu acesso ao conteúdo, finalize agora mesmo no link abaixo:\n👉 ${$json['Link Pagamento']}\n\nSe você já realizou o pagamento, pode desconsiderar esta mensagem 🙌\n\nQualquer dúvida ou dificuldade, estou à disposição:\n📧 brunodosreislima@yahoo.com.br\n\nAbraços,\nBruno Reis` \n    : $json.tipo === 'cobranca_hoje' \n      ? `Assunto: Última chance! Seu acesso ao Café com FX expira hoje 🚨\n\nOlá, ${$json.Nome}!\n\nHoje é o último dia para concluir o pagamento da sua compra do Café com FX.\n\nAcesse o link abaixo para finalizar e garantir seu acesso:\n👉 ${$json['Link Pagamento']}\n\nSe você já pagou, desconsidere esta mensagem 😊\nCaso contrário, essa é a sua última oportunidade antes do link expirar!\n\nSe precisar de ajuda, me chame:\n📧 brunodosreislima@yahoo.com.br\n\nAbraços,\nBruno Reis` \n      : `Seu acesso expirou. Deseja continuar? Renove aqui: ${$json['Link Pagamento']}` \n}}\n\n\n\n"
             }
           ]
         },
@@ -411,7 +411,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "86c7d635-f478-4d0e-8399-c2ad8acdcd56",
+  "versionId": "e61e4992-b5c9-44f4-aaaf-0b87a6ef5bfa",
   "triggerCount": 1,
   "tags": []
 }
