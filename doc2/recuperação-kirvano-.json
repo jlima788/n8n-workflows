@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-03T13:13:47.107Z",
-  "updatedAt": "2025-07-20T17:50:34.935Z",
+  "updatedAt": "2025-07-21T13:02:11.110Z",
   "id": "WRWcoooELabvImhB",
   "name": "Recuperação Kirvano",
   "active": true,
@@ -203,7 +203,7 @@
     },
     {
       "parameters": {
-        "content": "PIX GERADO",
+        "content": "CARRINHO ABANDONADO",
         "height": 272,
         "width": 1104
       },
@@ -293,7 +293,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b2fdda44-730f-41a9-a29a-5606abba448b",
+  "versionId": "ebcb6f39-4352-4ad2-8e80-09352837a158",
   "triggerCount": 2,
   "tags": []
 }
