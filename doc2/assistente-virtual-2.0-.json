@@ -1,0 +1,988 @@
+{
+  "createdAt": "2025-07-21T15:11:17.223Z",
+  "updatedAt": "2025-07-21T18:59:25.364Z",
+  "id": "xjR2Bv7MQlahJ3av",
+  "name": "ASSISTENTE VIRTUAL 2.0",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "return [{\n  telefone_limpo: $json.body.data.key.remoteJid.replace(\"@s.whatsapp.net\", \"\")\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        240
+      ],
+      "id": "bb9260b3-2048-4a08-97b3-2ffb7c2b6d77",
+      "name": "Formata celular"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d9f0a46a-504a-4d52-a0a3-a6222fe80509",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1888,
+        272
+      ],
+      "id": "50a3808c-5bf3-4e43-b408-506b86ea56b7",
+      "name": "Recebe mensagem usuario",
+      "webhookId": "d9f0a46a-504a-4d52-a0a3-a6222fe80509"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Numero }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastrado"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1fb1915e-576b-4729-a204-61718f51a0ce",
+                    "leftValue": "={{ $json.Numero }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sem cadastro"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -208,
+        240
+      ],
+      "id": "458666c7-0694-4360-a1b3-fa52dbd308a2",
+      "name": "Valida se usuario esta cadastrado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e8df05c6-f0d2-46d6-987f-d6ed0f429116",
+              "leftValue": "={{ $json.Thread_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        272
+      ],
+      "id": "2dc4c4ba-2f41-48bc-9975-951d811e939d",
+      "name": "Verifica se tem thread criada"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        384,
+        32
+      ],
+      "id": "559836fc-da56-4f1d-8df5-7d56f6714962",
+      "name": "Cria a thread",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f1790a98-1cc0-4569-be53-4998defd4d1e",
+              "leftValue": "={{ $('Verifica se usuario tem cadastro').item.json.Atendimento }}",
+              "rightValue": "Fechado",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ff390128-28ed-4f02-a8ae-33d5fc680a52",
+      "name": "verifica atendimento"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/threads/{{ $('Bella AI').item.json.threadId }}/messages ",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1360,
+        432
+      ],
+      "id": "82cf3d99-7082-4138-965c-9ffe2a004f94",
+      "name": "Pega mensagens da conversa",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const threadData = items[0].json.data;\n\n// Ordenar as mensagens por data de criação (caso não estejam ordenadas)\nthreadData.sort((a, b) => a.created_at - b.created_at);\n\n// Concatenar todas as mensagens\nlet concatenatedMessages = threadData.map(message => {\n    const role = message.role === \"user\" ? \"Usuário\" : \"Assistente\";\n    const textContent = message.content.map(c => c.text.value).join(\"\\n\");\n    return `**${role}:** ${textContent}`;\n}).join(\"\\n\\n\");\n\nreturn [{ json: { concatenatedMessages } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        432
+      ],
+      "id": "ff215bc8-0780-43ea-ae6d-c4d3bec30389",
+      "name": "Concatena mensagens"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_YPtLsfgWO37nmyrnrYxzxsSv",
+          "mode": "list",
+          "cachedResultName": "ASSISTENTE VIRTUAL"
+        },
+        "prompt": "define",
+        "text": "={{ $('Recebe mensagem usuario').item.json.body.data.message.conversation }}",
+        "memory": "threadId",
+        "threadId": "={{ $('Verifica se usuario tem cadastro').item.json.Thread_id }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        720,
+        432
+      ],
+      "id": "de093717-184a-4004-ab6f-0a5c5e880bfe",
+      "name": "Bella AI",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_uo7foJsYABqpzNEweenB7qXA",
+          "mode": "list",
+          "cachedResultName": "ANALISA CONVERSA"
+        },
+        "prompt": "define",
+        "text": "={{ $json.concatenatedMessages }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1824,
+        432
+      ],
+      "id": "ba14cfb9-3c59-4601-822c-331e9c03a6a3",
+      "name": "Analisa Conversas",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "eea48c98-19fd-41f0-bfcd-b96343937957",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "fechado",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        432
+      ],
+      "id": "69d4441d-0c45-4fef-bb23-0c5c75a547da",
+      "name": "Verifica se vai fechar o atendimento"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "13fac7ba-7787-4b3a-b543-698411095a43",
+              "leftValue": "={{ $json.body.data.key.fromMe }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1712,
+        272
+      ],
+      "id": "51de6c20-0106-44e0-8cb9-8b487af4170e",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1504,
+        112
+      ],
+      "id": "0d183788-d03d-425c-909a-863bc0c0de0c",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "Dados",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Numero",
+              "condition": "eq",
+              "keyValue": "={{ $json.telefone_limpo }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        240
+      ],
+      "id": "2fe3a2c1-50ec-493b-ba8e-01f2eaafefad",
+      "name": "Verifica se usuario tem cadastro",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "Dados",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Nome",
+              "fieldValue": "={{ $('Recebe mensagem usuario').item.json.body.data.pushName }}"
+            },
+            {
+              "fieldId": "Numero",
+              "fieldValue": "={{ $('Formata celular').item.json.telefone_limpo }}"
+            },
+            {
+              "fieldId": "Atendimento",
+              "fieldValue": "Aberto"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        0,
+        448
+      ],
+      "id": "ba247ff0-250f-4fb4-bd62-325933e06a0f",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Dados",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Thread_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Verifica se tem thread criada').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Thread_id",
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        672,
+        32
+      ],
+      "id": "644b2d2f-f9e1-4575-b43f-c90f0230fbf8",
+      "name": "Salva thread no banco de dados",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Automação IA",
+        "remoteJid": "={{ $('Formata celular').item.json.telefone_limpo }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        432
+      ],
+      "id": "0b370cea-75f7-48d9-8f4f-494c56db2415",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "hOyxWkN5vjtX4B08",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Dados",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "Thread_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Verifica se tem thread criada').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Atendimento",
+              "fieldValue": "Fechado"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        192
+      ],
+      "id": "38cac083-1087-49b4-b99a-855480822e22",
+      "name": "Fecha atendimento",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.body.data.key.remoteJid }}",
+        "messageData": "={{ $json.body.data.message.conversation }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1504,
+        368
+      ],
+      "id": "bdaa1180-9ffa-49a0-abe5-4136b55e63e3",
+      "name": "Salva mensagem",
+      "credentials": {
+        "redis": {
+          "id": "T2Rm8fRRZbfBT4x8",
+          "name": "Redis account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "conversa",
+        "key": "={{ $json.body.data.key.remoteJid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        368
+      ],
+      "id": "126e6352-89df-4e25-8033-0b0ff6ec5e69",
+      "name": "pega mensagens",
+      "credentials": {
+        "redis": {
+          "id": "T2Rm8fRRZbfBT4x8",
+          "name": "Redis account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "113edd2e-9395-4950-acb8-c57c8f2ef680",
+              "leftValue": "={{ $json.conversa.length }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1088,
+        368
+      ],
+      "id": "055ea735-145c-4fbd-8182-09aa19bc8251",
+      "name": "Verfiia se é primeira mensagem"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Recebe mensagem usuario').item.json.body.data.key.remoteJid }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        464
+      ],
+      "id": "bb887fb7-4101-411a-9506-6640255a16a6",
+      "name": "Apaga mensagens",
+      "credentials": {
+        "redis": {
+          "id": "T2Rm8fRRZbfBT4x8",
+          "name": "Redis account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        272
+      ],
+      "id": "9c9a8fa0-dbb6-41c0-9327-38665fa3b048",
+      "name": "Wait",
+      "webhookId": "344ef45f-aba4-4a63-afd9-25b446a49142"
+    }
+  ],
+  "connections": {
+    "Formata celular": {
+      "main": [
+        [
+          {
+            "node": "Verifica se usuario tem cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recebe mensagem usuario": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida se usuario esta cadastrado": {
+      "main": [
+        [
+          {
+            "node": "verifica atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se tem thread criada": {
+      "main": [
+        [
+          {
+            "node": "Cria a thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Bella AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria a thread": {
+      "main": [
+        [
+          {
+            "node": "Salva thread no banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica atendimento": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega mensagens da conversa": {
+      "main": [
+        [
+          {
+            "node": "Concatena mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatena mensagens": {
+      "main": [
+        [
+          {
+            "node": "Analisa Conversas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bella AI": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analisa Conversas": {
+      "main": [
+        [
+          {
+            "node": "Verifica se vai fechar o atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se vai fechar o atendimento": {
+      "main": [
+        [
+          {
+            "node": "Fecha atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se usuario tem cadastro": {
+      "main": [
+        [
+          {
+            "node": "Valida se usuario esta cadastrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva thread no banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Bella AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "Pega mensagens da conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva mensagem": {
+      "main": [
+        [
+          {
+            "node": "pega mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pega mensagens": {
+      "main": [
+        [
+          {
+            "node": "Verfiia se é primeira mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verfiia se é primeira mensagem": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Apaga mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Recebe mensagem usuario": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.everaldolima.com.br",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1066",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "5.161.253.237",
+            "cf-ipcountry": "US",
+            "cf-ray": "962c99361ffe86a6-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.70.39.113",
+            "x-forwarded-host": "n8n.everaldolima.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "678825274e56",
+            "x-real-ip": "172.70.39.113"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Automação IA",
+            "data": {
+              "key": {
+                "remoteJid": "5513988491908@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB0BAA13F656F7341A94D",
+                "senderLid": "273984704741630@lid"
+              },
+              "pushName": "Everaldo",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Teste",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "gGlStNL/Dx5nxA==",
+                    "senderTimestamp": "1752337100",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "T1MRQ+uJY03byg==",
+                    "recipientTimestamp": "1752180426"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "zwFyEE3ORvKnyLOTbvaScv5doAM66dJvGIhG46thuXM=",
+                  "limitSharingV2": {
+                    "trigger": "UNKNOWN",
+                    "initiatedByMe": false
+                  }
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1753120832,
+              "instanceId": "b8ce8df9-fbcd-4249-9ae1-67b9a10a15a5",
+              "source": "web"
+            },
+            "destination": "https://n8n.everaldolima.com.br/webhook-test/d9f0a46a-504a-4d52-a0a3-a6222fe80509",
+            "date_time": "2025-07-21T15:00:32.821Z",
+            "sender": "5521993232635@s.whatsapp.net",
+            "server_url": "https://evo.everaldolima.com.br",
+            "apikey": "BAAF972F66A7-4B25-89A1-88C0885871E7"
+          },
+          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/d9f0a46a-504a-4d52-a0a3-a6222fe80509",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "a2452384-3dbb-44af-938c-74d88925fde9",
+  "triggerCount": 0,
+  "tags": []
+}
