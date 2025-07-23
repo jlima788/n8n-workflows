@@ -1,0 +1,623 @@
+{
+  "createdAt": "2025-07-22T21:36:17.468Z",
+  "updatedAt": "2025-07-22T21:48:15.639Z",
+  "id": "ZDMVeuCGxDPQlkbP",
+  "name": "CAPTAÇÃO DE CLIENTES",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "18284aa5-e756-4162-a174-451378fa32be",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1168,
+        624
+      ],
+      "webhookId": "78f1c2c3-6305-4095-9a10-04987b76a7b8"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        912
+      ],
+      "id": "12ab4e8c-0c1f-4227-9dca-613f899ec3ea",
+      "name": "Postgres Chat Memory2",
+      "credentials": {
+        "postgres": {
+          "id": "awwlfHYzkF7tuaNM",
+          "name": "Postgres Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 820,
+        "width": 2303,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1552,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "ccf1a01e-547f-4a25-8fc5-b476d8832370",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "# CAPTAÇÃO DE CLIENTES",
+        "height": 80,
+        "width": 551.2183277924504,
+        "color": 5
+      },
+      "id": "a2505214-2b23-4bba-96f6-a6156c6c9ba6",
+      "name": "Sticky Note30",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1504,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/20 10-17 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "ad9f28f5-8511-41d6-874a-9b5e820b8425",
+      "name": "Schedule Trigger2",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1520,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Mensagens a serem enviadas sem dicas de uso somente a mensagem que será enviada, escolha uma das 3: Olá {{ $('Mapear Lead').item.json['Nome da pessoa'] }} tudo bem?,Olá {{ $('Mapear Lead').item.json['Nome da pessoa'] }} como vai?, olá {{ $('Mapear Lead').item.json['Nome da pessoa'] }} está podendo falar? ",
+        "options": {
+          "systemMessage": "=Me da a resposta sem dicas de uso ou textos adicionais"
+        }
+      },
+      "id": "ecf6df17-15b9-443d-b4ac-1c77744e06f2",
+      "name": "Atendente3",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        64,
+        592
+      ],
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        864
+      ],
+      "id": "1ef05500-54bc-4a42-80f7-889b893ad53b",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "ftRy4cjmEKdECoxW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $json['Phone Number \t\t\t'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        624
+      ],
+      "id": "5d58c42a-1d09-4a22-82f3-742477d1c010",
+      "name": "Supabase5",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a6d9aac-8565-4c58-abe3-8741393a5535",
+              "leftValue": "={{ $json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -432,
+        624
+      ],
+      "id": "1038c28a-cab4-4a68-b7b5-57ade885a978",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        768
+      ],
+      "id": "5e404304-686c-4cf1-b08a-89c156ae2b25",
+      "name": "Gerar sessionID1"
+    },
+    {
+      "parameters": {
+        "tableId": "dados_cliente",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "sessionid",
+              "fieldValue": "={{ $json.data }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $json['Phone Number \t\t\t'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        768
+      ],
+      "id": "a081d445-4141-460a-a429-b3d184464286",
+      "name": "Supabase6",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtém os valores dos nós anteriores\nconst sessionid1 = $input.item.json.data;  // Do nó \"Gerar sessionID\"\nconst sessionid2 = $input.item.json.sessionid;  // Do nó \"Supabase\"\n\n// Retorna apenas o que existir, chamando sempre de \"sessionId\"\nreturn [{ sessionId: sessionid1 || sessionid2 || null }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        592
+      ],
+      "id": "c1f4eb6b-e709-4ef6-806c-89620362c56a",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $json['Phone Number \t\t\t'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        592
+      ],
+      "id": "77bd7ce5-1e54-4633-8a98-5153ce0f318f",
+      "name": "Get Dados1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "pit1tKvo1cHaZKRl",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Telefone",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        624
+      ],
+      "id": "79bc612f-0231-4efa-bb7f-6a8f01224563",
+      "name": "Split Out",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d2854de-1eab-46f1-945c-c872b4e212c5",
+              "name": "Phone Number \t\t\t",
+              "value": "=55{{ $json.Telefone.replace(/[\\s()-]/g, '') }}@s.whatsapp.net",
+              "type": "string"
+            },
+            {
+              "id": "94a4147a-782e-4810-a3e5-8681bf74ea8b",
+              "name": "Nome da empresa",
+              "value": "={{ $json.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "6ef7de47-1caf-4866-8807-8b33fb16db58",
+              "name": "Nome da pessoa",
+              "value": "=",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -832,
+        624
+      ],
+      "id": "006df207-d967-400a-a3ca-aa9ded1a8a44",
+      "name": "Mapear Lead"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Geral",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        },
+        "options": {}
+      },
+      "id": "a88bbe65-3391-4915-92e3-c81be71d14be",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1344,
+        624
+      ],
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "n8n",
+        "remoteJid": "=+{{ $('Mapear Lead').item.json['Phone Number \t\t\t'].split('@')[0] }}\n",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        416,
+        592
+      ],
+      "id": "1fbea8ae-d0bd-42e5-bbb8-b828ae61e68a",
+      "name": "Enviar texto",
+      "alwaysOutputData": false,
+      "credentials": {
+        "evolutionApi": {
+          "id": "hOyxWkN5vjtX4B08",
+          "name": "Evolution account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE",
+          "mode": "list",
+          "cachedResultName": "Leads Estetica",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 885401809,
+          "mode": "list",
+          "cachedResultName": "Geral",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Rl0b9DZAMkcj9CITGD2xNTRKZrdlr5t8CHvJbsa5VvE/edit#gid=885401809"
+        }
+      },
+      "id": "82f1a2a8-d249-42f3-9107-109e9c10244b",
+      "name": "Delete rows or columns from sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        576,
+        592
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "Atendente3",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atendente3": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Atendente3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase5": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "Get Dados1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gerar sessionID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerar sessionID1": {
+      "main": [
+        [
+          {
+            "node": "Supabase6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase6": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Atendente3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Dados1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Mapear Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapear Lead": {
+      "main": [
+        [
+          {
+            "node": "Supabase5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f16cba94-8234-4ab0-98b7-9599f4825748",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-07-02T02:44:08.625Z",
+      "updatedAt": "2025-07-02T02:44:08.625Z",
+      "id": "SDbUyiLGgXeSmZUv",
+      "name": "NegócioComAgentesDeIA"
+    }
+  ]
+}
