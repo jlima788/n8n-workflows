@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-03T13:13:47.107Z",
-  "updatedAt": "2025-07-21T13:02:11.110Z",
+  "updatedAt": "2025-07-22T13:36:16.232Z",
   "id": "WRWcoooELabvImhB",
   "name": "Recuperação Kirvano",
   "active": true,
@@ -94,7 +94,7 @@
             },
             {
               "name": "text",
-              "value": "=Somos da Kirvano, a plataforma onde o produto {{ $('Carrinho abandonado').item.json.body.products[0].name }} está cadastrado.\n\nVimos que você deixou ele no seu carrinho, mas não finalizou a compra 😥\n\nNão perca esta oportunidade! Para finalizar a compra e garantir seu acesso ao produto {{ $('Carrinho abandonado').item.json.body.products[0].name }}, acesse o link abaixo ⬇️\n{{ $('Carrinho abandonado').item.json.body.checkout_url }}\n\nÉ rápido, prático e 100% confiável ✅\n\nSe tiver alguma dúvida, envie uma mensagem para o(a) produtor(a) deste conteúdo, Bruno Reis: brunodosreislima@yahoo.com.br\n\nCaso já tenha efetuado a compra, ignore esta mensagem.\n\nAbraços,\nBruno Reis."
+              "value": "=Somos do Bruno Reis, a plataforma onde o produto {{ $('Carrinho abandonado').item.json.body.products[0].name }} está cadastrado.\n\nVimos que você deixou ele no seu carrinho, mas não finalizou a compra 😥\n\nNão perca esta oportunidade! Para finalizar a compra e garantir seu acesso ao produto {{ $('Carrinho abandonado').item.json.body.products[0].name }}, acesse o link abaixo ⬇️\n{{ $('Carrinho abandonado').item.json.body.checkout_url }}\n\nÉ rápido, prático e 100% confiável ✅\n\nSe tiver alguma dúvida, envie uma mensagem para o(a) produtor(a) deste conteúdo, Bruno Reis: brunodosreislima@yahoo.com.br\n\nCaso já tenha efetuado a compra, ignore esta mensagem.\n\nAbraços,\nBruno Reis."
             }
           ]
         },
@@ -293,7 +293,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ebcb6f39-4352-4ad2-8e80-09352837a158",
+  "versionId": "bf94356f-d538-4284-8466-46605acab0de",
   "triggerCount": 2,
   "tags": []
 }
