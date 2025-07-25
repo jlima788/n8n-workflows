@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-19T21:55:58.337Z",
-  "updatedAt": "2025-07-21T13:09:35.667Z",
+  "updatedAt": "2025-07-25T00:57:28.235Z",
   "id": "byte7a1o6tvClnCS",
   "name": "Controle de Clientes - Sou Bruno Reis",
   "active": true,
@@ -19,10 +19,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -432,
-        -16
+        -1472,
+        384
       ],
-      "id": "29a63048-3dde-40f0-aedc-0a12bde60289",
+      "id": "95bc1c92-b49e-477e-91e5-6c6e87a56557",
       "name": "Schedule Trigger"
     },
     {
@@ -46,10 +46,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -224,
-        -16
+        -1264,
+        384
       ],
-      "id": "19fc7cf9-7fea-4f82-8bfd-1f741cb94598",
+      "id": "1ff1383a-eb6d-4616-93fb-64a810f1cd02",
       "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -65,10 +65,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -16,
-        -16
+        -1056,
+        384
       ],
-      "id": "eb31a816-4b86-4bf2-a53a-1ce91f6b91b7",
+      "id": "9f4f0bd7-d637-4a77-807f-c7981ba1a4dd",
       "name": "Code",
       "alwaysOutputData": true
     },
@@ -103,10 +103,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        384,
-        -16
+        -656,
+        384
       ],
-      "id": "c9d1e1f5-3a09-4614-921e-14782b4caffd",
+      "id": "86b74b89-e070-433d-bc7e-9aabf5890a5e",
       "name": "HTTP Request"
     },
     {
@@ -255,10 +255,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        592,
-        -16
+        -448,
+        384
       ],
-      "id": "5de9dc77-b3d4-4f42-a118-21e4ee9580a3",
+      "id": "7240fa3a-c12d-4ca6-b4da-3ce7077bf0b8",
       "name": "Update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -272,10 +272,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        384,
-        -208
+        -656,
+        192
       ],
-      "id": "f69ab600-d6d0-4b6b-9588-568ac71ca3b8",
+      "id": "8559e79e-b930-4dfa-a1a2-531835cbaf99",
       "name": "No Operation, do nothing"
     },
     {
@@ -306,10 +306,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        176,
-        -16
+        -864,
+        384
       ],
-      "id": "4e82ead5-a632-4a1a-884e-a31d56812767",
+      "id": "e7a12c53-ef12-4294-ad22-0d442047b0e2",
       "name": "Verifica se tem algum item para enviar mensagem"
     },
     {
@@ -317,10 +317,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        800,
-        -16
+        -240,
+        384
       ],
-      "id": "367bd7c4-20b4-4301-9c2a-a56f87b476b0",
+      "id": "752db0e1-f46b-45bc-bbb7-0faed46ee556",
       "name": "No Operation, do nothing1"
     }
   ],
@@ -369,6 +369,17 @@
         ]
       ]
     },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Verifica se tem algum item para enviar mensagem": {
       "main": [
         [
@@ -381,17 +392,6 @@
         [
           {
             "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update row in sheet": {
-      "main": [
-        [
-          {
-            "node": "No Operation, do nothing1",
             "type": "main",
             "index": 0
           }
@@ -411,7 +411,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e61e4992-b5c9-44f4-aaaf-0b87a6ef5bfa",
+  "versionId": "7da1bc26-e3be-4747-8d1e-941db31e8975",
   "triggerCount": 1,
   "tags": []
 }
