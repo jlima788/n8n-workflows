@@ -1,0 +1,411 @@
+{
+  "createdAt": "2025-07-25T00:55:36.033Z",
+  "updatedAt": "2025-07-25T00:55:36.033Z",
+  "id": "fQQjXzu03VLqvhwC",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        192
+      ],
+      "id": "40ac8add-fd28-4a62-9a64-85dd4fe0151f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs",
+          "mode": "list",
+          "cachedResultName": "Controle de Clientes do Sou Bruno Reis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controle",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -608,
+        192
+      ],
+      "id": "bfc1fa58-8bc0-4393-bb78-154b39e2903c",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const hoje = new Date();\nconst hojeStr = hoje.toISOString().split('T')[0];\nconst doisDias = new Date(hoje);\ndoisDias.setDate(hoje.getDate() + 2);\nconst doisDiasStr = doisDias.toISOString().split('T')[0];\n\nfunction formatarDataBRparaISO(dataBR) {\n  if (!dataBR) return null;\n  const [dia, mes, ano] = dataBR.split('/');\n  return `${ano}-${mes}-${dia}`;\n}\n\nreturn items.filter(item => {\n  const dataVencBR = item.json['Data de Vencimento'];\n  const status = item.json['Status'] || '';\n  const ultima = item.json['Última Mensagem'] || '';\n\n  if (!dataVencBR || !status) return false;\n\n  const dataVencISO = formatarDataBRparaISO(dataVencBR);\n  if (!dataVencISO) return false;\n\n  if (status.toUpperCase() !== 'ATIVO') return false;\n\n  if (dataVencISO === doisDiasStr && ultima !== 'lembrete') {\n    item.json.tipo = 'lembrete';\n    return true;\n  }\n  if (dataVencISO === hojeStr && ultima !== 'cobranca_hoje') {\n    item.json.tipo = 'cobranca_hoje';\n    return true;\n  }\n  if (dataVencISO < hojeStr && ultima !== 'cobranca_vencida') {\n    item.json.tipo = 'cobranca_vencida';\n    return true;\n  }\n\n  return false;\n});\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        192
+      ],
+      "id": "a5ad3852-8547-4bef-80f7-048715fcf782",
+      "name": "Code",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evo.everaldolima.com.br/message/sendText/Automação%20IA",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "BAAF972F66A7-4B25-89A1-88C0885871E7"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=\"{{ $('Get row(s) in sheet').item.json.Celular }}\""
+            },
+            {
+              "name": "text",
+              "value": "={{ \n  $json.tipo === 'lembrete' \n    ? `Assunto: Lembrete: finalize sua compra do Café com FX antes que o link expire ⏳\n\nOlá, ${$json.Nome}!\n\nNotamos que sua compra do Café com FX ainda não foi concluída, e o prazo para pagamento vence em 2 dias.\n\nPara garantir seu acesso ao conteúdo, finalize agora mesmo no link abaixo:\n👉 ${$json['Link Pagamento']}\n\nSe você já realizou o pagamento, pode desconsiderar esta mensagem 🙌\n\nQualquer dúvida ou dificuldade, estou à disposição:\n📧 brunodosreislima@yahoo.com.br\n\nAbraços,\nBruno Reis` \n    : $json.tipo === 'cobranca_hoje' \n      ? `Assunto: Última chance! Seu acesso ao Café com FX expira hoje 🚨\n\nOlá, ${$json.Nome}!\n\nHoje é o último dia para concluir o pagamento da sua compra do Café com FX.\n\nAcesse o link abaixo para finalizar e garantir seu acesso:\n👉 ${$json['Link Pagamento']}\n\nSe você já pagou, desconsidere esta mensagem 😊\nCaso contrário, essa é a sua última oportunidade antes do link expirar!\n\nSe precisar de ajuda, me chame:\n📧 brunodosreislima@yahoo.com.br\n\nAbraços,\nBruno Reis` \n      : `Seu acesso expirou. Deseja continuar? Renove aqui: ${$json['Link Pagamento']}` \n}}\n\n\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        192
+      ],
+      "id": "2fd542b4-f233-4f10-a0a7-648b7d36e630",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs",
+          "mode": "list",
+          "cachedResultName": "Controle de Clientes do Sou Bruno Reis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controle",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gzm1PwXIK1wHVZ0ej2YTbRlQKWyci8HMyJc_QyOsLNs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Celular": "={{ $('Get row(s) in sheet').item.json.Celular }}",
+            "Última Mensagem": "={{ $('Code').item.json.tipo }}"
+          },
+          "matchingColumns": [
+            "Celular"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Celular",
+              "displayName": "Celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data de Pagamento",
+              "displayName": "Data de Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data de Vencimento",
+              "displayName": "Data de Vencimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tipo Pagamento",
+              "displayName": "Tipo Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link Pagamento",
+              "displayName": "Link Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Última Mensagem",
+              "displayName": "Última Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Produto",
+              "displayName": "Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        208,
+        192
+      ],
+      "id": "5f36e9cc-e347-4d4e-a415-fa8f56484e1a",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cCDJJSGKMXzPs2pS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a34b924b-7921-4c4f-bf68-e7252bbf5162",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9f762994-d30c-4cd2-bf80-456f6d24c0d2",
+              "leftValue": "={{ $json }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        192
+      ],
+      "id": "6609d158-5abf-4106-9ace-41efd7faf522",
+      "name": "Verifica se tem algum item para enviar mensagem"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        416,
+        192
+      ],
+      "id": "4dead9e9-f7aa-4910-b1a7-2c5dd544921e",
+      "name": "No Operation, do nothing1"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem algum item para enviar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se tem algum item para enviar mensagem": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "65e6ceb5-1f00-4914-832f-5b9fa7f13539",
+  "triggerCount": 0,
+  "tags": []
+}
