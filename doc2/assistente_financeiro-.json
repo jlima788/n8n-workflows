@@ -1,0 +1,1990 @@
+{
+  "createdAt": "2025-07-25T18:31:59.595Z",
+  "updatedAt": "2025-07-26T01:54:31.828Z",
+  "id": "0G2eX8am0d2F9bYJ",
+  "name": "ASSISTENTE_FINANCEIRO",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "return [{\n  telefone_limpo: $json.body.data.key.remoteJid.replace(\"@s.whatsapp.net\", \"\")\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        576
+      ],
+      "id": "9546bb87-13f1-40de-85db-90478c77c9f6",
+      "name": "Formata celular"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bb1266a5-d365-471c-9d2f-fd64884edabd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        576
+      ],
+      "id": "e446499f-2766-4324-8778-8181a047139c",
+      "name": "Recebe mensagem usuario",
+      "webhookId": "bb1266a5-d365-471c-9d2f-fd64884edabd"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.numero_usuario }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "eec7c2dc-9724-4c8a-ad8a-e52e6cd0b7f8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastrado"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1fb1915e-576b-4729-a204-61718f51a0ce",
+                    "leftValue": "={{ $json.numero_usuario }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sem cadastro"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        912,
+        576
+      ],
+      "id": "da7e45c5-5dec-412f-b0bd-dc7e88d4abe5",
+      "name": "Valida se usuario esta cadastrado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e8df05c6-f0d2-46d6-987f-d6ed0f429116",
+              "leftValue": "={{ $json.Thread_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        560
+      ],
+      "id": "8e07a8f3-457d-46f8-aa04-e5c46ba56d02",
+      "name": "Verifica se tem thread criada"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/threads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1392,
+        256
+      ],
+      "id": "86b6402e-6c65-475b-a8df-4b20d09d0337",
+      "name": "Cria a thread",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        784
+      ],
+      "id": "86b88020-65b2-4f23-8a3f-656ac27cf73b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analise a mensagem do usuário e categorize-a em uma das três opções: \"gasto\", \"entrada\" ou \"consulta\". A mensagem pode ser uma descrição de uma transação financeira ou uma solicitação de informação. Baseie sua decisão no contexto da mensagem.\n\nExemplos:\n\nMensagem: \"Gastei R$ 100 em uma camiseta.\"\n\nResposta: gasto\n\nMensagem: \"Acabei de receber R$ 2.000 de salário.\"\n\nResposta: entrada\n\nMensagem: \"Quanto gastei na semana passada?\"\n\nResposta: consulta\n\nMensagem: \"Comprei um livro por R$ 50.\"\n\nResposta: gasto\n\nMensagem: \"Recebi R$ 500 de reembolso.\"\n\nResposta: entrada\n\nMensagem: \"Qual foi meu gasto total no mês passado?\"\n\nResposta: consulta\n\nRegras:\n\nSe a mensagem descrever um valor que foi pago ou gasto, categorize como \"gasto\".\n\nSe a mensagem descrever um valor que foi recebido ou adicionado, categorize como \"entrada\".\n\nSe a mensagem for uma pergunta ou solicitação de informação sobre gastos, entradas ou saldo, categorize como \"consulta\".\n\nSua resposta deve ser apenas uma palavra: \"gasto\", \"entrada\" ou \"consulta\".\n\nMensagem do usuário para análise:\n {{ $('Recebe mensagem usuario').item.json.body.data.message.conversation }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1600,
+        576
+      ],
+      "id": "05cf27da-2037-4442-80cf-647eff928a81",
+      "name": "Analisa mensagem usuario"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "gasto",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "GASTO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d6fb900a-e5a8-497f-8978-373424bbb81f",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "entrada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ENTRADA"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ba17ab5e-f0a8-4ec4-ab49-895223e6e3cd",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "consulta",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CONSULTA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1952,
+        576
+      ],
+      "id": "fd06af18-3358-46b8-b945-1aff922dc564",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2224,
+        384
+      ],
+      "id": "259d9bb4-3ef1-4240-9967-9cb9b17ae00a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um assistente financeiro que extrai detalhes de gastos a partir de mensagens de usuários. Sua tarefa é analisar a mensagem, identificar e retornar as seguintes informações em formato JSON:\n\nCategoria: A categoria principal do gasto (ex: \"alimentação\", \"transporte\", \"lazer\").\n\nSubcategoria: A subcategoria específica do gasto (ex: \"pizza\", \"iFood\", \"restaurante\").\n\nValor: O valor do gasto, formatado em Real Brasileiro (ex: \"R$ 50,00\").\n\nData: A data atual no formato brasileiro (dia/mês/ano). DATA ATUAL: {{ $('Pega data atual').item.json.currentDate }}\n\nMensagem: Uma mensagem amigável para o usuário, confirmando o cadastro do gasto.\n\nFormato de Saída Esperado:\n\njson\nCopy\n{\n  \"categoria\": \"categoria_do_gasto\",\n  \"subcategoria\": \"subcategoria_do_gasto\",\n  \"valor\": \"R$ XX,XX\",\n  \"data\": \"DD/MM/AAAA\",\n  \"mensagem\": \"Gasto de R$ XX,XX em [subcategoria] cadastrado com sucesso!\"\n}\nExemplos:\n\nMensagem: \"Gastei R$ 50 em uma pizza.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"alimentação\",\n  \"subcategoria\": \"pizza\",\n  \"valor\": \"R$ 50,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Gasto de R$ 50,00 em pizza cadastrado com sucesso!\"\n}\nMensagem: \"Paguei R$ 30 no iFood.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"alimentação\",\n  \"subcategoria\": \"iFood\",\n  \"valor\": \"R$ 30,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Gasto de R$ 30,00 no iFood cadastrado com sucesso!\"\n}\nMensagem: \"Comprei um livro por R$ 80.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"cultura\",\n  \"subcategoria\": \"livro\",\n  \"valor\": \"R$ 80,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Gasto de R$ 80,00 em livro cadastrado com sucesso!\"\n}\nRegras:\n\nA categoria deve ser genérica e refletir o tipo de gasto (ex: \"alimentação\", \"transporte\", \"lazer\").\n\nA subcategoria deve ser específica e derivada da mensagem do usuário (ex: \"pizza\", \"iFood\", \"livro\").\n\nO valor deve ser extraído da mensagem e formatado em Real Brasileiro (ex: \"R$ 50,00\").\n\nA data deve ser a data atual, no formato brasileiro (dia/mês/ano).\n\nA mensagem deve ser amigável e confirmar o cadastro do gasto.\n\nMensagem do usuário para análise:\n{{ $('Recebe mensagem usuario').item.json.body.data.message.conversation }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2224,
+        192
+      ],
+      "id": "362b6f58-8261-423e-9cca-8b848bbc4d2c",
+      "name": "Extrai detalhes dos gastos"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        464,
+        576
+      ],
+      "id": "e4efd979-68fa-45fb-afe6-b606dce91954",
+      "name": "Pega data atual"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtém a entrada do fluxo\nconst inputData = items[0].json.output;\n\n// Remove os delimitadores de código Markdown\nconst cleanData = inputData.replace(/```json\\n?/, '').replace(/\\n?```/, '');\n\n// Faz o parsing do JSON para um objeto\nconst parsedData = JSON.parse(cleanData);\n\n// Retorna os campos separados para facilitar o uso no Baserow\nreturn [\n  {\n    json: {\n      categoria: parsedData.categoria,\n      subcategoria: parsedData.subcategoria,\n      valor: parsedData.valor,\n      data: parsedData.data,\n      mensagem: parsedData.mensagem\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2624,
+        192
+      ],
+      "id": "a741fa03-7f16-47e9-81e5-39bf95588a45",
+      "name": "Separa mensagem"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtém a entrada do fluxo\nconst inputData = items[0].json.output;\n\n// Remove os delimitadores de código Markdown\nconst cleanData = inputData.replace(/```json\\n?/, '').replace(/\\n?```/, '');\n\n// Faz o parsing do JSON para um objeto\nconst parsedData = JSON.parse(cleanData);\n\n// Retorna os campos separados para facilitar o uso no Baserow\nreturn [\n  {\n    json: {\n      categoria: parsedData.categoria,\n      subcategoria: parsedData.subcategoria,\n      valor: parsedData.valor,\n      data: parsedData.data,\n      mensagem: parsedData.mensagem\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2704,
+        576
+      ],
+      "id": "32085f17-b94d-4c27-8c65-876cb40b57b9",
+      "name": "Separa mensagem1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2304,
+        752
+      ],
+      "id": "5e4d9c4a-676f-4a7d-a533-ef40d1467d1d",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um assistente financeiro que extrai detalhes de entradas (receitas) a partir de mensagens de usuários. Sua tarefa é analisar a mensagem, identificar e retornar as seguintes informações em formato JSON:\n\nCategoria: A categoria principal da entrada (ex: \"salário\", \"freelance\", \"investimentos\").\n\nSubcategoria: A subcategoria específica da entrada (ex: \"salário\", \"bônus\", \"dividendos\").\n\nValor: O valor da entrada, formatado em Real Brasileiro (ex: \"R$ 2.000,00\").\n\nData: A data atual no formato brasileiro (dia/mês/ano). DATA ATUAL: {{ $('Pega data atual').item.json.currentDate }}.\n\nMensagem: Uma mensagem amigável para o usuário, confirmando o cadastro da entrada.\n\nFormato de Saída Esperado:\n\njson\nCopy\n{\n  \"categoria\": \"categoria_da_entrada\",\n  \"subcategoria\": \"subcategoria_da_entrada\",\n  \"valor\": \"R$ XX,XX\",\n  \"data\": \"DD/MM/AAAA\",\n  \"mensagem\": \"Entrada de R$ XX,XX em [subcategoria] cadastrada com sucesso!\"\n}\nExemplos:\n\nMensagem: \"Acabei de receber R$ 2.000 de salário.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"salário\",\n  \"subcategoria\": \"salário\",\n  \"valor\": \"R$ 2.000,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Entrada de R$ 2.000,00 de salário cadastrada com sucesso!\"\n}\nMensagem: \"Recebi R$ 500 de bônus.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"bônus\",\n  \"subcategoria\": \"bônus\",\n  \"valor\": \"R$ 500,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Entrada de R$ 500,00 de bônus cadastrada com sucesso!\"\n}\nMensagem: \"Ganhei R$ 300 com dividendos.\"\n\nResposta:\n\njson\nCopy\n{\n  \"categoria\": \"investimentos\",\n  \"subcategoria\": \"dividendos\",\n  \"valor\": \"R$ 300,00\",\n  \"data\": \"25/10/2023\",\n  \"mensagem\": \"Entrada de R$ 300,00 de dividendos cadastrada com sucesso!\"\n}\nRegras:\n\nA categoria deve ser genérica e refletir o tipo de entrada (ex: \"salário\", \"freelance\", \"investimentos\").\n\nA subcategoria deve ser específica e derivada da mensagem do usuário (ex: \"salário\", \"bônus\", \"dividendos\").\n\nO valor deve ser extraído da mensagem e formatado em Real Brasileiro (ex: \"R$ 2.000,00\").\n\nA data deve ser a data atual, no formato brasileiro (dia/mês/ano).\n\nA mensagem deve ser amigável e confirmar o cadastro da entrada.\n\nMensagem do usuário para análise:\n{{ $('Recebe mensagem usuario').item.json.body.data.message.conversation }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2304,
+        576
+      ],
+      "id": "070f6a99-7436-4101-86b8-c5f585d22f8c",
+      "name": "Extrai detalhes das entradas"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtém os dados do input\nconst inputData = items;\n\n// Inicializa um array para armazenar as mensagens formatadas\nconst messages = [];\n\ninputData.forEach(item => {\n  // Formata cada linha como uma string estruturada\n  messages.push(\n    `📌 *${item.json.tipo}*: ${item.json.categoria} - ${item.json[\"sub_categoria\"]} - ${item.json.valor} (${item.json.data_transacao})`\n  );\n});\n\n// Concatena todas as mensagens em uma única string, separando por quebras de linha\nconst finalMessage = messages.join(\"\\n\");\n\n// Retorna o resultado como um único item JSON\nreturn [\n  {\n    json: {\n      mensagem: finalMessage\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2512,
+        976
+      ],
+      "id": "4248a3a0-27ad-48b3-89d8-dc776ecc5f2b",
+      "name": "Concatena dados do banco"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        2992,
+        1200
+      ],
+      "id": "1f86f156-99ab-461f-a8ce-cc6c5a753349",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "content": "Cadastra usuario banco de dados",
+        "height": 920,
+        "width": 1400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        112
+      ],
+      "id": "763ae938-5c59-4ff7-a8f2-2d3df5a68285",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Cria memoria e analisa pedido do usuario",
+        "height": 920,
+        "width": 760,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        112
+      ],
+      "id": "806e2aef-4b32-4534-b136-1bde2871b9cd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1240,
+        "width": 1340,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        112
+      ],
+      "id": "e0066c33-9905-4695-b337-c302b02f9bc6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2736,
+        1216
+      ],
+      "id": "5a6a2df2-bd3b-44aa-8e67-b4d7d9092f6d",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Recebe mensagem usuario').all()[0].json.body.data.message.conversation }}",
+        "options": {
+          "systemMessage": "=Você é um assistente financeiro responsável por processar consultas de usuários sobre seus gastos e entradas. Sua tarefa é analisar a mensagem do usuário, identificar o tipo de consulta solicitada, calcular os valores com base nos dados fornecidos e retornar uma mensagem amigável com as informações solicitadas.\n\nUSE A DATA DE HOJE PARA CALCULAR OS DIAS:\nData de hoje: \n{{ $('Recebe mensagem usuario').all()[0].json.body.date_time }}\n\nDados do banco de dados: {{ $json.mensagem }}\n\nIdentifique o tipo de consulta com base na mensagem do usuário.\n\nCalcule os valores totais com base nos dados fornecidos.\n\nInclua detalhes relevantes, como categorias e datas, se necessário.\n\nFormate os valores em Real Brasileiro (ex: \"R$ 50,00\").\n\nUse uma linguagem clara e amigável para comunicar os resultados ao usuário.\n\nANALISE CORRETAMENTE OS DIAS QUE O USUARIO PEDIR, VOCE VAI TER A DATA DE HOJE (DATA QUE O USUARIO SOLICITOU A CONSULTA)  E AS DATAS DAS ENTRADAS E SAIDAS. \n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2800,
+        976
+      ],
+      "id": "faa7ace5-942a-45cd-bdb5-15b432945168",
+      "name": "Extrai detalhes das entradas1"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "54047f8c-3b14-44a4-9049-718a735ed929",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "c19c3fd2-0ba1-41cd-9b4e-7c638282f15c",
+      "name": "Sticky Note33"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "c1a02ed7-dc2f-4045-9240-eb3f513e815f",
+      "name": "Sticky Note37"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table dados_cliente (\n  id bigserial primary key,\n  created_at TIMESTAMPTZ, \n  telefone text, \n  nomewpp text,\n  atendimento_ia text\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        336,
+        -592
+      ],
+      "id": "0c943c5c-ce07-4960-8d18-18880cc9b4d2",
+      "name": "Cria Tabela Dados Cliente"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Create a table to store your documents\ncreate table documents (\n  id bigserial primary key,\n  content text, -- corresponds to Document.pageContent\n  metadata jsonb, -- corresponds to Document.metadata\n  embedding vector(1536) -- 1536 works for OpenAI embeddings, change if needed\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1408,
+        -576
+      ],
+      "id": "69ea9167-5af9-4d05-addb-17bfaa719d1a",
+      "name": "Cria Tabela Documentos"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from documents",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1104,
+        -192
+      ],
+      "id": "26bdeb72-15af-48b3-a816-33b6f3136e6b",
+      "name": "Deleta Conteúdo Documentos"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "d6effa6a-e046-4eea-8a3f-5c88d6b78908",
+      "name": "Sticky Note40"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1344,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "9e2e0fb9-b8c8-4535-a340-d478e2cc96bc",
+      "name": "Sticky Note48"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "83846872-d506-4964-80f1-5c64f1054156",
+      "name": "Sticky Note49"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "b16e31c8-a84d-48d2-a7c7-89ea645a9965",
+      "name": "Sticky Note50"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "2308d17e-7356-4cce-9eb3-8e6a49bfbbb1",
+      "name": "Sticky Note56"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        272,
+        -608
+      ],
+      "typeVersion": 1,
+      "id": "6b7936c3-2739-467f-a303-e0e6a2b7c3fc",
+      "name": "Sticky Note57"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from n8n_chat_histories",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        64,
+        -160
+      ],
+      "id": "e406c449-6732-4b40-9b83-b2758cc216b6",
+      "name": "Deleta Histórico"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create function match_documents (\n  query_embedding vector(1536),\n  match_count int default null,\n  filter jsonb DEFAULT '{}'\n) returns table (\n  id bigint,\n  content text,\n  metadata jsonb,\n  similarity float\n)\nlanguage plpgsql\nas $$\n#variable_conflict use_column\nbegin\n  return query\n  select\n    id,\n    content,\n    metadata,\n    1 - (documents.embedding <=> query_embedding) as similarity\n  from documents\n  where metadata @> filter\n  order by documents.embedding <=> query_embedding\n  limit match_count;\nend;\n$$;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1120,
+        -592
+      ],
+      "id": "5e6df4e7-feb7-43b0-8232-8b6057f2adc5",
+      "name": "Cria função Busca em Vetor"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create extension vector;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        864,
+        -592
+      ],
+      "id": "16886bc3-475f-4771-87f1-c5127ad249e6",
+      "name": "Cria Extensão Vetor"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table chats (\n  id bigserial primary key,\n  created_at TIMESTAMPTZ, \n  phone text,\n  updated_at text\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        608,
+        -592
+      ],
+      "id": "2dbda05a-2295-4084-8468-51de3e85e702",
+      "name": "Cria Tabela Chats"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        784,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "53f46999-d1f1-4dd0-a17d-5dcf9c5f3fd7",
+      "name": "Sticky Note65"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from chats",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        848,
+        -192
+      ],
+      "id": "dbacf0b5-999b-4ba5-b605-90096fc40c26",
+      "name": "Deleta Conteúdo Chats"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from dados_cliente",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        592,
+        -192
+      ],
+      "id": "6f9cc3d5-710b-4d6f-acbb-19973b788201",
+      "name": "Deleta Conteúdo Dados Cliente"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "54558126-ef0a-4db6-8b0c-ef20d230645d",
+      "name": "Sticky Note66"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from chat_messages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        320,
+        -192
+      ],
+      "id": "10a9741f-23fb-4118-8c68-316df4c7d1ca",
+      "name": "Deleta Conteúdo Chat_Messages"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "CREATE TABLE chat_messages (\n  id BIGSERIAL PRIMARY KEY,\n  created_at TIMESTAMPTZ, \n  phone TEXT,\n  nomewpp TEXT, \n  bot_message TEXT,\n  user_message TEXT, \n  message_type TEXT,\n  active BOOLEAN DEFAULT TRUE\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        80,
+        -592
+      ],
+      "id": "7dcb078a-3d1d-4900-97e5-02f73b087024",
+      "name": "Cria Tabela Chat_Messages",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Ferramentas para criar\n\n",
+        "height": 80,
+        "width": 456,
+        "color": 4
+      },
+      "id": "c572a052-6097-4f31-884b-e447f9d9066a",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        16,
+        -720
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Ferramentaspara apagar\n\n",
+        "height": 80,
+        "width": 496,
+        "color": 3
+      },
+      "id": "ae45c270-7652-484b-91ee-b51081cb8da9",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 380,
+        "width": 1680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        -752
+      ],
+      "typeVersion": 1,
+      "id": "55c3d5d5-cffe-46d4-97e2-3edd7275bd8b",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 380,
+        "width": 1680,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        -352
+      ],
+      "typeVersion": 1,
+      "id": "ea8b23f6-3d12-40e7-a901-7b568ca82471",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "CREATE TABLE financeiro (\n  id BIGSERIAL PRIMARY KEY,\n  created_at TIMESTAMPTZ, \n  categoria TEXT,\n  sub_categoria TEXT, \n  valor TEXT,\n  data_transacao TEXT, \n  tipo TEXT,\n  numero_usuario TEXT,\n  thread_id TEXT\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -352,
+        -592
+      ],
+      "id": "4d7e08d6-9853-4267-8eae-3910fab8fe82",
+      "name": "Cria Tabela Financeiro",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from financeiro",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -352,
+        -160
+      ],
+      "id": "e243148d-fbef-4c5b-9ad3-1756768e7e59",
+      "name": "Deleta Financeiro",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "numero_usuario",
+              "value": "={{ $('Formata celular').item.json.telefone_limpo }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        704,
+        576
+      ],
+      "id": "1e470eb8-1dd2-470e-aa37-4f0955236591",
+      "name": "Verifica se usuario tem cadastro",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "numero_usuario": "={{ $('Formata celular').item.json.telefone_limpo }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "categoria",
+              "displayName": "categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "sub_categoria",
+              "displayName": "sub_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "data_transacao",
+              "displayName": "data_transacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "numero_usuario",
+              "displayName": "numero_usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1088,
+        800
+      ],
+      "id": "2e9d33ae-c8e3-4137-a50a-d138badc0f94",
+      "name": "Casastra usuario no banco de dados",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Verifica se tem thread criada').item.json.id }}",
+            "thread_id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "categoria",
+              "displayName": "categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "sub_categoria",
+              "displayName": "sub_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "data_transacao",
+              "displayName": "data_transacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "numero_usuario",
+              "displayName": "numero_usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1696,
+        256
+      ],
+      "id": "4c42f80c-22ce-4fe7-9545-cb9b84176915",
+      "name": "Salva thread no banco de dados",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2304,
+        976
+      ],
+      "id": "3ace34e6-cc75-4411-a523-9015b2190a6d",
+      "name": "Busca dados no banco",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "Gasto",
+            "id": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "categoria",
+              "displayName": "categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sub_categoria",
+              "displayName": "sub_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_transacao",
+              "displayName": "data_transacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "numero_usuario",
+              "displayName": "numero_usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2880,
+        192
+      ],
+      "id": "351b6cb9-a0e2-49df-b9f8-3b9b1f4faa22",
+      "name": "Sobe gasto para o banco de dados",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "automacao-ia",
+        "remoteJid": "={{ $('Formata celular').item.json.telefone_limpo }}",
+        "messageText": "={{ $('Separa mensagem').item.json.mensagem }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3104,
+        192
+      ],
+      "id": "f4c8e7d1-aa53-4961-aefb-c204ff06b36d",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "financeiro",
+          "mode": "list",
+          "cachedResultName": "financeiro"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "Entrada",
+            "id": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "categoria",
+              "displayName": "categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sub_categoria",
+              "displayName": "sub_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_transacao",
+              "displayName": "data_transacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "numero_usuario",
+              "displayName": "numero_usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2944,
+        576
+      ],
+      "id": "a399fc6f-8ce4-4fe5-a2df-76910af0d32c",
+      "name": "Sobe entradas para o banco de dados",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "automacao-ia",
+        "remoteJid": "={{ $('Formata celular').item.json.telefone_limpo }}",
+        "messageText": "={{ $('Separa mensagem1').item.json.mensagem }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        576
+      ],
+      "id": "821929df-789a-4907-a66d-01230a3a78e2",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "automacao-ia",
+        "remoteJid": "={{ $('Formata celular').all()[0].json.telefone_limpo }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3184,
+        976
+      ],
+      "id": "d7db592a-d800-4a04-9bcb-91a548f19aa2",
+      "name": "Enviar texto2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Formata celular": {
+      "main": [
+        [
+          {
+            "node": "Pega data atual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recebe mensagem usuario": {
+      "main": [
+        [
+          {
+            "node": "Formata celular",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida se usuario esta cadastrado": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Casastra usuario no banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se tem thread criada": {
+      "main": [
+        [
+          {
+            "node": "Cria a thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analisa mensagem usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria a thread": {
+      "main": [
+        [
+          {
+            "node": "Salva thread no banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analisa mensagem usuario",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analisa mensagem usuario": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extrai detalhes dos gastos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extrai detalhes dos gastos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extrai detalhes das entradas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Busca dados no banco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega data atual": {
+      "main": [
+        [
+          {
+            "node": "Verifica se usuario tem cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrai detalhes dos gastos": {
+      "main": [
+        [
+          {
+            "node": "Separa mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separa mensagem": {
+      "main": [
+        [
+          {
+            "node": "Sobe gasto para o banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separa mensagem1": {
+      "main": [
+        [
+          {
+            "node": "Sobe entradas para o banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extrai detalhes das entradas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrai detalhes das entradas": {
+      "main": [
+        [
+          {
+            "node": "Separa mensagem1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatena dados do banco": {
+      "main": [
+        [
+          {
+            "node": "Extrai detalhes das entradas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Extrai detalhes das entradas1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extrai detalhes das entradas1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrai detalhes das entradas1": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se usuario tem cadastro": {
+      "main": [
+        [
+          {
+            "node": "Valida se usuario esta cadastrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Casastra usuario no banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Verifica se tem thread criada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva thread no banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Analisa mensagem usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca dados no banco": {
+      "main": [
+        [
+          {
+            "node": "Concatena dados do banco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sobe gasto para o banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sobe entradas para o banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Recebe mensagem usuario": [
+      {
+        "json": {
+          "headers": {
+            "host": "primary-production-b5c5.up.railway.app",
+            "user-agent": "axios/1.7.9",
+            "content-length": "958",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "162.220.232.29",
+            "x-forwarded-host": "primary-production-b5c5.up.railway.app",
+            "x-forwarded-proto": "https",
+            "x-railway-edge": "railway/us-west1",
+            "x-railway-request-id": "HvxXrkNoQcCpY5Rl0NM8rw_1850849526",
+            "x-real-ip": "162.220.232.29",
+            "x-request-start": "1740770438507"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "BOT",
+            "data": {
+              "key": {
+                "remoteJid": "5511981370549@s.whatsapp.net",
+                "fromMe": false,
+                "id": "DC31AE0A17AEC144D4C912A3D42DF1B5"
+              },
+              "pushName": "DSR Marketing",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Quantos gastei nos últimos 2 dias?",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "pWp4D+Bh3lcK6Q==",
+                    "senderTimestamp": "1740269616",
+                    "recipientKeyHash": "0WDtKy4wdlvXpQ==",
+                    "recipientTimestamp": "1740317852"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "IkbV/agyGBTRUjUpAwf4nm5ISkJFxVhyC6bVtG23cE4="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1740770437,
+              "instanceId": "668372c2-c67f-402d-8336-02ca0c95b27d",
+              "source": "android"
+            },
+            "destination": "https://primary-production-b5c5.up.railway.app/webhook-test/bb1266a5-d365-471c-9d2f-fd64884edabd",
+            "date_time": "2025-02-28T16:20:38.319Z",
+            "sender": "5511943825525@s.whatsapp.net",
+            "server_url": "http://localhost:8080",
+            "apikey": "3A0167A6C7A0-47C7-93B7-B9BF05E43205"
+          },
+          "webhookUrl": "https://primary-production-b5c5.up.railway.app/webhook-test/bb1266a5-d365-471c-9d2f-fd64884edabd",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "7e1d8441-3ea2-44ac-bb4b-a77edf17edde",
+  "triggerCount": 0,
+  "tags": []
+}
