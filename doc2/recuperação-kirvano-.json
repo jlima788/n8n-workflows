@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-07-03T13:13:47.107Z",
-  "updatedAt": "2025-07-22T13:36:16.232Z",
-  "id": "WRWcoooELabvImhB",
+  "createdAt": "2025-07-25T14:54:33.342Z",
+  "updatedAt": "2025-07-25T14:58:21.276Z",
+  "id": "PBCXEOxRu7Zoxe6V",
   "name": "Recuperação Kirvano",
   "active": true,
   "isArchived": false,
@@ -13,19 +13,19 @@
             {
               "id": "619ee06d-566b-43a5-ba5e-a8f947373813",
               "name": "API_URL",
-              "value": "https://evo.everaldolima.com.br",
+              "value": "https://x2id7y0t-evolution.cloudfy.cloud",
               "type": "string"
             },
             {
               "id": "b86710b9-2e78-49f5-b174-27254b59a85c",
               "name": "API_KEY",
-              "value": "HfFf9Dn7Ll75Syq0TtcskSgAHAf8U5eu",
+              "value": "g1G7Cbap17j91XD7reMbfPX3AHgW2I0h",
               "type": "string"
             },
             {
               "id": "3848e6c7-7b9d-4754-8141-c19189ede3bc",
               "name": "INSTANCE",
-              "value": "Automação IA",
+              "value": "automacao-ia",
               "type": "string"
             },
             {
@@ -47,10 +47,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        304,
-        -160
+        272,
+        96
       ],
-      "id": "8eac6f91-385c-4dec-b7c1-ddaa0a7ed848",
+      "id": "a49f52ae-0ac1-4226-a271-ffe958bc85ed",
       "name": "Edit Fields"
     },
     {
@@ -61,10 +61,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        528,
-        -160
+        496,
+        96
       ],
-      "id": "2ad4bf54-6e2e-4abc-a6cd-f4fad07f17f1",
+      "id": "8e7ca8cd-4086-4339-92a2-0ae986f0e821",
       "name": "Wait",
       "webhookId": "e5b6d4cc-075c-4a25-807a-02b983b8b3ef"
     },
@@ -103,10 +103,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        752,
-        -160
+        720,
+        96
       ],
-      "id": "0cceee35-18cb-42db-a9ee-f9183b2a58c5",
+      "id": "a4210b26-51b7-4c88-ba37-5ab69093128b",
       "name": "HTTP Request"
     },
     {
@@ -114,16 +114,16 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        960,
-        -160
+        928,
+        96
       ],
-      "id": "4495a3f9-9c44-4ab9-af71-01b11bdaf5c6",
+      "id": "dfbf26ef-1fa4-4dc3-a61d-c3a4b72e1b0f",
       "name": "No Operation, do nothing"
     },
     {
       "parameters": {
         "resource": "messages-api",
-        "instanceName": "Automação IA",
+        "instanceName": "automacao-ia",
         "remoteJid": "={{ $json.body.customer.phone_number }}",
         "messageText": "=Assunto: Falta só 1 passo para garantir seu acesso ao {{ $json.body.products[0].name }} 🚀\n\nOlá, {{ $json.body.customer.name }}!\n\nPercebemos que você iniciou a compra do Café com FX via PIX, mas ainda não finalizou o pagamento.\n\n⚠️ Importante: seu acesso ao conteúdo só será liberado após a confirmação do pagamento.\n\nPara não perder esta oportunidade, finalize o pagamento do seu PIX o quanto antes ✅\nPara finalizar, basta copiar o código PIX abaixo e fazer o pagamento direto no seu app bancário:\n👉 {{ $json.body.payment.qrcode }}\n\nSe tiver qualquer dúvida, pode me chamar diretamente:\n📧 brunodosreislima@yahoo.com.br\n\nAssim que o pagamento for confirmado, seu acesso será liberado automaticamente.\n\nAbraços,\nBruno Reis",
         "options_message": {}
@@ -131,14 +131,14 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        288,
-        192
+        256,
+        448
       ],
-      "id": "61f0c1d4-fa02-42bd-841d-364ce5c020f3",
+      "id": "3f44c508-2d4e-4a8e-b757-5f430bf2b338",
       "name": "Enviar texto",
       "credentials": {
         "evolutionApi": {
-          "id": "hOyxWkN5vjtX4B08",
+          "id": "yGbknPBGtQEGp57A",
           "name": "Evolution account"
         }
       }
@@ -152,10 +152,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        80,
-        -160
+        48,
+        96
       ],
-      "id": "badc3beb-1513-4dc3-b08a-1b233c921553",
+      "id": "1a4a0ab6-6233-403f-9105-d9ec00e60f0c",
       "name": "Carrinho abandonado",
       "webhookId": "5f39a65f-816c-456b-9b45-d81f2bf6af13"
     },
@@ -168,10 +168,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        80,
-        192
+        48,
+        448
       ],
-      "id": "e381ec91-ba58-4a05-932a-a74a5c179550",
+      "id": "13314d36-1f70-4267-9302-60d396a3df52",
       "name": "PIX gerado",
       "webhookId": "6a227fc4-e697-46ef-a1cb-f1f7c3c7bc5e"
     },
@@ -180,10 +180,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        496,
-        192
+        464,
+        448
       ],
-      "id": "6b917eba-1536-4311-a3e4-e37017bac83a",
+      "id": "fc611eee-e81d-4914-aae7-47452b94e87d",
       "name": "No Operation, do nothing1"
     },
     {
@@ -194,11 +194,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        32,
-        96
+        0,
+        352
       ],
       "typeVersion": 1,
-      "id": "5bfa9a61-697b-4129-a0dc-e2b8dafcdcfc",
+      "id": "09bec32b-b620-45f7-b81e-49cc8a7ed4f3",
       "name": "Sticky Note"
     },
     {
@@ -209,11 +209,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        32,
-        -256
+        0,
+        0
       ],
       "typeVersion": 1,
-      "id": "21f45c04-d7e9-40c8-81a2-ab5f82278f2f",
+      "id": "0f2a2743-70a2-4127-ac75-e1070d9aa4d5",
       "name": "Sticky Note1"
     }
   ],
@@ -293,7 +293,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bf94356f-d538-4284-8466-46605acab0de",
+  "versionId": "64410ef7-f0e9-4662-acef-0e9ed57af0a0",
   "triggerCount": 2,
   "tags": []
 }
