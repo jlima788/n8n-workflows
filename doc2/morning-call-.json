@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-07-07T20:23:31.079Z",
-  "updatedAt": "2025-07-25T00:00:35.718Z",
-  "id": "sAs7IopEBU6Jo5ru",
+  "createdAt": "2025-07-25T14:53:35.416Z",
+  "updatedAt": "2025-07-25T14:53:53.798Z",
+  "id": "ZoU66jcwILgFvijm",
   "name": "Morning Call",
   "active": true,
   "isArchived": false,
@@ -17,13 +17,13 @@
           ]
         }
       },
-      "id": "4cd7b404-63ef-4ca9-a31d-2a3f07eb60af",
+      "id": "6506f4c4-64eb-410c-bf83-8e6a7b96d0fb",
       "name": "Trigger Diário",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
       "position": [
-        -160,
-        240
+        176,
+        32
       ]
     },
     {
@@ -59,13 +59,13 @@
         },
         "options": {}
       },
-      "id": "c74fcdb1-6c78-4241-a786-c77b85e6ba6e",
+      "id": "e5f440e9-29b1-4e64-b118-2e5711e5d371",
       "name": "Verificar Dia Útil",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        64,
-        240
+        400,
+        32
       ]
     },
     {
@@ -77,10 +77,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        512,
-        240
+        848,
+        32
       ],
-      "id": "d06cdebc-e690-4daa-8c55-56a97f1e3465",
+      "id": "83347544-86cc-401c-98c7-de53ed9b26f6",
       "name": "AI Agent"
     },
     {
@@ -90,14 +90,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        464,
-        448
+        800,
+        240
       ],
-      "id": "5f3ae128-db18-4cc9-98ac-b157d16c1481",
+      "id": "22b8a85e-47c3-4be3-8a3b-2a16302cda0e",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "DyF90rEUbOzy0jcz",
+          "id": "yCN5cQBry493EhkU",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -109,10 +109,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        304,
-        240
+        640,
+        32
       ],
-      "id": "c5894cc4-173f-466d-b046-28b199ca5e3d",
+      "id": "0f79f176-b098-43f2-90bd-0a4f471819da",
       "name": "FormatDate"
     },
     {
@@ -120,10 +120,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1040,
-        240
+        1376,
+        32
       ],
-      "id": "5c3f04c8-3ce3-4a4f-865e-5d2f3ecaaa7a",
+      "id": "6e7560ef-1b5c-4d9e-af52-b024c809c2e6",
       "name": "No Operation, do nothing"
     },
     {
@@ -137,36 +137,25 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        864,
-        240
+        1200,
+        32
       ],
-      "id": "1b4728a4-fe04-4bf7-aa1e-e7752bd0d0c9",
+      "id": "b7b9e35a-6fdd-4fd1-87f6-e09b7b654933",
       "name": "Enviar para Grupo WhatsApp",
       "credentials": {
         "evolutionApi": {
-          "id": "hOyxWkN5vjtX4B08",
+          "id": "yGbknPBGtQEGp57A",
           "name": "Evolution account"
         }
       }
     }
   ],
   "connections": {
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
+    "Trigger Diário": {
       "main": [
         [
           {
-            "node": "Enviar para Grupo WhatsApp",
+            "node": "Verificar Dia Útil",
             "type": "main",
             "index": 0
           }
@@ -184,12 +173,23 @@
         ]
       ]
     },
-    "Trigger Diário": {
+    "AI Agent": {
       "main": [
         [
           {
-            "node": "Verificar Dia Útil",
+            "node": "Enviar para Grupo WhatsApp",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -226,7 +226,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "43d214f8-c720-4381-b628-195d10d6dc7c",
+  "versionId": "c1f23982-9f01-43cb-97c5-13282d3ad6a9",
   "triggerCount": 1,
   "tags": []
 }
