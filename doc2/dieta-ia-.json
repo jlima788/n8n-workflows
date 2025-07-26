@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-07-07T15:05:15.149Z",
-  "updatedAt": "2025-07-07T15:10:08.512Z",
-  "id": "knlzrZiYTG9e4eBs",
+  "createdAt": "2025-07-25T17:30:27.213Z",
+  "updatedAt": "2025-07-25T17:30:27.213Z",
+  "id": "yzaA9h4JvSMAoyuS",
   "name": "Dieta IA",
   "active": false,
   "isArchived": false,
@@ -20,11 +20,17 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        360,
-        380
+        -2432,
+        -880
       ],
-      "id": "361189aa-d04c-40d3-8f1c-9ec7987cccb3",
-      "name": "OpenAI Chat Model"
+      "id": "595f1e9f-9b66-46af-9da4-edadf213ddf0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -43,10 +49,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -340,
-        160
+        -3136,
+        -1088
       ],
-      "id": "23910417-ca7b-40de-9178-e515613903e7",
+      "id": "6e8b7012-d0d8-47b9-9e95-e313366db709",
       "name": "Edit Fields2"
     },
     {
@@ -66,10 +72,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -340,
-        340
+        -3136,
+        -912
       ],
-      "id": "1894fffc-962f-4a26-997f-fd2baf85e5d2",
+      "id": "75b4fe5d-8c53-4e81-8793-e91527ee05ee",
       "name": "Edit Fields5"
     },
     {
@@ -89,11 +95,17 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        0,
-        340
+        -2800,
+        -912
       ],
-      "id": "5a4d2593-7191-4751-8ccd-6dd6105aa2a6",
-      "name": "OpenAI1"
+      "id": "c40eb9d4-7923-47e1-86eb-4cc636b71b5a",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -106,10 +118,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -180,
-        340
+        -2976,
+        -912
       ],
-      "id": "4fe746e9-e467-4875-b532-f4591d16d56b",
+      "id": "9c8065c3-dbcf-4d2e-9722-beaf55093ac1",
       "name": "Convert to File1"
     },
     {
@@ -120,10 +132,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        200,
-        160
+        -2592,
+        -1088
       ],
-      "id": "1809a6f6-d579-4c8b-a6d1-5bd145f0a5d3",
+      "id": "168d9aa2-2185-4de8-a0b6-c7cdce3276bc",
       "name": "Aggregate"
     },
     {
@@ -143,10 +155,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        0,
-        0
+        -2800,
+        -1248
       ],
-      "id": "89087271-d6ba-411d-b36c-e604bbca2bb5",
+      "id": "390da9d5-ce04-4ce7-9163-37c5384c813d",
       "name": "Edit Fields3",
       "alwaysOutputData": false
     },
@@ -159,11 +171,17 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        0,
-        160
+        -2800,
+        -1088
       ],
-      "id": "8c0b78e7-6bbd-431f-96c4-e52e29caad07",
-      "name": "OpenAI2"
+      "id": "0d349665-8c5f-4746-a7fd-8d1ed0d3e661",
+      "name": "OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -176,10 +194,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -180,
-        160
+        -2976,
+        -1088
       ],
-      "id": "92574771-7634-462e-b382-27de4a761480",
+      "id": "ca6d5c81-ca1c-4650-9c3e-e7f2533f090d",
       "name": "Convert to File"
     },
     {
@@ -193,34 +211,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.9,
       "position": [
-        400,
-        160
+        -2400,
+        -1088
       ],
-      "id": "8f860b89-ccdc-4f41-a2fa-059fcd4a0539",
+      "id": "99339087-7eec-4095-8494-30acca3d0f08",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "resource": "messages-api",
-        "instanceName": "<sua instancia>",
-        "remoteJid": "={{ $('Info user').item.json.remoteJid }}",
-        "messageText": "={{ $json.output }}",
-        "options_message": {}
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        760,
-        160
-      ],
-      "id": "d04ddf81-10fc-4161-b8cd-93b07a91e24f",
-      "name": "Evolution API",
-      "credentials": {
-        "evolutionApi": {
-          "id": "wDLKzaLPE1UlobfZ",
-          "name": "Evolution account"
-        }
-      }
     },
     {
       "parameters": {
@@ -257,10 +252,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1980,
-        1380
+        -4704,
+        -256
       ],
-      "id": "adc21674-e2d7-4f8b-8018-4e156a072357",
+      "id": "71020e66-5c75-4ff4-bbe5-cbf59ef18e3d",
       "name": "Edit Fields1"
     },
     {
@@ -272,10 +267,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -2200,
-        1380
+        -4928,
+        -256
       ],
-      "id": "656580d0-b5d8-45ee-b3a1-bb6d2e586ec5",
+      "id": "e5fe7234-f77c-4223-961c-1631fc23185d",
       "name": "Pagamento",
       "webhookId": "4e5782d6-e982-4f93-9ee7-2a8dc814df42"
     },
@@ -307,10 +302,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1760,
-        1380
+        -4496,
+        -256
       ],
-      "id": "b6a168f4-00ae-49f8-91c7-b4551ecdc411",
+      "id": "ba7985f6-1b68-4fab-9353-96c65206699f",
       "name": "Pago?"
     },
     {
@@ -338,11 +333,17 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -1500,
-        1260
+        -4224,
+        -368
       ],
-      "id": "be24d352-7b2d-4b8d-99fd-bfbc95660b80",
-      "name": "Supabase"
+      "id": "0302e775-3d0b-4b23-8ced-0e6bbfc6a26e",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -369,11 +370,17 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -1480,
-        1500
+        -4208,
+        -128
       ],
-      "id": "e298c916-834b-4cc1-9140-41ad2f064d03",
-      "name": "Supabase1"
+      "id": "1d14bb4e-e9e2-4bf7-80a7-c7dfe773a49a",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -384,10 +391,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -2120,
-        300
+        -4912,
+        -960
       ],
-      "id": "6cb3abe8-243f-4aa1-924d-1f13601e6b76",
+      "id": "723d50da-756e-4e11-95aa-1dc61d9bbbaf",
       "name": "Chat",
       "webhookId": "695c5699-ab0f-45cd-b142-680a6829dd0c"
     },
@@ -419,10 +426,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1460,
-        300
+        -4256,
+        -960
       ],
-      "id": "e03193bc-0ca3-41c2-ab7d-e80610e82a04",
+      "id": "f8dce9df-aa78-475b-a91c-74c54f9c332d",
       "name": "É cadastrado?"
     },
     {
@@ -441,12 +448,18 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -1900,
-        300
+        -4688,
+        -960
       ],
-      "id": "67389ecb-06f2-4fc0-bbe2-5d05844d6802",
+      "id": "5fa76b6f-5123-4a1d-b40e-a2da42637a50",
       "name": "Buscar user",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -476,10 +489,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        980,
-        160
+        -1808,
+        -1088
       ],
-      "id": "42d12f90-ae8b-43e3-8765-77faa4f23c88",
+      "id": "397084de-7641-41ba-a2fc-a9d8dc639549",
       "name": "É teste?"
     },
     {
@@ -535,10 +548,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1680,
-        300
+        -4480,
+        -960
       ],
-      "id": "c40babe2-4ac0-4505-af15-ac78ff59d944",
+      "id": "2e5d1b86-5aa4-4d9d-b8ed-9ca20f2567fd",
       "name": "Info user"
     },
     {
@@ -578,16 +591,16 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1060,
-        20
+        -3856,
+        -1232
       ],
-      "id": "223267c3-db52-4673-8b42-f3e27ef5b6cf",
+      "id": "1eaeb239-ff72-4882-b384-1da7a8590081",
       "name": "Tem acesso?"
     },
     {
       "parameters": {
         "resource": "messages-api",
-        "instanceName": "<sua instancia>",
+        "instanceName": "automacao-ia",
         "remoteJid": "={{ $('Info user').item.json.remoteJid }}",
         "messageText": "=🚫 Você já usou todas as mensagens do teste grátis.\n✨ Para continuar usando, faça upgrade para o plano Premium.\n🔗 Assine aqui: https://seusite.com/upgrade",
         "options_message": {}
@@ -595,14 +608,14 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -820,
-        260
+        -3616,
+        -992
       ],
-      "id": "9c3f259d-87de-4b83-8077-cc21dd8bd099",
+      "id": "ae81a2d7-c2ab-4c14-bcca-26d87f8f9612",
       "name": "Mensagem não acesso",
       "credentials": {
         "evolutionApi": {
-          "id": "wDLKzaLPE1UlobfZ",
+          "id": "yGbknPBGtQEGp57A",
           "name": "Evolution account"
         }
       }
@@ -610,7 +623,7 @@
     {
       "parameters": {
         "resource": "messages-api",
-        "instanceName": "<sua instancia>",
+        "instanceName": "automacao-ia",
         "remoteJid": "={{ $('Info user').item.json.remoteJid }}",
         "messageText": "=📌 Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade.\n🔗 Termos de Uso: https://seusite.com/termos\n🔗 Política de Privacidade: https://seusite.com/privacidade",
         "options_message": {}
@@ -618,11 +631,17 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -1100,
-        580
+        -3888,
+        -672
       ],
-      "id": "61dd3511-890a-4938-904d-6067372210ef",
-      "name": "Mensagem politica e privacidade"
+      "id": "915e2a27-ee6c-476b-81d7-4a2ff85c1973",
+      "name": "Mensagem politica e privacidade",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     },
     {
       "parameters": {
@@ -647,11 +666,17 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -880,
-        580
+        -3680,
+        -672
       ],
-      "id": "6714de14-5c54-42de-a0f9-fe3700f28131",
-      "name": "Criar user"
+      "id": "8a7c90fc-0f89-4296-b17f-f2a4fafb97dd",
+      "name": "Criar user",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -738,10 +763,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -560,
-        20
+        -3360,
+        -1232
       ],
-      "id": "df55501f-6b85-4672-932d-5bba17cf9e0b",
+      "id": "df147f08-d77b-4eda-a3b4-c9fd2ec55a37",
       "name": "Filtrar tipo de mensagem"
     },
     {
@@ -769,11 +794,40 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1200,
-        60
+        -1600,
+        -1200
       ],
-      "id": "f7fb0445-92b0-4b13-9be9-d5de7f4f8c29",
-      "name": "Atualizar qtd de mensagens"
+      "id": "c62d5b57-0d36-4d54-8838-8ec96bccc17b",
+      "name": "Atualizar qtd de mensagens",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "automacao-ia",
+        "remoteJid": "={{ $('Info user').item.json.remoteJid }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -2032,
+        -1088
+      ],
+      "id": "0f84da32-550f-4f1b-a734-04b20316a61d",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -869,7 +923,7 @@
       "main": [
         [
           {
-            "node": "Evolution API",
+            "node": "Enviar texto",
             "type": "main",
             "index": 0
           }
@@ -956,17 +1010,6 @@
         ]
       ]
     },
-    "Evolution API": {
-      "main": [
-        [
-          {
-            "node": "É teste?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Info user": {
       "main": [
         [
@@ -1042,6 +1085,17 @@
           }
         ]
       ]
+    },
+    "Enviar texto": {
+      "main": [
+        [
+          {
+            "node": "É teste?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1050,7 +1104,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "18ef4e53-ea8b-462d-a61e-0aa696385660",
+  "versionId": "9de2a331-b24d-41d9-b666-7120f3d11586",
   "triggerCount": 0,
   "tags": []
 }
