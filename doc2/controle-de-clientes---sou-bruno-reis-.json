@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-07-19T21:55:58.337Z",
-  "updatedAt": "2025-07-25T00:57:28.235Z",
-  "id": "byte7a1o6tvClnCS",
+  "createdAt": "2025-07-25T14:40:13.086Z",
+  "updatedAt": "2025-07-25T14:50:47.080Z",
+  "id": "U6J34iGAyaW2mJcJ",
   "name": "Controle de Clientes - Sou Bruno Reis",
   "active": true,
   "isArchived": false,
@@ -19,10 +19,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1472,
-        384
+        -688,
+        208
       ],
-      "id": "95bc1c92-b49e-477e-91e5-6c6e87a56557",
+      "id": "7036b42b-ace0-46ad-aa27-dfd92ea1fd0b",
       "name": "Schedule Trigger"
     },
     {
@@ -46,14 +46,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -1264,
-        384
+        -480,
+        208
       ],
-      "id": "1ff1383a-eb6d-4616-93fb-64a810f1cd02",
+      "id": "c59b5976-92e7-4f51-b4f8-cf0a5f31b623",
       "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "cCDJJSGKMXzPs2pS",
+          "id": "nfGoy3UranCgi3Hm",
           "name": "Google Sheets account"
         }
       }
@@ -65,23 +65,23 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1056,
-        384
+        -272,
+        208
       ],
-      "id": "9f4f0bd7-d637-4a77-807f-c7981ba1a4dd",
+      "id": "be10cc3a-44f8-4991-a1ac-64353f2a5294",
       "name": "Code",
       "alwaysOutputData": true
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evo.everaldolima.com.br/message/sendText/Automação%20IA",
+        "url": "https://x2id7y0t-evolution.cloudfy.cloud/message/sendText/automacao-ia",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "BAAF972F66A7-4B25-89A1-88C0885871E7"
+              "value": "g1G7Cbap17j91XD7reMbfPX3AHgW2I0h"
             }
           ]
         },
@@ -103,10 +103,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -656,
-        384
+        128,
+        208
       ],
-      "id": "86b74b89-e070-433d-bc7e-9aabf5890a5e",
+      "id": "effbc312-e6cc-4924-b244-beb46ed4a774",
       "name": "HTTP Request"
     },
     {
@@ -255,14 +255,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -448,
-        384
+        336,
+        208
       ],
-      "id": "7240fa3a-c12d-4ca6-b4da-3ce7077bf0b8",
+      "id": "6af487d9-ff09-4b9e-9d4d-a38fe0c56046",
       "name": "Update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "cCDJJSGKMXzPs2pS",
+          "id": "nfGoy3UranCgi3Hm",
           "name": "Google Sheets account"
         }
       }
@@ -272,10 +272,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -656,
-        192
+        128,
+        16
       ],
-      "id": "8559e79e-b930-4dfa-a1a2-531835cbaf99",
+      "id": "677b912f-38e8-4ba6-9767-55b1fbbf4fb0",
       "name": "No Operation, do nothing"
     },
     {
@@ -306,10 +306,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -864,
-        384
+        -80,
+        208
       ],
-      "id": "e7a12c53-ef12-4294-ad22-0d442047b0e2",
+      "id": "b0599557-5478-4bf8-96b9-0cecba575cec",
       "name": "Verifica se tem algum item para enviar mensagem"
     },
     {
@@ -317,10 +317,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -240,
-        384
+        544,
+        208
       ],
-      "id": "752db0e1-f46b-45bc-bbb7-0faed46ee556",
+      "id": "be8251a6-e2d8-40a5-a10d-be5d4c73ba23",
       "name": "No Operation, do nothing1"
     }
   ],
@@ -411,7 +411,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "7da1bc26-e3be-4747-8d1e-941db31e8975",
+  "versionId": "f7a2f143-bd23-43b3-ace6-8d4d4d4adbeb",
   "triggerCount": 1,
   "tags": []
 }
