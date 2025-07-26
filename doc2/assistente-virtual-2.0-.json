@@ -1,7 +1,7 @@
 {
-  "createdAt": "2025-07-21T15:11:17.223Z",
-  "updatedAt": "2025-07-22T13:51:31.314Z",
-  "id": "xjR2Bv7MQlahJ3av",
+  "createdAt": "2025-07-25T18:23:32.111Z",
+  "updatedAt": "2025-07-25T18:23:32.111Z",
+  "id": "FSKeYHO9tOATfyh8",
   "name": "ASSISTENTE VIRTUAL 2.0",
   "active": false,
   "isArchived": false,
@@ -13,10 +13,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -304,
-        240
+        -912,
+        144
       ],
-      "id": "bb9260b3-2048-4a08-97b3-2ffb7c2b6d77",
+      "id": "83c9f673-0d16-48db-b2be-801daaf607ec",
       "name": "Formata celular"
     },
     {
@@ -28,10 +28,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -2368,
-        368
+        -2976,
+        272
       ],
-      "id": "50a3808c-5bf3-4e43-b408-506b86ea56b7",
+      "id": "5a2ef834-826c-481d-b09c-3efa741ab559",
       "name": "Recebe mensagem usuario",
       "webhookId": "d9f0a46a-504a-4d52-a0a3-a6222fe80509"
     },
@@ -95,10 +95,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        128,
-        240
+        -480,
+        144
       ],
-      "id": "458666c7-0694-4360-a1b3-fa52dbd308a2",
+      "id": "cc0e4e3d-f51f-4a7b-827f-9ad1207a884f",
       "name": "Valida se usuario esta cadastrado"
     },
     {
@@ -129,10 +129,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        528,
-        272
+        -80,
+        176
       ],
-      "id": "2dc4c4ba-2f41-48bc-9975-951d811e939d",
+      "id": "e1da4416-0742-4316-926d-1f40bfe7d822",
       "name": "Verifica se tem thread criada"
     },
     {
@@ -159,17 +159,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        720,
-        32
+        112,
+        -64
       ],
-      "id": "559836fc-da56-4f1d-8df5-7d56f6714962",
-      "name": "Cria a thread",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "db1ef739-dac7-424b-97ac-aa8d601132d4",
+      "name": "Cria a thread"
     },
     {
       "parameters": {
@@ -199,10 +193,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        336,
-        0
+        -272,
+        -96
       ],
-      "id": "ff390128-28ed-4f02-a8ae-33d5fc680a52",
+      "id": "8551453a-20ec-423a-8d85-32cda143083f",
       "name": "verifica atendimento"
     },
     {
@@ -228,17 +222,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1696,
-        432
+        1088,
+        336
       ],
-      "id": "82cf3d99-7082-4138-965c-9ffe2a004f94",
-      "name": "Pega mensagens da conversa",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "9a15fe3a-6c05-4189-9786-446d917e1670",
+      "name": "Pega mensagens da conversa"
     },
     {
       "parameters": {
@@ -247,10 +235,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1920,
-        432
+        1312,
+        336
       ],
-      "id": "ff215bc8-0780-43ea-ae6d-c4d3bec30389",
+      "id": "190e0166-fada-481d-a78d-bb9bc408556f",
       "name": "Concatena mensagens"
     },
     {
@@ -271,17 +259,11 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1056,
-        432
+        448,
+        336
       ],
-      "id": "de093717-184a-4004-ab6f-0a5c5e880bfe",
-      "name": "Bella AI",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "d71e037f-cf09-46dd-9c96-4641c1853019",
+      "name": "Bella AI"
     },
     {
       "parameters": {
@@ -299,17 +281,11 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        2160,
-        432
+        1552,
+        336
       ],
-      "id": "ba14cfb9-3c59-4601-822c-331e9c03a6a3",
-      "name": "Analisa Conversas",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "5dbe7dbe-61b9-495f-bb1b-c69bdb99ce23",
+      "name": "Analisa Conversas"
     },
     {
       "parameters": {
@@ -339,10 +315,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2528,
-        432
+        1920,
+        336
       ],
-      "id": "69d4441d-0c45-4fef-bb23-0c5c75a547da",
+      "id": "f2a409ea-c283-44d2-96bf-34747a851c08",
       "name": "Verifica se vai fechar o atendimento"
     },
     {
@@ -373,10 +349,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -2192,
-        368
+        -2800,
+        272
       ],
-      "id": "51de6c20-0106-44e0-8cb9-8b487af4170e",
+      "id": "dd4e4c8a-5017-49aa-a4af-90850b0083b9",
       "name": "If"
     },
     {
@@ -384,10 +360,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -1984,
-        208
+        -2592,
+        112
       ],
-      "id": "0d183788-d03d-425c-909a-863bc0c0de0c",
+      "id": "2fafe924-9f23-4ed1-b7ac-3c6a0838d273",
       "name": "No Operation, do nothing"
     },
     {
@@ -407,17 +383,11 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        -80,
-        240
+        -688,
+        144
       ],
-      "id": "2fe3a2c1-50ec-493b-ba8e-01f2eaafefad",
-      "name": "Verifica se usuario tem cadastro",
-      "credentials": {
-        "supabaseApi": {
-          "id": "pit1tKvo1cHaZKRl",
-          "name": "Supabase account"
-        }
-      }
+      "id": "2da9922d-5113-466c-8220-2d7ffbf4b4f9",
+      "name": "Verifica se usuario tem cadastro"
     },
     {
       "parameters": {
@@ -442,17 +412,11 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        336,
-        448
+        -272,
+        352
       ],
-      "id": "ba247ff0-250f-4fb4-bd62-325933e06a0f",
-      "name": "Create a row",
-      "credentials": {
-        "supabaseApi": {
-          "id": "pit1tKvo1cHaZKRl",
-          "name": "Supabase account"
-        }
-      }
+      "id": "9d40ed0c-0f22-4d02-9c7d-3199465c38d0",
+      "name": "Create a row"
     },
     {
       "parameters": {
@@ -479,17 +443,11 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1008,
-        32
+        400,
+        -64
       ],
-      "id": "644b2d2f-f9e1-4575-b43f-c90f0230fbf8",
-      "name": "Salva thread no banco de dados",
-      "credentials": {
-        "supabaseApi": {
-          "id": "pit1tKvo1cHaZKRl",
-          "name": "Supabase account"
-        }
-      }
+      "id": "c746df8c-0983-41b3-acd8-16b330f46914",
+      "name": "Salva thread no banco de dados"
     },
     {
       "parameters": {
@@ -502,17 +460,11 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        1488,
-        432
+        880,
+        336
       ],
-      "id": "0b370cea-75f7-48d9-8f4f-494c56db2415",
-      "name": "Enviar texto",
-      "credentials": {
-        "evolutionApi": {
-          "id": "hOyxWkN5vjtX4B08",
-          "name": "Evolution account"
-        }
-      }
+      "id": "48db77d1-87fd-408e-87e8-16c21afa7a2c",
+      "name": "Enviar texto"
     },
     {
       "parameters": {
@@ -539,17 +491,11 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        2720,
-        192
+        2112,
+        96
       ],
-      "id": "38cac083-1087-49b4-b99a-855480822e22",
-      "name": "Fecha atendimento",
-      "credentials": {
-        "supabaseApi": {
-          "id": "pit1tKvo1cHaZKRl",
-          "name": "Supabase account"
-        }
-      }
+      "id": "ddc8ec53-de81-4b9f-b4d5-e99769431275",
+      "name": "Fecha atendimento"
     },
     {
       "parameters": {
@@ -560,17 +506,11 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -1984,
-        464
+        -2592,
+        368
       ],
-      "id": "bdaa1180-9ffa-49a0-abe5-4136b55e63e3",
-      "name": "Salva mensagem",
-      "credentials": {
-        "redis": {
-          "id": "T2Rm8fRRZbfBT4x8",
-          "name": "Redis account 4"
-        }
-      }
+      "id": "9afab021-fe60-4e83-97b9-03452f93c789",
+      "name": "Salva mensagem"
     },
     {
       "parameters": {
@@ -582,17 +522,11 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -1776,
-        464
+        -2384,
+        368
       ],
-      "id": "126e6352-89df-4e25-8033-0b0ff6ec5e69",
-      "name": "pega mensagens",
-      "credentials": {
-        "redis": {
-          "id": "T2Rm8fRRZbfBT4x8",
-          "name": "Redis account 4"
-        }
-      }
+      "id": "f1c45f7d-d43b-41ba-aec0-f8d1d9cdd457",
+      "name": "pega mensagens"
     },
     {
       "parameters": {
@@ -621,10 +555,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1568,
-        464
+        -2176,
+        368
       ],
-      "id": "055ea735-145c-4fbd-8182-09aa19bc8251",
+      "id": "289d906c-5143-4160-ae68-c0726ff4e130",
       "name": "Verfiia se é primeira mensagem"
     },
     {
@@ -635,17 +569,11 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -416,
-        384
+        -1024,
+        288
       ],
-      "id": "bb887fb7-4101-411a-9506-6640255a16a6",
-      "name": "Apaga mensagens",
-      "credentials": {
-        "redis": {
-          "id": "T2Rm8fRRZbfBT4x8",
-          "name": "Redis account 4"
-        }
-      }
+      "id": "af8dccd7-9c73-4911-9876-dce0ca644534",
+      "name": "Apaga mensagens"
     },
     {
       "parameters": {
@@ -654,10 +582,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -1360,
-        368
+        -1968,
+        272
       ],
-      "id": "9c9a8fa0-dbb6-41c0-9327-38665fa3b048",
+      "id": "7fb13cea-1d98-43b0-9536-41fc1289c26c",
       "name": "Wait",
       "webhookId": "344ef45f-aba4-4a63-afd9-25b446a49142"
     },
@@ -666,10 +594,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -1360,
-        560
+        -1968,
+        464
       ],
-      "id": "6da86fcb-3b4a-4e15-bca6-098ff47217eb",
+      "id": "c4a1d312-0829-45e6-b0e8-815a351e218b",
       "name": "No Operation, do nothing1"
     },
     {
@@ -682,17 +610,11 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -1184,
-        368
+        -1792,
+        272
       ],
-      "id": "49275f05-e4f7-4663-93c2-f1e1cc26eeae",
-      "name": "pega mensagens1",
-      "credentials": {
-        "redis": {
-          "id": "T2Rm8fRRZbfBT4x8",
-          "name": "Redis account 4"
-        }
-      }
+      "id": "f6bcea7c-f246-4d53-8cf0-29d44b77c708",
+      "name": "pega mensagens1"
     },
     {
       "parameters": {
@@ -714,17 +636,11 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        -976,
-        368
+        -1584,
+        272
       ],
-      "id": "b10118f1-4685-4129-9f39-6699f060fd71",
-      "name": "Message a model",
-      "credentials": {
-        "openAiApi": {
-          "id": "ftRy4cjmEKdECoxW",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "6fc9aa6b-b8ac-4d01-9649-e83bed191c04",
+      "name": "Message a model"
     },
     {
       "parameters": {
@@ -737,17 +653,11 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -608,
-        368
+        -1216,
+        272
       ],
-      "id": "30398cae-971d-44f7-a4e7-05a38b136a2a",
-      "name": "Enviar texto1",
-      "credentials": {
-        "evolutionApi": {
-          "id": "hOyxWkN5vjtX4B08",
-          "name": "Evolution account"
-        }
-      }
+      "id": "6d8c5450-454a-46e6-a56e-84fd168525b9",
+      "name": "Enviar texto1"
     }
   ],
   "connections": {
@@ -1038,9 +948,7 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "meta": null,
   "pinData": {
     "Recebe mensagem usuario": [
       {
@@ -1114,7 +1022,7 @@
       }
     ]
   },
-  "versionId": "14875615-6170-42cd-81db-29262b4bf039",
+  "versionId": "ab6cdc48-0866-474e-9d8c-ac1a1f544ed2",
   "triggerCount": 0,
   "tags": []
 }
