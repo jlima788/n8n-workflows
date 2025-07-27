@@ -1,0 +1,311 @@
+{
+  "createdAt": "2025-07-27T02:49:31.709Z",
+  "updatedAt": "2025-07-27T03:30:50.166Z",
+  "id": "3u0Ph8WXcawvCpm6",
+  "name": "01_SET VARIAVEIS",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "962aa0d1-bec0-48d5-935b-43ca256f5cde",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        240
+      ],
+      "id": "6b3d4449-3ed2-4917-817b-3f9fdf586866",
+      "name": "Webhook",
+      "webhookId": "962aa0d1-bec0-48d5-935b-43ca256f5cde"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.body.jsonData }}",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        240
+      ],
+      "id": "6bfe9afb-5275-47e2-bd7e-5467ced7c6cb",
+      "name": "PARSE_"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d7d3ce2-d93b-43fd-9d3e-628bcd73774d",
+              "leftValue": "={{ $('PARSE_').item.json.event.Info.IsGroup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        64,
+        240
+      ],
+      "id": "38089144-e8da-46e3-90c7-fa01dfda4eea",
+      "name": "É GRUPO?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        256,
+        112
+      ],
+      "id": "a952e3ea-4434-4a6f-b8dc-b0eec2b35cc8",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "ptt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5da65ec7-bb1c-4813-939b-daf11c7a951c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Áudio "
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "77af41f3-4fd7-4803-8411-51ec9e789830",
+                    "leftValue": "={{ $json.event.Info.Type }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cab4affb-3f0e-48b2-815f-e421010fb414",
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        256,
+        384
+      ],
+      "id": "f8efd3ad-be09-4e2d-8aac-d725b3e041c5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "file",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        416,
+        272
+      ],
+      "id": "60ffa6cf-30e1-45a9-a2a7-f2cc6fa222d8",
+      "name": "OpenAI",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        592,
+        384
+      ],
+      "id": "909c023d-49a1-4c23-8b74-7a79cdc1cda7",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "## 01_ SET VARIAVEIS",
+        "height": 460,
+        "width": 1120,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "886493b7-8b84-47ca-883f-3e78faf0059e",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "PARSE_",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PARSE_": {
+      "main": [
+        [
+          {
+            "node": "É GRUPO?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "É GRUPO?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "dd40b8e4-0a02-488f-99fe-ac404e8e9153",
+  "triggerCount": 0,
+  "tags": []
+}
