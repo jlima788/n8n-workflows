@@ -1,12 +1,102 @@
 {
-  "createdAt": "2025-07-20T16:10:25.684Z",
-  "updatedAt": "2025-07-20T17:29:08.469Z",
-  "id": "a1pOy5lZ0isktyHI",
+  "createdAt": "2025-07-28T02:55:49.989Z",
+  "updatedAt": "2025-07-28T03:03:51.871Z",
+  "id": "zLJOXyZ7b7p8LwFi",
   "name": "My workflow",
   "active": false,
   "isArchived": false,
-  "nodes": [],
-  "connections": {},
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "2161bd1a-b382-41c0-bb92-736528130fab",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c86965bc-106a-4ac1-9b68-02188e14e89a",
+      "name": "Webhook",
+      "webhookId": "2161bd1a-b382-41c0-bb92-736528130fab"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body.data.message.conversation }}"
+            },
+            {
+              "content": "🎯 CONTEXTO GERAL\nYou are a world-class creative specialist in Instagram carousel design and visual storytelling.\n\nYour task is to generate highly detailed prompts — one for each carousel card — based on the topic and number of cards requested by the user via WhatsApp.\n\nThe final output must result in visually cohesive, emotionally engaging, and narratively structured carousel cards, designed for maximum engagement and conversion on Instagram.\n\n🧠 OBJETIVO DO CONTEÚDO\nEach carousel must present high-quality content that:\n\nEduca, inspira ou entretém o leitor\n\nMantém o interesse até o final do carrossel\n\nLeva o usuário à ação (comentar, compartilhar, seguir, salvar ou comprar)\n\nThe text inside the images should be claro, direto, com alto valor percebido.\nEvite frases genéricas. Cada frase deve ter propósito e impacto.\n\n🖼️ IDENTIDADE VISUAL FIXA\nBrand: EstetiqueAura\nSegmento: Clínica de estética facial e corporal\nEstilo visual: Luxuoso, feminino, moderno e clean\nPaleta de cores:\n\nPrincipal: Rosa antigo (#D9A5B3)\n\nSecundária: Dourado suave (#E6C8A5)\n\nFundo: Branco rosado (#FFF8F6)\nTipografia:\n\nTítulos: Playfair Display Bold, rosa antigo, tamanho grande\n\nTextos: Lato Regular, cinza escuro (#333333), tamanho médio\n\n⚠️ Em todos os cards, essas características visuais devem ser repetidas e reforçadas.\n⚠️ O estilo visual, cores, fontes e espaçamento devem ser idênticos entre os cards.\n\n📐 FORMATO DA IMAGEM\nTamanho da imagem: 1024x1024 pixels (formato quadrado)\n\nMargem de segurança: mínimo de 10% em todos os lados para texto e elementos\n\nHierarquia visual clara: título, imagem, texto complementar\n\nEmoção transmitida: elegância, confiança, bem-estar e cuidado\n\n🧱 ESTRUTURA VISUAL DOS CARDS\nCard 1: Hook visual + textual\n\nDeve ser impactante, com texto curto e visual forte\n\nLayout mais livre e expressivo\n\nNo canto inferior esquerdo:\n→ Texto: “Arraste para o lado →”\n→ Fonte pequena Lato Regular, cor #D9A5B3, sem setas extras\n\nCards 2 até o penúltimo: Conteúdo de valor\n\nVarie o formato: checklist, comparação, dica, ilustração com legenda\n\nLayout fixo: título no topo, imagem central, texto explicativo abaixo\n\nÚltimo card: Conclusão / CTA leve\n\nPode conter uma frase inspiradora, reforço da mensagem, ou convite sutil para ação (ex: “Siga a EstetiqueAura para mais beleza e bem-estar”)\n\n📚 NARRATIVA APLICADA AOS CARDS\nO carrossel deve sempre conter:\n\nHook (Card 1)\n\nDesenvolvimento (Cards intermediários)\n\nFechamento com CTA (Último Card)\n\n⚠️ Gere exatamente o número de cards solicitado pelo usuário via WhatsApp.\n⚠️ O conteúdo de cada card deve fazer sentido sozinho e conectado aos demais.\n\n📦 FORMATO DA SAÍDA (OBRIGATÓRIO)\nA resposta final deve conter apenas o JSON com os prompts de imagem, como abaixo:\n\n{\n  \"Card 1\": \"Prompt altamente detalhado da imagem 1 aqui...\",\n  \"Card 2\": \"Prompt altamente detalhado da imagem 2 aqui...\",\n  ...\n}\n⚠️ Sem markdown, comentários ou explicações.\n⚠️ Cada valor (prompt) deve conter:\n\n\nTexto completo em português que aparecerá na imagem\n\nLocalização de cada texto\n\nEstilo visual detalhado (ilustração, fonte, cores, emoções)\n\nConfirmação de tamanho e margens",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b14d308a-a388-4285-b03f-32cf91e2d4b6",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.message.content;\n\nconst results = [];\n\nfor (const [key, value] of Object.entries(input)) {\n  results.push({\n    json: {\n      cardTitle: key,\n      prompt: value\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "04f6348f-ef0b-4826-bdb6-59e44796f78f",
+      "name": "Code"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -14,8 +104,80 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "57765944-6dbf-45c4-90ae-bdd76f4b15d2",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "x2id7y0t-n8n.cloudfy.cloud",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1114",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "5.78.141.88",
+            "cf-ipcountry": "US",
+            "cf-ray": "966119d99a4db84b-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "104.23.160.56",
+            "x-forwarded-host": "x2id7y0t-n8n.cloudfy.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "abcfc2aa44ac",
+            "x-real-ip": "104.23.160.56"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "automacao-ia",
+            "data": {
+              "key": {
+                "remoteJid": "5513988491908@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB0FE5EB268401997A4B0",
+                "senderLid": "273984704741630@lid"
+              },
+              "pushName": "Everaldo",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Crie para mim 3 cards sobre limpeza de pele",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "xVXq4AYYvb7iRQ==",
+                    "senderTimestamp": "1753454976",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "T5gFdT2nrGdrZQ==",
+                    "recipientTimestamp": "1753454888"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "mHEFaB3T7l2vr+Rnj/ccyfdrkwKyFhLOKu5/RSGQycw=",
+                  "limitSharingV2": {
+                    "trigger": "UNKNOWN",
+                    "initiatedByMe": false
+                  }
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1753671361,
+              "instanceId": "1a36e48c-e6f7-4afc-96e6-8389cebfbe12",
+              "source": "web"
+            },
+            "destination": "https://x2id7y0t-n8n.cloudfy.cloud/webhook-test/2161bd1a-b382-41c0-bb92-736528130fab",
+            "date_time": "2025-07-27T23:56:01.523Z",
+            "sender": "5521993232635@s.whatsapp.net",
+            "server_url": "https://x2id7y0t-evolution.cloudfy.cloud",
+            "apikey": "F74B312E6CCE-4284-A02C-0DB46AD1AA9C"
+          },
+          "webhookUrl": "https://x2id7y0t-n8n.cloudfy.cloud/webhook-test/2161bd1a-b382-41c0-bb92-736528130fab",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "f485e4d5-dcef-40e0-88f6-ecb3d6733f6a",
   "triggerCount": 0,
   "tags": []
 }
