@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:40:13.086Z",
-  "updatedAt": "2025-07-25T14:50:47.080Z",
+  "updatedAt": "2025-07-28T13:31:34.409Z",
   "id": "U6J34iGAyaW2mJcJ",
   "name": "Controle de Clientes - Sou Bruno Reis",
   "active": true,
@@ -400,7 +400,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -411,7 +413,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f7a2f143-bd23-43b3-ace6-8d4d4d4adbeb",
+  "versionId": "7dc1c968-9374-4aad-8ab5-5f715108c711",
   "triggerCount": 1,
   "tags": []
 }
