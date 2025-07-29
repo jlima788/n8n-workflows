@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T17:42:17.118Z",
-  "updatedAt": "2025-07-25T17:43:24.364Z",
+  "updatedAt": "2025-07-28T12:22:43.014Z",
   "id": "govaWVGWYvW3c6LE",
   "name": "AGENTE_BASE_V8_3",
   "active": false,
@@ -17,7 +17,13 @@
       "position": [
         6160,
         336
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -31,7 +37,13 @@
       "position": [
         5600,
         400
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -68,7 +80,13 @@
       "position": [
         5776,
         352
-      ]
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -98,7 +116,13 @@
       "position": [
         7392,
         416
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -193,7 +217,13 @@
         320
       ],
       "id": "ad05fb90-d916-4f47-8ec7-7a47c49f8545",
-      "name": "OpenAI Chat Model"
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -225,7 +255,13 @@
         304
       ],
       "id": "c5011e16-65d2-4d46-9f6a-e64e45c507d5",
-      "name": "Postgres Chat Memory"
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -303,7 +339,13 @@
         880
       ],
       "id": "9e8385d5-49d1-478c-86a6-2327842d690c",
-      "name": "OpenAI Chat Model2"
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -341,23 +383,6 @@
       "parameters": {
         "resource": "messages-api",
         "instanceName": "Breno2",
-        "remoteJid": "={{ $('Dados').item.json.Telefone }}",
-        "messageText": "={{ $json.output }}",
-        "options_message": {}
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        7312,
-        720
-      ],
-      "id": "7853dfbc-abfa-4547-b793-40a4246cad48",
-      "name": "Evolution API1"
-    },
-    {
-      "parameters": {
-        "resource": "messages-api",
-        "instanceName": "Breno2",
         "remoteJid": "120363418914433116@g.us",
         "messageText": "={{ (() => { \n  const telefone = $('Dados').item.json.Telefone;\n  return '🚨 Novo Lead: wa.me/' + telefone.split('@')[0] + ' 🚨';\n})() }}\n\n*Cliente:* {{ $('Dados').item.json.NomeWpp }}\n\n*CASO:*\n{{ $json.text }}",
         "options_message": {}
@@ -369,7 +394,13 @@
         720
       ],
       "id": "1210e706-4691-471a-aa99-a9e4706dd24a",
-      "name": "Evolution API2"
+      "name": "Evolution API2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     },
     {
       "parameters": {},
@@ -470,6 +501,12 @@
       "id": "5dc529c9-95af-40ad-8f62-9ab95d67272d",
       "name": "Busca Telefone",
       "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      },
       "onError": "continueRegularOutput"
     },
     {
@@ -499,7 +536,13 @@
         -416
       ],
       "id": "4c287e6f-b84b-46b0-b061-24efc9f4341b",
-      "name": "Adiciona CHAT supabase"
+      "name": "Adiciona CHAT supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -535,7 +578,13 @@
       ],
       "id": "2ac7e0a1-bcc2-4278-859e-d985ecdef0e1",
       "name": "Atualiza CHAT Supabase",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -576,7 +625,13 @@
         -320
       ],
       "id": "805804f8-9282-4638-9f5a-4055c30d71c6",
-      "name": "Cria Histórico Supabase"
+      "name": "Cria Histórico Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -620,7 +675,13 @@
       "position": [
         8400,
         -320
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -665,7 +726,13 @@
       ],
       "id": "3218a784-5219-4587-b382-f08d09fc7142",
       "name": "ListMessages-Supabase2",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -732,7 +799,13 @@
       ],
       "id": "17c5dc32-c9a9-4902-8a0e-2c789a14dee0",
       "name": "Supabase",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -795,7 +868,13 @@
         384
       ],
       "id": "238f6c7f-6517-4fe4-baee-f488af0783d2",
-      "name": "Supabase1"
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -964,7 +1043,13 @@
         -1488
       ],
       "id": "e5b095a0-eb14-4eee-bc9f-4336c61ef598",
-      "name": "Cria Tabela Dados Cliente"
+      "name": "Cria Tabela Dados Cliente",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -979,7 +1064,13 @@
         -1472
       ],
       "id": "68065212-e47d-480f-89df-c9318bf01b26",
-      "name": "Cria Tabela Documentos"
+      "name": "Cria Tabela Documentos",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -994,7 +1085,13 @@
         -1088
       ],
       "id": "0834f2ec-dab4-4374-88ba-9c3e5b20a7e8",
-      "name": "Deleta Conteúdo Documentos"
+      "name": "Deleta Conteúdo Documentos",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1093,7 +1190,13 @@
         -1056
       ],
       "id": "2908c103-20d9-41df-9968-a6af82d49046",
-      "name": "Deleta Histórico"
+      "name": "Deleta Histórico",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1108,7 +1211,13 @@
         -1488
       ],
       "id": "9f32dd54-bb41-4273-92d3-fe7c471261a1",
-      "name": "Cria função Busca em Vetor"
+      "name": "Cria função Busca em Vetor",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1123,7 +1232,13 @@
         -1488
       ],
       "id": "135fd5c9-f91f-4295-8226-6883db14693c",
-      "name": "Cria Extensão Vetor"
+      "name": "Cria Extensão Vetor",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1138,7 +1253,13 @@
         -1488
       ],
       "id": "1ed74f1d-7e8a-4a00-85ff-526b0966b44f",
-      "name": "Cria Tabela Chats"
+      "name": "Cria Tabela Chats",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1167,7 +1288,13 @@
         -1088
       ],
       "id": "a12723de-b323-416e-8b8c-9501cded4a38",
-      "name": "Deleta Conteúdo Chats"
+      "name": "Deleta Conteúdo Chats",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1182,7 +1309,13 @@
         -1088
       ],
       "id": "05f3d086-9d80-4ccc-b454-8dc24cf8fb1c",
-      "name": "Deleta Conteúdo Dados Cliente"
+      "name": "Deleta Conteúdo Dados Cliente",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1211,7 +1344,13 @@
         -1088
       ],
       "id": "e852ce4c-34f2-46e8-bd39-7383ab06454b",
-      "name": "Deleta Conteúdo Chat_Messages"
+      "name": "Deleta Conteúdo Chat_Messages",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1226,7 +1365,13 @@
         -1488
       ],
       "id": "64b43b60-26d9-48da-8082-92819e99f0a1",
-      "name": "Cria Tabela Chat_Messages"
+      "name": "Cria Tabela Chat_Messages",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1349,7 +1494,13 @@
       "position": [
         4304,
         416
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1365,7 +1516,13 @@
       "position": [
         4304,
         240
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1519,7 +1676,13 @@
       "position": [
         3952,
         400
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1568,7 +1731,13 @@
       "position": [
         4304,
         -80
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1584,7 +1753,13 @@
       "position": [
         4304,
         80
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1642,7 +1817,13 @@
       "position": [
         4576,
         192
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1657,7 +1838,13 @@
       "position": [
         4896,
         192
-      ]
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1808,7 +1995,13 @@
       "position": [
         4112,
         192
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1827,7 +2020,13 @@
         1616,
         1072
       ],
-      "typeVersion": 1.2
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1872,7 +2071,13 @@
         1120
       ],
       "id": "767c68d7-6b52-4c52-b19d-439377058c1b",
-      "name": "Treinamento_feito"
+      "name": "Treinamento_feito",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nfGoy3UranCgi3Hm",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1894,7 +2099,13 @@
       "position": [
         3456,
         896
-      ]
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1939,7 +2150,13 @@
       "position": [
         3312,
         1136
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1989,7 +2206,13 @@
         2384,
         864
       ],
-      "executeOnce": false
+      "executeOnce": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2172,7 +2395,13 @@
         96
       ],
       "id": "17903730-c49e-4d9c-b730-b21882dcf785",
-      "name": "Pausar IA"
+      "name": "Pausar IA",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2194,7 +2423,13 @@
         416
       ],
       "id": "3bb3c602-6ebc-42fe-8cb6-c01997058ad3",
-      "name": "Verificar Pause"
+      "name": "Verificar Pause",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2355,7 +2590,13 @@
         256
       ],
       "id": "ad121056-f1d2-4a82-a6d3-33f3eb5ddc97",
-      "name": "Reativar IA"
+      "name": "Reativar IA",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2506,7 +2747,13 @@
         384
       ],
       "id": "b369c79e-bbe0-4658-943c-a53b9ed177c5",
-      "name": "Salvar Historicoo Humano1"
+      "name": "Salvar Historicoo Humano1",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2519,7 +2766,13 @@
         224
       ],
       "id": "4e068ddd-6db7-46cc-b4a3-5039b0b82a7a",
-      "name": "OpenAI Chat Model4"
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2664,7 +2917,13 @@
         1952,
         1120
       ],
-      "typeVersion": 4.5
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nfGoy3UranCgi3Hm",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2870,7 +3129,13 @@
         864
       ],
       "alwaysOutputData": true,
-      "executeOnce": false
+      "executeOnce": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -2923,7 +3188,13 @@
         96
       ],
       "id": "42fe43c8-bd1d-4f00-9c15-c1f9ae248977",
-      "name": "Salvar Historicoo Humano"
+      "name": "Salvar Historicoo Humano",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -3001,7 +3272,13 @@
         720
       ],
       "id": "660ec572-e4e0-4fb2-8f13-3e4382ceca6c",
-      "name": "Pausar IA1"
+      "name": "Pausar IA1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -3032,7 +3309,13 @@
       ],
       "id": "892c37dd-94c2-4e4c-b8a6-f97fae2fd73b",
       "name": "Search files and folders",
-      "executeOnce": true
+      "executeOnce": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
     },
     {
       "parameters": {
@@ -3052,7 +3335,36 @@
         256
       ],
       "id": "9bed7d4d-d39f-443c-a541-51f4c99d17b9",
-      "name": "Enviar texto"
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "n8n",
+        "remoteJid": "={{ $('Dados').item.json.Telefone }}",
+        "messageText": "={{ $json.output }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        7312,
+        720
+      ],
+      "id": "7853dfbc-abfa-4547-b793-40a4246cad48",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -3183,7 +3495,7 @@
         ],
         [
           {
-            "node": "Evolution API1",
+            "node": "Enviar texto1",
             "type": "main",
             "index": 0
           }
@@ -3196,17 +3508,6 @@
           {
             "node": "Basic LLM Chain1",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Evolution API1": {
-      "main": [
-        [
-          {
-            "node": "ListMessages-Supabase2",
-            "type": "main",
             "index": 0
           }
         ]
@@ -4050,13 +4351,26 @@
           }
         ]
       ]
+    },
+    "Enviar texto1": {
+      "main": [
+        [
+          {
+            "node": "ListMessages-Supabase2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
     "Webhook EVO": [
       {
@@ -4124,7 +4438,7 @@
       }
     ]
   },
-  "versionId": "95f890e7-2c5b-4fcd-aa59-02ec9868d0be",
+  "versionId": "e8c659fe-1f96-45f6-9064-3f9d983aeabf",
   "triggerCount": 0,
   "tags": []
 }
