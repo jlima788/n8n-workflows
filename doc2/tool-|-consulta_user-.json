@@ -1,0 +1,121 @@
+{
+  "createdAt": "2025-07-28T16:51:45.486Z",
+  "updatedAt": "2025-07-28T17:02:29.877Z",
+  "id": "wkDOi5ePbReM9N6L",
+  "name": "Tool | Consulta_User",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user_number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "123d1abf-35ca-4bda-aaa5-65c3ca985aaa",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $json.user_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "41253e3b-b77c-4d5f-a0bc-f9fc7fb8b32c",
+      "name": "Get a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cdaa0cdc-7560-43c3-aef4-006d4deea6c7",
+              "name": "response.user_profile",
+              "value": "={{ $json.user_profile }}",
+              "type": "string"
+            },
+            {
+              "id": "3fc69968-7780-4ca1-8c3e-9bd16a897ba1",
+              "name": "response.user_name",
+              "value": "={{ $json.user_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "28c4c1a6-062c-41fd-b612-71510bd7fcc6",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e6f026f3-d783-415f-8612-5ed62dbfcc7c",
+  "triggerCount": 0,
+  "tags": []
+}
