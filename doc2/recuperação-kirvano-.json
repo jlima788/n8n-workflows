@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:54:33.342Z",
-  "updatedAt": "2025-07-25T14:58:21.276Z",
+  "updatedAt": "2025-07-28T13:31:08.423Z",
   "id": "PBCXEOxRu7Zoxe6V",
   "name": "Recuperação Kirvano",
   "active": true,
@@ -286,14 +286,16 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "64410ef7-f0e9-4662-acef-0e9ed57af0a0",
+  "versionId": "ee8263a1-b8f7-4871-b642-b8be9c1c95c3",
   "triggerCount": 2,
   "tags": []
 }
