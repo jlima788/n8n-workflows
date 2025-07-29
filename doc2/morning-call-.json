@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:53:35.416Z",
-  "updatedAt": "2025-07-25T14:53:53.798Z",
+  "updatedAt": "2025-07-28T13:28:01.605Z",
   "id": "ZoU66jcwILgFvijm",
   "name": "Morning Call",
   "active": true,
@@ -219,14 +219,16 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "c1f23982-9f01-43cb-97c5-13282d3ad6a9",
+  "versionId": "13d1054e-1a35-48cf-b9c0-3a416647ab31",
   "triggerCount": 1,
   "tags": []
 }
