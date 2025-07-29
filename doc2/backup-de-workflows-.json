@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:59:12.495Z",
-  "updatedAt": "2025-07-25T15:06:45.330Z",
+  "updatedAt": "2025-07-28T13:31:58.792Z",
   "id": "Q4GC6Oglx8S0Zrb0",
   "name": "Backup de Workflows",
   "active": true,
@@ -154,7 +154,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": {
     "node:Todos os dias à meia-noite": {
@@ -165,7 +167,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "faaf4aac-ee3d-4360-aa6b-6a678fb4cdbf",
+  "versionId": "42936544-f8d9-4896-8d8c-eb56dae09e42",
   "triggerCount": 1,
   "tags": []
 }
