@@ -1,0 +1,590 @@
+{
+  "createdAt": "2025-07-28T14:35:08.914Z",
+  "updatedAt": "2025-07-28T14:35:08.914Z",
+  "id": "Ns2oLxrpikXtpM2a",
+  "name": "03_ Filtro de Atendimento",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "962aa0d1-bec0-48d5-935b-43ca256f5cde",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        288,
+        320
+      ],
+      "id": "3ef4e5e2-66f7-4b38-973b-184355eb53a6",
+      "name": "Webhook",
+      "webhookId": "962aa0d1-bec0-48d5-935b-43ca256f5cde"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.body.jsonData }}",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        320
+      ],
+      "id": "35f04441-7d2e-47d7-bc07-ec35b74a1384",
+      "name": "PARSE_"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d7d3ce2-d93b-43fd-9d3e-628bcd73774d",
+              "leftValue": "={{ $('PARSE_').item.json.event.Info.IsGroup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        320
+      ],
+      "id": "212bcae0-39aa-4723-aac3-4628f2c16237",
+      "name": "É GRUPO?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        800,
+        192
+      ],
+      "id": "36f8a07d-a367-4543-b9c6-9010070246a2",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "ptt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5da65ec7-bb1c-4813-939b-daf11c7a951c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Áudio "
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "77af41f3-4fd7-4803-8411-51ec9e789830",
+                    "leftValue": "={{ $json.event.Info.Type }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cab4affb-3f0e-48b2-815f-e421010fb414",
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        768,
+        464
+      ],
+      "id": "cca2539e-7e9e-41f0-99db-2de13c72ef9b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "file",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        960,
+        352
+      ],
+      "id": "1c85a82f-0060-4516-b52d-abcaea7ce7fd",
+      "name": "OpenAI"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1136,
+        464
+      ],
+      "id": "db28802c-5b5a-4420-a0d9-77c4e350a7b6",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "## 01_ Informações Iniciais",
+        "height": 460,
+        "width": 1200,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "cf3efa3e-f86a-4d35-91d0-b50f53c2d913",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db04d647-0171-4c37-900e-0ec2a78869d6",
+              "name": "info.user.name",
+              "value": "={{ $('PARSE_').item.json.event.Info.PushName }}",
+              "type": "string"
+            },
+            {
+              "id": "55bf3be0-b291-4da6-a591-d07b6d2219e5",
+              "name": "info.user.number",
+              "value": "={{ $('PARSE_').item.json.event.Info.Chat }}",
+              "type": "string"
+            },
+            {
+              "id": "c0caac9a-1543-4ede-b219-6590ab723e8a",
+              "name": "message.sender",
+              "value": "={{ $('PARSE_').item.json.event.Info.Sender.split('@')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "60c80e28-5245-4e1a-b474-b542007e8ff9",
+              "name": "message.origem",
+              "value": "={{ $('PARSE_').item.json.event.Info.IsFromMe ? 'outgoing' : 'incoming' }}",
+              "type": "string"
+            },
+            {
+              "id": "9a4aac05-99e1-4bd7-8c3c-8757b0b0d63d",
+              "name": "message.group",
+              "value": "={{ $('PARSE_').item.json.event.Info.IsGroup }}",
+              "type": "boolean"
+            },
+            {
+              "id": "66c5df72-0c8e-427b-a674-94b9dbb489fc",
+              "name": "message.id",
+              "value": "={{ $('PARSE_').item.json.event.Info.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "c7af394b-d670-428d-bff8-3ecf87452465",
+              "name": "message.Type",
+              "value": "={{ $('PARSE_').item.json.event.Info.MediaType }}",
+              "type": "string"
+            },
+            {
+              "id": "99d0abc9-31e9-46d7-847d-02ebbaf39071",
+              "name": "message.timestamp",
+              "value": "={{ $('PARSE_').item.json.event.Info.Timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "46e92787-60b4-409a-9a1b-f2a13af3bb70",
+              "name": "message.content",
+              "value": "={{ $json.text }} {{ $('PARSE_').item.json.event.Message.conversation }} {{ $json.event.Message.extendedTextMessage.text }}",
+              "type": "string"
+            },
+            {
+              "id": "73f102c2-2a5d-424e-a4e7-9b1459cdc6dc",
+              "name": "api.token",
+              "value": "={{ $('Webhook').item.json.body.token }}",
+              "type": "string"
+            },
+            {
+              "id": "b08c6660-f235-481b-9a94-3b5162ab821a",
+              "name": "api.baseurl",
+              "value": "https://www.avisaapi.com.br/api",
+              "type": "string"
+            },
+            {
+              "id": "44984d79-df61-46f3-89d2-fbb25c7053ef",
+              "name": "message.timeout",
+              "value": "720",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1328,
+        464
+      ],
+      "id": "e126130e-aeb8-4c44-a43f-b3e4b29a9619",
+      "name": "SET_VARIAVEIS"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "24f5aa90-9dfd-41c5-9842-afa5ad291001",
+              "leftValue": "={{ $json.message.origem }}",
+              "rightValue": "incoming",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1504,
+        352
+      ],
+      "id": "34ca9189-c7c4-4089-bb23-93287b07a017",
+      "name": "INCOMING"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=atendimento.{{ $('INCOMING').item.json.info.user.number }}",
+        "value": "true",
+        "expire": true,
+        "ttl": "={{ $('INCOMING').item.json.message.timeout }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        448
+      ],
+      "id": "ef967c28-4f13-4e0d-b45c-c687f69de612",
+      "name": "SET_ ATENDIMENTO"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "atendimento",
+        "key": "=atendimento.{{ $('SET_VARIAVEIS').item.json.info.user.number }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        272
+      ],
+      "id": "be2265f5-2d1e-42a3-8b33-19ce1486a7ef",
+      "name": "GET_ ATENDIMENTO"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8600454a-a4cb-4f7f-bc9b-efbe521ce59e",
+              "leftValue": "={{ $json.atendimento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        272
+      ],
+      "id": "6e416e52-dd3f-4c8c-b319-cf4dd422066e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "## 02_ Filtro de Atendimento",
+        "height": 460,
+        "width": 720,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1488,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "cdd36f9d-ae0a-4fa3-bdba-96dcda5c63eb",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        464
+      ],
+      "id": "18c67dc6-1ad6-43ab-aa49-ba20ea027c99",
+      "name": "Espera"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "PARSE_",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PARSE_": {
+      "main": [
+        [
+          {
+            "node": "É GRUPO?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "É GRUPO?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "SET_VARIAVEIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET_VARIAVEIS": {
+      "main": [
+        [
+          {
+            "node": "INCOMING",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "INCOMING": {
+      "main": [
+        [
+          {
+            "node": "GET_ ATENDIMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SET_ ATENDIMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET_ ATENDIMENTO": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Espera",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "1573d97c-072a-477b-ae10-d44264cb0320",
+  "triggerCount": 0,
+  "tags": []
+}
