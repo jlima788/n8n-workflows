@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T15:10:17.249Z",
-  "updatedAt": "2025-07-25T15:10:24.692Z",
+  "updatedAt": "2025-07-28T13:29:43.852Z",
   "id": "YNRC747AVaQZRt4i",
   "name": "Backup Workflows Github",
   "active": true,
@@ -539,7 +539,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -550,7 +552,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "91ea640a-840a-4066-864a-65565301c6bf",
+  "versionId": "f2b5cb6f-2ce8-4de5-9eb5-ee0b3e7cc31e",
   "triggerCount": 1,
   "tags": []
 }
