@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T18:23:32.111Z",
-  "updatedAt": "2025-07-25T18:23:32.111Z",
+  "updatedAt": "2025-07-28T12:16:06.329Z",
   "id": "FSKeYHO9tOATfyh8",
   "name": "ASSISTENTE VIRTUAL 2.0",
   "active": false,
@@ -163,7 +163,13 @@
         -64
       ],
       "id": "db1ef739-dac7-424b-97ac-aa8d601132d4",
-      "name": "Cria a thread"
+      "name": "Cria a thread",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -226,7 +232,13 @@
         336
       ],
       "id": "9a15fe3a-6c05-4189-9786-446d917e1670",
-      "name": "Pega mensagens da conversa"
+      "name": "Pega mensagens da conversa",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -263,7 +275,13 @@
         336
       ],
       "id": "d71e037f-cf09-46dd-9c96-4641c1853019",
-      "name": "Bella AI"
+      "name": "Bella AI",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -285,7 +303,13 @@
         336
       ],
       "id": "5dbe7dbe-61b9-495f-bb1b-c69bdb99ce23",
-      "name": "Analisa Conversas"
+      "name": "Analisa Conversas",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -387,7 +411,13 @@
         144
       ],
       "id": "2da9922d-5113-466c-8220-2d7ffbf4b4f9",
-      "name": "Verifica se usuario tem cadastro"
+      "name": "Verifica se usuario tem cadastro",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -416,7 +446,13 @@
         352
       ],
       "id": "9d40ed0c-0f22-4d02-9c7d-3199465c38d0",
-      "name": "Create a row"
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -447,7 +483,13 @@
         -64
       ],
       "id": "c746df8c-0983-41b3-acd8-16b330f46914",
-      "name": "Salva thread no banco de dados"
+      "name": "Salva thread no banco de dados",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -464,7 +506,13 @@
         336
       ],
       "id": "48db77d1-87fd-408e-87e8-16c21afa7a2c",
-      "name": "Enviar texto"
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     },
     {
       "parameters": {
@@ -495,7 +543,13 @@
         96
       ],
       "id": "ddc8ec53-de81-4b9f-b4d5-e99769431275",
-      "name": "Fecha atendimento"
+      "name": "Fecha atendimento",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -510,7 +564,13 @@
         368
       ],
       "id": "9afab021-fe60-4e83-97b9-03452f93c789",
-      "name": "Salva mensagem"
+      "name": "Salva mensagem",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -526,7 +586,13 @@
         368
       ],
       "id": "f1c45f7d-d43b-41ba-aec0-f8d1d9cdd457",
-      "name": "pega mensagens"
+      "name": "pega mensagens",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -573,7 +639,13 @@
         288
       ],
       "id": "af8dccd7-9c73-4911-9876-dce0ca644534",
-      "name": "Apaga mensagens"
+      "name": "Apaga mensagens",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -614,7 +686,13 @@
         272
       ],
       "id": "f6bcea7c-f246-4d53-8cf0-29d44b77c708",
-      "name": "pega mensagens1"
+      "name": "pega mensagens1",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -640,7 +718,13 @@
         272
       ],
       "id": "6fc9aa6b-b8ac-4d01-9649-e83bed191c04",
-      "name": "Message a model"
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -657,7 +741,13 @@
         272
       ],
       "id": "6d8c5450-454a-46e6-a56e-84fd168525b9",
-      "name": "Enviar texto1"
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -948,7 +1038,9 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
     "Recebe mensagem usuario": [
       {
@@ -1022,7 +1114,7 @@
       }
     ]
   },
-  "versionId": "ab6cdc48-0866-474e-9d8c-ac1a1f544ed2",
+  "versionId": "091d520b-db2c-4250-abce-caf2b49f6272",
   "triggerCount": 0,
   "tags": []
 }
