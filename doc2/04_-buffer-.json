@@ -1,0 +1,809 @@
+{
+  "createdAt": "2025-07-28T14:46:09.915Z",
+  "updatedAt": "2025-07-28T14:46:09.915Z",
+  "id": "4nVGzIZqaJ8i7Uny",
+  "name": "04_ Buffer",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "962aa0d1-bec0-48d5-935b-43ca256f5cde",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        32,
+        160
+      ],
+      "id": "f6053096-ac69-4c9f-b865-a3d7920132fe",
+      "name": "Webhook",
+      "webhookId": "962aa0d1-bec0-48d5-935b-43ca256f5cde"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.body.jsonData }}",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        160
+      ],
+      "id": "1ae29820-8d27-40dc-a564-41b22ed7bba5",
+      "name": "PARSE_"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d7d3ce2-d93b-43fd-9d3e-628bcd73774d",
+              "leftValue": "={{ $('PARSE_').item.json.event.Info.IsGroup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        160
+      ],
+      "id": "40d16270-0b90-40d8-8595-02f41c836730",
+      "name": "É GRUPO?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        544,
+        32
+      ],
+      "id": "ae6ab226-88fe-4dc8-b02b-844536cd55e9",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "ptt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5da65ec7-bb1c-4813-939b-daf11c7a951c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Áudio "
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "77af41f3-4fd7-4803-8411-51ec9e789830",
+                    "leftValue": "={{ $json.event.Info.Type }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cab4affb-3f0e-48b2-815f-e421010fb414",
+                    "leftValue": "={{ $json.event.Info.MediaType }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        512,
+        304
+      ],
+      "id": "fe901a4a-b071-4839-98dc-b2e2f00e8d98",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "file",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        704,
+        192
+      ],
+      "id": "26610785-20a7-4384-a1e3-7c11717e7594",
+      "name": "OpenAI"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        880,
+        304
+      ],
+      "id": "565b9772-2d11-44b7-ac93-88d9e95a0c3c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "## 01_ Informações Iniciais",
+        "height": 460,
+        "width": 1200,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "d2557838-fc89-4537-8571-e650d40a8b86",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db04d647-0171-4c37-900e-0ec2a78869d6",
+              "name": "info.user.name",
+              "value": "={{ $('PARSE_').item.json.event.Info.PushName }}",
+              "type": "string"
+            },
+            {
+              "id": "55bf3be0-b291-4da6-a591-d07b6d2219e5",
+              "name": "info.user.number",
+              "value": "={{ $('PARSE_').item.json.event.Info.Chat }}",
+              "type": "string"
+            },
+            {
+              "id": "c0caac9a-1543-4ede-b219-6590ab723e8a",
+              "name": "message.sender",
+              "value": "={{ $('PARSE_').item.json.event.Info.Sender.split('@')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "60c80e28-5245-4e1a-b474-b542007e8ff9",
+              "name": "message.origem",
+              "value": "={{ $('PARSE_').item.json.event.Info.IsFromMe ? 'outgoing' : 'incoming' }}",
+              "type": "string"
+            },
+            {
+              "id": "9a4aac05-99e1-4bd7-8c3c-8757b0b0d63d",
+              "name": "message.group",
+              "value": "={{ $('PARSE_').item.json.event.Info.IsGroup }}",
+              "type": "boolean"
+            },
+            {
+              "id": "66c5df72-0c8e-427b-a674-94b9dbb489fc",
+              "name": "message.id",
+              "value": "={{ $('PARSE_').item.json.event.Info.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "c7af394b-d670-428d-bff8-3ecf87452465",
+              "name": "message.Type",
+              "value": "={{ $('PARSE_').item.json.event.Info.MediaType }}",
+              "type": "string"
+            },
+            {
+              "id": "99d0abc9-31e9-46d7-847d-02ebbaf39071",
+              "name": "message.timestamp",
+              "value": "={{ $('PARSE_').item.json.event.Info.Timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "46e92787-60b4-409a-9a1b-f2a13af3bb70",
+              "name": "message.content",
+              "value": "={{ $json.text }} {{ $('PARSE_').item.json.event.Message.conversation }} {{ $json.event.Message.extendedTextMessage.text }}",
+              "type": "string"
+            },
+            {
+              "id": "73f102c2-2a5d-424e-a4e7-9b1459cdc6dc",
+              "name": "api.token",
+              "value": "={{ $('Webhook').item.json.body.token }}",
+              "type": "string"
+            },
+            {
+              "id": "b08c6660-f235-481b-9a94-3b5162ab821a",
+              "name": "api.baseurl",
+              "value": "https://www.avisaapi.com.br/api",
+              "type": "string"
+            },
+            {
+              "id": "44984d79-df61-46f3-89d2-fbb25c7053ef",
+              "name": "message.timeout",
+              "value": "720",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        304
+      ],
+      "id": "edae384a-53d4-459c-8c5c-1b8b7a1de1a4",
+      "name": "SET_VARIAVEIS"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "24f5aa90-9dfd-41c5-9842-afa5ad291001",
+              "leftValue": "={{ $json.message.origem }}",
+              "rightValue": "incoming",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        192
+      ],
+      "id": "77cf69a6-fdc8-4f6e-87c2-9d92c43f6faa",
+      "name": "INCOMING"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=atendimento.{{ $('INCOMING').item.json.info.user.number }}",
+        "value": "true",
+        "expire": true,
+        "ttl": "={{ $('INCOMING').item.json.message.timeout }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        288
+      ],
+      "id": "c9f96f94-56e0-4c88-8e61-9a4bb5d6a232",
+      "name": "SET_ ATENDIMENTO"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "atendimento",
+        "key": "=atendimento.{{ $('SET_VARIAVEIS').item.json.info.user.number }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        112
+      ],
+      "id": "83d8cd9d-4f1b-43c9-a0f8-ad680beab1f4",
+      "name": "GET_ ATENDIMENTO"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8600454a-a4cb-4f7f-bc9b-efbe521ce59e",
+              "leftValue": "={{ $json.atendimento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        112
+      ],
+      "id": "21dfd3a8-fda0-4089-893d-17a21bd9ac83",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "## 02_ Filtro de Atendimento",
+        "height": 460,
+        "width": 720,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1232,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "67ad4a5e-fb6c-48af-9b20-5a425c8f62c3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        304
+      ],
+      "id": "db77904b-cd01-452f-9929-95435eaac8eb",
+      "name": "Espera"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=temp.{{ $('SET_VARIAVEIS').item.json.info.user.number }}",
+        "messageData": "={{ JSON.stringify ($('INCOMING').item.json.message) }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        160
+      ],
+      "id": "f45483b9-08f7-4e45-82c3-e69dcac228e3",
+      "name": "PUSH"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "messages",
+        "key": "=temp.{{ $('SET_VARIAVEIS').item.json.info.user.number }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        160
+      ],
+      "id": "746c2abc-1261-49bc-8580-6727207bc87d",
+      "name": "GET"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ JSON.parse($json.messages?.first() || '{}').id }}",
+                    "rightValue": "={{ $('SET_VARIAVEIS').item.json.message.id }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    },
+                    "id": "4e8bd021-f244-438e-91ec-bca28c744d51"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "nada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ec73dd6d-136d-4050-8692-d9e721933fab",
+                    "leftValue": "={{ DateTime.fromISO(JSON.parse($json.messages?.last() || '{}').timestamp) }}",
+                    "rightValue": "={{ $now.minus(15, 'seconds' )}}",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "segue"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "espera"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2320,
+        160
+      ],
+      "id": "37901c7a-46a9-412e-8f13-253a64471a5f",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        48
+      ],
+      "id": "a791a55d-7688-4250-8559-cde8d5165102",
+      "name": "NADA"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2480,
+        272
+      ],
+      "id": "3efb0232-32bd-47ec-ade0-618377eee400",
+      "name": "Wait",
+      "webhookId": "0f6a672f-4c67-48c4-ae30-88e8192c2766"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=temp.{{ $('SET_VARIAVEIS').item.json.info.user.number }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        160
+      ],
+      "id": "9a048a51-2286-4803-9724-c24e6bd906ce",
+      "name": "Redis"
+    },
+    {
+      "parameters": {
+        "content": "## 03_ Buffer",
+        "height": 460,
+        "width": 880,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1968,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "d073809d-ad40-476d-b0dc-04db362a5519",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "PARSE_",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PARSE_": {
+      "main": [
+        [
+          {
+            "node": "É GRUPO?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "É GRUPO?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "SET_VARIAVEIS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET_VARIAVEIS": {
+      "main": [
+        [
+          {
+            "node": "INCOMING",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "INCOMING": {
+      "main": [
+        [
+          {
+            "node": "GET_ ATENDIMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SET_ ATENDIMENTO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET_ ATENDIMENTO": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "PUSH",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Espera",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PUSH": {
+      "main": [
+        [
+          {
+            "node": "GET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "NADA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "GET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "00507eec-a7ef-4740-b8b7-b2e2fca38ee1",
+  "triggerCount": 0,
+  "tags": []
+}
