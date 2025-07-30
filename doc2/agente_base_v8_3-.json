@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T17:42:17.118Z",
-  "updatedAt": "2025-07-28T12:22:43.014Z",
+  "updatedAt": "2025-07-29T21:11:27.516Z",
   "id": "govaWVGWYvW3c6LE",
   "name": "AGENTE_BASE_V8_3",
   "active": false,
@@ -3365,6 +3365,281 @@
           "name": "Evolution account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "id": "d5c3a745-859c-4d10-a2de-c34cfd869601",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        3904,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f1e1c15f-6b80-43db-885b-c444e8ee8a86",
+                    "leftValue": "={{ $item(\"0\").$node[\"Execute Workflow Trigger\"].json[\"Evento\"] }}",
+                    "rightValue": "img1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "img1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5ea58828-407d-4661-93e7-bcaeec23a924",
+                    "leftValue": "={{ $item(\"0\").$node[\"Execute Workflow Trigger\"].json[\"Evento\"] }}",
+                    "rightValue": "enviarfoto",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "envviar foto"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ac8bda1a-b334-4bf5-a722-2729058ef20b",
+      "name": "Switch4",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        4096,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        4912,
+        960
+      ],
+      "id": "d409e9a5-0171-428a-a6c6-878f18d90512",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bdf3c023-082c-4f78-b311-6302affcc988",
+              "name": "telefone",
+              "value": "={{ $('Execute Workflow Trigger').item.json.Remotejid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4336,
+        976
+      ],
+      "id": "1972c9b2-2354-4999-85cb-0ca093986e59",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f842ffa-cd8f-40ab-a0a7-40dc173357a7",
+              "name": "response",
+              "value": "=Sucesso",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3bf803e2-f70f-4307-a10d-557bbbfee4b7",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5296,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "name": "enviar_img1",
+        "description": "=usar para enviar a o pdf dos planos da academia",
+        "workflowId": {
+          "__rl": true,
+          "value": "govaWVGWYvW3c6LE",
+          "mode": "id"
+        },
+        "fields": {
+          "values": [
+            {
+              "name": "Evento",
+              "stringValue": "img1"
+            },
+            {
+              "name": "Remotejid",
+              "stringValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        },
+        "jsonSchemaExample": ""
+      },
+      "id": "9be1bbdb-6a07-4920-bf31-7d29e0a0e328",
+      "name": "enviar_img1",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        6752,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Ferramentas:",
+        "height": 840,
+        "width": 2220,
+        "color": 4
+      },
+      "id": "3c79eb42-1522-448a-8249-a9cf20e2ba76",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3808,
+        592
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "=",
+        "limit": 1,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1g7HZkwBOlZ4W00iuDe7CE_CMKq8T47ep",
+            "mode": "list",
+            "cachedResultName": "PDF",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1g7HZkwBOlZ4W00iuDe7CE_CMKq8T47ep"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "mimeType",
+            "name",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4528,
+        960
+      ],
+      "id": "48fbced1-b767-49ad-a563-3e965749c2ff",
+      "name": "Search files and folders1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4704,
+        960
+      ],
+      "id": "a6bdff63-cfa5-4fda-9914-2be5e96d1b31",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "n8n",
+        "remoteJid": "={{ $('Switch4').item.json.Remotejid }}",
+        "media": "={{ $json.data }}",
+        "caption": "Segue o orçamento",
+        "fileName": "",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        5104,
+        960
+      ],
+      "id": "7dde340d-5afe-434e-b5c8-d9f1d2a89e45",
+      "name": "Enviar documento",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -4362,6 +4637,94 @@
           }
         ]
       ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Enviar documento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_img1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Atendente",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders1": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar documento": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4438,7 +4801,7 @@
       }
     ]
   },
-  "versionId": "e8c659fe-1f96-45f6-9064-3f9d983aeabf",
+  "versionId": "ff398ab5-a168-4f48-a216-cf33e109fd44",
   "triggerCount": 0,
   "tags": []
 }
