@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T18:31:59.595Z",
-  "updatedAt": "2025-07-26T01:54:31.828Z",
+  "updatedAt": "2025-07-31T13:07:11.332Z",
   "id": "0G2eX8am0d2F9bYJ",
   "name": "ASSISTENTE_FINANCEIRO",
   "active": false,
@@ -1923,68 +1923,8 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {
-    "Recebe mensagem usuario": [
-      {
-        "json": {
-          "headers": {
-            "host": "primary-production-b5c5.up.railway.app",
-            "user-agent": "axios/1.7.9",
-            "content-length": "958",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "content-type": "application/json",
-            "x-forwarded-for": "162.220.232.29",
-            "x-forwarded-host": "primary-production-b5c5.up.railway.app",
-            "x-forwarded-proto": "https",
-            "x-railway-edge": "railway/us-west1",
-            "x-railway-request-id": "HvxXrkNoQcCpY5Rl0NM8rw_1850849526",
-            "x-real-ip": "162.220.232.29",
-            "x-request-start": "1740770438507"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "BOT",
-            "data": {
-              "key": {
-                "remoteJid": "5511981370549@s.whatsapp.net",
-                "fromMe": false,
-                "id": "DC31AE0A17AEC144D4C912A3D42DF1B5"
-              },
-              "pushName": "DSR Marketing",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Quantos gastei nos últimos 2 dias?",
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "pWp4D+Bh3lcK6Q==",
-                    "senderTimestamp": "1740269616",
-                    "recipientKeyHash": "0WDtKy4wdlvXpQ==",
-                    "recipientTimestamp": "1740317852"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "IkbV/agyGBTRUjUpAwf4nm5ISkJFxVhyC6bVtG23cE4="
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1740770437,
-              "instanceId": "668372c2-c67f-402d-8336-02ca0c95b27d",
-              "source": "android"
-            },
-            "destination": "https://primary-production-b5c5.up.railway.app/webhook-test/bb1266a5-d365-471c-9d2f-fd64884edabd",
-            "date_time": "2025-02-28T16:20:38.319Z",
-            "sender": "5511943825525@s.whatsapp.net",
-            "server_url": "http://localhost:8080",
-            "apikey": "3A0167A6C7A0-47C7-93B7-B9BF05E43205"
-          },
-          "webhookUrl": "https://primary-production-b5c5.up.railway.app/webhook-test/bb1266a5-d365-471c-9d2f-fd64884edabd",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "7e1d8441-3ea2-44ac-bb4b-a77edf17edde",
+  "pinData": {},
+  "versionId": "f226c1da-3580-4f24-87ca-db4c73367459",
   "triggerCount": 0,
   "tags": []
 }
