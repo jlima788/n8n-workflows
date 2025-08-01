@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:54:33.342Z",
-  "updatedAt": "2025-07-28T13:31:08.423Z",
+  "updatedAt": "2025-07-31T13:14:18.604Z",
   "id": "PBCXEOxRu7Zoxe6V",
   "name": "Recuperação Kirvano",
   "active": true,
@@ -10,18 +10,6 @@
       "parameters": {
         "assignments": {
           "assignments": [
-            {
-              "id": "619ee06d-566b-43a5-ba5e-a8f947373813",
-              "name": "API_URL",
-              "value": "https://x2id7y0t-evolution.cloudfy.cloud",
-              "type": "string"
-            },
-            {
-              "id": "b86710b9-2e78-49f5-b174-27254b59a85c",
-              "name": "API_KEY",
-              "value": "g1G7Cbap17j91XD7reMbfPX3AHgW2I0h",
-              "type": "string"
-            },
             {
               "id": "3848e6c7-7b9d-4754-8141-c19189ede3bc",
               "name": "INSTANCE",
@@ -67,47 +55,6 @@
       "id": "8e7ca8cd-4086-4339-92a2-0ae986f0e821",
       "name": "Wait",
       "webhookId": "e5b6d4cc-075c-4a25-807a-02b983b8b3ef"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $json.API_URL }}/message/sendText/{{ $json.INSTANCE }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "name": "apikey",
-              "value": "={{ $json.API_KEY }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "number",
-              "value": "={{ $('Edit Fields').item.json.NUMERO }}"
-            },
-            {
-              "name": "text",
-              "value": "=Somos do Bruno Reis, a plataforma onde o produto {{ $('Carrinho abandonado').item.json.body.products[0].name }} está cadastrado.\n\nVimos que você deixou ele no seu carrinho, mas não finalizou a compra 😥\n\nNão perca esta oportunidade! Para finalizar a compra e garantir seu acesso ao produto {{ $('Carrinho abandonado').item.json.body.products[0].name }}, acesse o link abaixo ⬇️\n{{ $('Carrinho abandonado').item.json.body.checkout_url }}\n\nÉ rápido, prático e 100% confiável ✅\n\nSe tiver alguma dúvida, envie uma mensagem para o(a) produtor(a) deste conteúdo, Bruno Reis: brunodosreislima@yahoo.com.br\n\nCaso já tenha efetuado a compra, ignore esta mensagem.\n\nAbraços,\nBruno Reis."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        720,
-        96
-      ],
-      "id": "a4210b26-51b7-4c88-ba37-5ab69093128b",
-      "name": "HTTP Request"
     },
     {
       "parameters": {},
@@ -215,6 +162,29 @@
       "typeVersion": 1,
       "id": "0f2a2743-70a2-4127-ac75-e1070d9aa4d5",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Edit Fields').item.json.INSTANCE }}",
+        "remoteJid": "={{ $('Edit Fields').item.json.NUMERO }}",
+        "messageText": "=Somos do Bruno Reis, a plataforma onde o produto {{ $('Carrinho abandonado').item.json.body.products[0].name }} está cadastrado.\n\nVimos que você deixou ele no seu carrinho, mas não finalizou a compra 😥\n\nNão perca esta oportunidade! Para finalizar a compra e garantir seu acesso ao produto {{ $('Carrinho abandonado').item.json.body.products[0].name }}, acesse o link abaixo ⬇️\n{{ $('Carrinho abandonado').item.json.body.checkout_url }}\n\nÉ rápido, prático e 100% confiável ✅\n\nSe tiver alguma dúvida, envie uma mensagem para o(a) produtor(a) deste conteúdo, Bruno Reis: brunodosreislima@yahoo.com.br\n\nCaso já tenha efetuado a compra, ignore esta mensagem.\n\nAbraços,\nBruno Reis.",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        720,
+        96
+      ],
+      "id": "0c0cdb4e-3c0c-4c8b-82d7-921a037920f8",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -233,18 +203,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
+            "node": "Enviar texto1",
             "type": "main",
             "index": 0
           }
@@ -283,6 +242,17 @@
           }
         ]
       ]
+    },
+    "Enviar texto1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -295,7 +265,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ee8263a1-b8f7-4871-b642-b8be9c1c95c3",
+  "versionId": "779a269b-02a5-4be7-b1f9-bbfdae001954",
   "triggerCount": 2,
   "tags": []
 }
