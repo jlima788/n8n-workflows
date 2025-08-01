@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T18:23:32.111Z",
-  "updatedAt": "2025-07-28T12:16:06.329Z",
+  "updatedAt": "2025-07-31T13:15:01.758Z",
   "id": "FSKeYHO9tOATfyh8",
   "name": "ASSISTENTE VIRTUAL 2.0",
   "active": false,
@@ -1041,80 +1041,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Recebe mensagem usuario": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.everaldolima.com.br",
-            "user-agent": "axios/1.10.0",
-            "content-length": "1066",
-            "accept": "application/json, text/plain, */*",
-            "accept-encoding": "gzip, br",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "5.161.253.237",
-            "cf-ipcountry": "US",
-            "cf-ray": "962c99361ffe86a6-IAD",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.70.39.113",
-            "x-forwarded-host": "n8n.everaldolima.com.br",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "678825274e56",
-            "x-real-ip": "172.70.39.113"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "Automação IA",
-            "data": {
-              "key": {
-                "remoteJid": "5513988491908@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3EB0BAA13F656F7341A94D",
-                "senderLid": "273984704741630@lid"
-              },
-              "pushName": "Everaldo",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Teste",
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "gGlStNL/Dx5nxA==",
-                    "senderTimestamp": "1752337100",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "T1MRQ+uJY03byg==",
-                    "recipientTimestamp": "1752180426"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "zwFyEE3ORvKnyLOTbvaScv5doAM66dJvGIhG46thuXM=",
-                  "limitSharingV2": {
-                    "trigger": "UNKNOWN",
-                    "initiatedByMe": false
-                  }
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1753120832,
-              "instanceId": "b8ce8df9-fbcd-4249-9ae1-67b9a10a15a5",
-              "source": "web"
-            },
-            "destination": "https://n8n.everaldolima.com.br/webhook-test/d9f0a46a-504a-4d52-a0a3-a6222fe80509",
-            "date_time": "2025-07-21T15:00:32.821Z",
-            "sender": "5521993232635@s.whatsapp.net",
-            "server_url": "https://evo.everaldolima.com.br",
-            "apikey": "BAAF972F66A7-4B25-89A1-88C0885871E7"
-          },
-          "webhookUrl": "https://n8n.everaldolima.com.br/webhook-test/d9f0a46a-504a-4d52-a0a3-a6222fe80509",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "091d520b-db2c-4250-abce-caf2b49f6272",
+  "pinData": {},
+  "versionId": "78936bfb-9db9-47f9-8fca-1989eac5f499",
   "triggerCount": 0,
   "tags": []
 }
