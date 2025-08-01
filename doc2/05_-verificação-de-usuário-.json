@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:57:00.951Z",
-  "updatedAt": "2025-07-28T14:57:00.951Z",
+  "updatedAt": "2025-07-31T12:50:50.478Z",
   "id": "DxJyLwGK1V0c6smr",
   "name": "05_ Verificação de Usuário",
   "active": false,
@@ -188,7 +188,13 @@
         336
       ],
       "id": "17457608-575d-44a8-a479-2b47f0e17ebb",
-      "name": "OpenAI"
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -357,7 +363,13 @@
         432
       ],
       "id": "8989eda6-7e34-4b51-819f-68da1cd2d2a5",
-      "name": "SET_ ATENDIMENTO"
+      "name": "SET_ ATENDIMENTO",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -373,7 +385,13 @@
         256
       ],
       "id": "2adbf9ec-d31f-4fb6-89c1-c470d7a5f092",
-      "name": "GET_ ATENDIMENTO"
+      "name": "GET_ ATENDIMENTO",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -450,7 +468,13 @@
         304
       ],
       "id": "19923857-b413-4234-be17-e78e64eeb925",
-      "name": "PUSH"
+      "name": "PUSH",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -466,7 +490,13 @@
         304
       ],
       "id": "ef0edb0e-d2de-44fc-88f8-79922bad427e",
-      "name": "GET"
+      "name": "GET",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -589,7 +619,13 @@
         304
       ],
       "id": "3464d828-f371-4b2a-8fa1-b41fcc693ce4",
-      "name": "DELETE"
+      "name": "DELETE",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -635,7 +671,13 @@
       ],
       "id": "2c1dfe57-513c-49d2-a6d3-21aeee6c5f9a",
       "name": "Supabase",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -716,7 +758,13 @@
         416
       ],
       "id": "b8a88653-5ef7-4079-b6ac-99dce464d1fd",
-      "name": "CREATE_ USER"
+      "name": "CREATE_ USER",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1156,45 +1204,11 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "legiaocurso.app.n8n.cloud",
-            "user-agent": "go-resty/2.16.5 (https://github.com/go-resty/resty)",
-            "content-length": "2552",
-            "accept-encoding": "gzip, br",
-            "cdn-loop": "cloudflare; loops=1; subreqs=1",
-            "cf-connecting-ip": "138.197.95.114",
-            "cf-ew-via": "15",
-            "cf-ipcountry": "US",
-            "cf-ray": "93e4ddd6b152086e-EWR",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "cf-worker": "n8n.cloud",
-            "content-type": "application/x-www-form-urlencoded",
-            "x-forwarded-for": "138.197.95.114, 104.23.190.90",
-            "x-forwarded-host": "legiaocurso.app.n8n.cloud",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "traefik-prod-users-gwc-23-54c976d6d9-69744",
-            "x-is-trusted": "yes",
-            "x-real-ip": "138.197.95.114"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "jsonData": "{\"event\":{\"Info\":{\"Chat\":\"553199909448@s.whatsapp.net\",\"Sender\":\"553199909448@s.whatsapp.net\",\"IsFromMe\":false,\"IsGroup\":false,\"BroadcastListOwner\":\"\",\"ID\":\"7CDE1787D5BF50A9762ABC367D3AA983\",\"ServerID\":0,\"Type\":\"text\",\"PushName\":\"Legião/ Informações de Compra\",\"Timestamp\":\"2025-05-11T21:46:00Z\",\"Category\":\"\",\"Multicast\":false,\"MediaType\":\"\",\"Edit\":\"\",\"MsgBotInfo\":{\"EditType\":\"\",\"EditTargetID\":\"\",\"EditSenderTimestampMS\":\"0001-01-01T00:00:00Z\"},\"MsgMetaInfo\":{\"TargetID\":\"\",\"TargetSender\":\"\"},\"VerifiedName\":{\"Certificate\":{\"details\":\"CODUpo/CibzAPxIGc21iOndhIiBMZWdpw6NvLyBJbmZvcm1hw6fDtWVzIGRlIENvbXByYQ==\",\"signature\":\"XQCfvCI1m/rtnm4xEco9Hxp+66/p8HJ2L3amRnV/AKrPLD50SZ4FeVz6zcZLg95KUfZMYbYJ1izcVcEZt6c5CQ==\"},\"Details\":{\"serial\":4575921431185566304,\"issuer\":\"smb:wa\",\"verifiedName\":\"Legião/ Informações de Compra\"}},\"DeviceSentMeta\":null},\"Message\":{\"conversation\":\"Teste 01\",\"messageContextInfo\":{\"deviceListMetadata\":{\"senderKeyHash\":\"Hf5PY6FMEVuuMw==\",\"senderTimestamp\":1745959563,\"recipientKeyHash\":\"aGs0SPhGV8PcDg==\",\"recipientTimestamp\":1745958985},\"deviceListMetadataVersion\":2,\"messageSecret\":\"7BsgW5MjBLVSlGYIUqh2Q/k3Zw58nQ276AHpU2ENZRU=\"}},\"IsEphemeral\":false,\"IsViewOnce\":false,\"IsViewOnceV2\":false,\"IsViewOnceV2Extension\":false,\"IsDocumentWithCaption\":false,\"IsLottieSticker\":false,\"IsEdit\":false,\"SourceWebMsg\":null,\"UnavailableRequestID\":\"\",\"RetryCount\":0,\"NewsletterMeta\":null,\"RawMessage\":{\"conversation\":\"Teste 01\",\"messageContextInfo\":{\"deviceListMetadata\":{\"senderKeyHash\":\"Hf5PY6FMEVuuMw==\",\"senderTimestamp\":1745959563,\"recipientKeyHash\":\"aGs0SPhGV8PcDg==\",\"recipientTimestamp\":1745958985},\"deviceListMetadataVersion\":2,\"messageSecret\":\"7BsgW5MjBLVSlGYIUqh2Q/k3Zw58nQ276AHpU2ENZRU=\"}}},\"type\":\"Message\"}",
-            "token": "F7e1BY2eDPXrqpPNs7Jp6qnE4qa1L1BpgCP3sti8oiYbM2ZGbfkGAHtVgh1K"
-          },
-          "webhookUrl": "https://legiaocurso.app.n8n.cloud/webhook/962aa0d1-bec0-48d5-935b-43ca256f5cde",
-          "executionMode": "production"
-        }
-      }
-    ]
+  "meta": {
+    "templateCredsSetupCompleted": true
   },
-  "versionId": "71e5f863-802d-4acf-aef8-e086c1c048b3",
+  "pinData": {},
+  "versionId": "9ff39792-9887-4992-979a-42b24d30c193",
   "triggerCount": 0,
   "tags": []
 }
