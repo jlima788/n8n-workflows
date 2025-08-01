@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T17:42:17.118Z",
-  "updatedAt": "2025-07-30T13:29:35.603Z",
+  "updatedAt": "2025-07-31T13:06:33.563Z",
   "id": "govaWVGWYvW3c6LE",
   "name": "AGENTE_BASE_V8_3",
   "active": false,
@@ -3932,8 +3932,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        7456,
-        1536
+        7440,
+        1664
       ],
       "id": "74a977a1-8b64-4118-9f67-9667ed655f6f",
       "name": "OpenAI Chat Model3",
@@ -5396,71 +5396,6 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {
-    "Webhook EVO": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.everaldolima.com.br",
-            "user-agent": "axios/1.10.0",
-            "content-length": "930",
-            "accept": "application/json, text/plain, */*",
-            "accept-encoding": "gzip, br",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "5.161.253.237",
-            "cf-ipcountry": "US",
-            "cf-ray": "95d304a8eb125001-IAD",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "x-forwarded-for": "104.23.211.46",
-            "x-forwarded-host": "n8n.everaldolima.com.br",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "678825274e56",
-            "x-real-ip": "104.23.211.46"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "n8n",
-            "data": {
-              "key": {
-                "remoteJid": "5521993232635@s.whatsapp.net",
-                "fromMe": false,
-                "id": "FBC0EF776E7536FBB1B7450800812B54",
-                "senderLid": "169909543764177@lid"
-              },
-              "pushName": "Eve Automação",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Tudo bem",
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "T1MRQ+uJY03byg==",
-                    "senderTimestamp": "1752180426",
-                    "recipientKeyHash": "iYMAeWGZDebQtw==",
-                    "recipientTimestamp": "1751905220"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "KFchuXZSNMNor0khakpCuNZUYf2mNIVm/i0uYETTirc="
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1752181515,
-              "instanceId": "dd1d2756-65c8-4f28-b470-3197a9756c85",
-              "source": "android"
-            },
-            "destination": "https://n8n.everaldolima.com.br/webhook/aula",
-            "date_time": "2025-07-10T18:05:15.640Z",
-            "sender": "5513988491908@s.whatsapp.net",
-            "server_url": "https://evo.everaldolima.com.br:8080",
-            "apikey": "A4FBF5D7C817-46C1-8275-8CD37271A6F2"
-          },
-          "webhookUrl": "https://n8n.everaldolima.com.br/webhook/aula",
-          "executionMode": "production"
-        }
-      }
-    ],
     "Enviar texto3": [
       {
         "json": {
@@ -5476,7 +5411,7 @@
       }
     ]
   },
-  "versionId": "17d82dad-364c-46f4-a9bb-44c4d64f2777",
+  "versionId": "834fef1c-4331-4156-a65e-76f0b917e6cd",
   "triggerCount": 0,
   "tags": [
     {
