@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T17:19:23.129Z",
-  "updatedAt": "2025-07-28T17:19:23.129Z",
+  "updatedAt": "2025-07-31T13:05:21.937Z",
   "id": "Y7nytuFMDg7RUROC",
   "name": "07_ Mensagem Humanizada",
   "active": false,
@@ -1170,7 +1170,13 @@
         592
       ],
       "id": "588308ef-0ae9-4929-9e14-feb382ffd06e",
-      "name": "Deletar_ Memória"
+      "name": "Deletar_ Memória",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1635,7 +1641,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "7cb8a13d-bfb3-4879-8f3f-b2bb211637fb",
+  "versionId": "8691cdc4-75ac-435e-afb6-79fce70b1228",
   "triggerCount": 0,
   "tags": []
 }
