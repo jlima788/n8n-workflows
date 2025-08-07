@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-03T00:30:20.057Z",
-  "updatedAt": "2025-08-03T02:02:19.040Z",
+  "updatedAt": "2025-08-06T19:32:26.254Z",
   "id": "r21W8MrJKR58CGGO",
   "name": "SDR - Vendas",
   "active": false,
@@ -250,7 +250,13 @@
       "position": [
         1408,
         1152
-      ]
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -259,19 +265,19 @@
             {
               "id": "bc2a1451-2a6d-450e-8adf-b4fc1fd342d7",
               "name": "server_url",
-              "value": "URL DA EVOLUTION API",
+              "value": "https://x2id7y0t-evolution.cloudfy.cloud",
               "type": "string"
             },
             {
               "id": "31ef30af-2137-4896-b7ca-99e154646676",
               "name": "instancia",
-              "value": "NOME DA INSTÂNCIA",
+              "value": "automacao-ia",
               "type": "string"
             },
             {
               "id": "3bf78965-9d9f-4710-8822-42b592d1533d",
               "name": "api_key",
-              "value": "API KEY DA INSTANCIA DO EVOLUTION",
+              "value": "4DF41F568E87-449A-903E-4E6952BF3C44",
               "type": "string"
             }
           ]
@@ -409,10 +415,10 @@
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
-          "value": "10L-HNkOwldPGuCHed2eHheYfXbWxLhaERqlnwAwFl90",
+          "value": "15-OMaz8cWiTHjfk8Ay4fbjHCYOjPTyqfbXFyYo1mzg4",
           "mode": "list",
-          "cachedResultName": "Cópia de Leads - Google Maps",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10L-HNkOwldPGuCHed2eHheYfXbWxLhaERqlnwAwFl90/edit?usp=drivesdk"
+          "cachedResultName": "Leads - Google Maps",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15-OMaz8cWiTHjfk8Ay4fbjHCYOjPTyqfbXFyYo1mzg4/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
@@ -534,7 +540,13 @@
       "position": [
         2720,
         912
-      ]
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nfGoy3UranCgi3Hm",
+          "name": "Google Sheets account"
+        }
+      }
     },
     {
       "parameters": {
@@ -555,7 +567,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"numbers\": [\n    \"{{ $json.remote_jid_12 }}\"\n  ]\n}",
+        "jsonBody": "={\n  \"numbers\": [\n    \"{{ $('MontaNumeros').item.json.remote_jid_12 }}\"\n  ]\n}",
         "options": {
           "redirect": {
             "redirect": {}
@@ -599,8 +611,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1376,
-        352
+        1360,
+        320
       ],
       "onError": "continueErrorOutput"
     },
@@ -769,8 +781,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1648,
-        416
+        1616,
+        400
       ]
     },
     {
@@ -920,7 +932,7 @@
             {
               "id": "f68f1419-c32e-42c4-a7ff-275cc14a3a47",
               "name": "Api_Key_EvolutionAPI",
-              "value": "g1G7Cbap17j91XD7reMbfPX3AHgW2I0h",
+              "value": "4DF41F568E87-449A-903E-4E6952BF3C44",
               "type": "string"
             }
           ]
@@ -1570,9 +1582,11 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "e5cb66cf-0762-4c60-ba4a-fd8a6051822b",
+  "versionId": "e33e9879-eef4-40c7-be35-d108840bb0fd",
   "triggerCount": 0,
   "tags": []
 }
