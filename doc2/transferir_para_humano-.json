@@ -1,0 +1,81 @@
+{
+  "createdAt": "2025-08-08T01:06:48.923Z",
+  "updatedAt": "2025-08-08T01:07:16.112Z",
+  "id": "Kc1scNOJgPc8ZA8X",
+  "name": "transferir_para_humano",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "number.user",
+              "type": "any"
+            },
+            {
+              "name": "name.user"
+            },
+            {
+              "name": "id_grupo"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        -224
+      ],
+      "id": "b664a2bc-c76a-4850-9538-ed5759b74b2a",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "automacao-ia",
+        "remoteJid": "={{ $json.id_grupo }}",
+        "messageText": "=🚨 Novo pedido de atendimento humano!\n\n👤 Nome: {{ $json['name.user'] }}\n📞 WhatsApp: +{{ $json['number.user'].replace('@s.whatsapp.net', '') }}\n🔗 Link direto: https://wa.me/{{ $json['number.user'].replace('@s.whatsapp.net', '') }}\n\n🗒️ Mensagem do usuário: \"Solicitou atendimento humano\"\n",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -224
+      ],
+      "id": "a35aff70-188a-4ba4-8338-7072bd379760",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6cc020d4-806d-4f78-928e-3fd55a79f673",
+  "triggerCount": 0,
+  "tags": []
+}
