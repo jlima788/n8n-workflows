@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:53:35.416Z",
-  "updatedAt": "2025-07-28T13:28:01.605Z",
+  "updatedAt": "2025-08-09T00:36:51.434Z",
   "id": "ZoU66jcwILgFvijm",
   "name": "Morning Call",
   "active": true,
@@ -120,7 +120,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1376,
+        1424,
         32
       ],
       "id": "6e7560ef-1b5c-4d9e-af52-b024c809c2e6",
@@ -130,14 +130,14 @@
       "parameters": {
         "resource": "messages-api",
         "instanceName": "n8n",
-        "remoteJid": "120363419584060697@g.us",
+        "remoteJid": "120363418282831477@g.us",
         "messageText": "={{ $json.output }}",
         "options_message": {}
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        1200,
+        1248,
         32
       ],
       "id": "b7b9e35a-6fdd-4fd1-87f6-e09b7b654933",
@@ -227,8 +227,14 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "13d1054e-1a35-48cf-b9c0-3a416647ab31",
+  "pinData": {
+    "Trigger Diário": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "versionId": "8da041c5-1a14-43b9-abfc-83b12e05775a",
   "triggerCount": 1,
   "tags": []
 }
