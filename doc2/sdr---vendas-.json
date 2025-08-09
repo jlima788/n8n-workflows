@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-03T00:30:20.057Z",
-  "updatedAt": "2025-08-06T19:32:26.254Z",
+  "updatedAt": "2025-08-08T12:46:52.434Z",
   "id": "r21W8MrJKR58CGGO",
   "name": "SDR - Vendas",
   "active": false,
@@ -908,7 +908,7 @@
             {
               "id": "32de923e-44ed-4807-a252-b3ce0d2c8b28",
               "name": "Busca",
-              "value": "clinicas de estética em Santos",
+              "value": "odontologia em Santos",
               "type": "string"
             },
             {
@@ -1586,7 +1586,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e33e9879-eef4-40c7-be35-d108840bb0fd",
+  "versionId": "3dc497fe-2fe9-440a-b661-74412e48d284",
   "triggerCount": 0,
   "tags": []
 }
