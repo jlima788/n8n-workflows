@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-08-08T00:53:56.517Z",
-  "updatedAt": "2025-08-08T01:08:00.047Z",
+  "updatedAt": "2025-08-08T17:43:24.278Z",
   "id": "4MMfHlxGD1eKlOtG",
   "name": "AGENTE - ATENDIMENTO",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -593,7 +593,7 @@
     {
       "parameters": {
         "operation": "get",
-        "tableId": "contatos",
+        "tableId": "evolua_contatos",
         "filters": {
           "conditions": [
             {
@@ -890,7 +890,7 @@
           "value": {
             "number.user": "={{ $('SET_VARIAVEIS').first().json.user.number }}",
             "name.user": "={{ $('SET_VARIAVEIS').first().json.user.name }}",
-            "id_grupo": "120363401547654689@g.us"
+            "id_grupo": "120363401037909956@g.us"
           },
           "matchingColumns": [],
           "schema": [
@@ -947,7 +947,7 @@
             {
               "id": "fd515efe-f3c9-4c86-b9bf-70a721783f1d",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "553171931507@s.whatsapp.net",
+              "rightValue": "5513988491908@s.whatsapp.net",
               "operator": {
                 "type": "string",
                 "operation": "equals",
@@ -1490,8 +1490,80 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "17afae4e-7377-4713-9493-3cec220fd9e4",
-  "triggerCount": 0,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "x2id7y0t-n8n.cloudfy.cloud",
+            "user-agent": "axios/1.10.0",
+            "content-length": "1078",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "5.78.141.88",
+            "cf-ipcountry": "US",
+            "cf-ray": "96bf2ff93c6a8736-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "104.23.160.38",
+            "x-forwarded-host": "x2id7y0t-n8n.cloudfy.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "abcfc2aa44ac",
+            "x-real-ip": "104.23.160.38"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "automacao-ia",
+            "data": {
+              "key": {
+                "remoteJid": "5513988491908@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB00D521B63772FE855E2",
+                "senderLid": "273984704741630@lid"
+              },
+              "pushName": "Everaldo",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Gosatria sim",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "LrxaFjpnRDu2DQ==",
+                    "senderTimestamp": "1754600902",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "sxZwY+1NI0ngyg==",
+                    "recipientTimestamp": "1753454888"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "PIK1Mokxj7nIu+c44hGvVQhz4RJtmyGuwhqYIMKOXRo=",
+                  "limitSharingV2": {
+                    "trigger": "UNKNOWN",
+                    "initiatedByMe": false
+                  }
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1754657914,
+              "instanceId": "3a429a18-bfe4-4536-a99c-20341679664e",
+              "source": "web"
+            },
+            "destination": "https://x2id7y0t-n8n.cloudfy.cloud/webhook/85c86aff-9e7a-4bed-9d1e-fd5ef0ed5d4d",
+            "date_time": "2025-08-08T09:58:49.121Z",
+            "sender": "5521993232635@s.whatsapp.net",
+            "server_url": "https://x2id7y0t-evolution.cloudfy.cloud",
+            "apikey": "4DF41F568E87-449A-903E-4E6952BF3C44"
+          },
+          "webhookUrl": "https://x2id7y0t-n8n.cloudfy.cloud/webhook/85c86aff-9e7a-4bed-9d1e-fd5ef0ed5d4d",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "609f52f5-0185-460e-878b-71ec1a9d7b42",
+  "triggerCount": 1,
   "tags": []
 }
