@@ -5413,6 +5413,15 @@
   },
   "versionId": "834fef1c-4331-4156-a65e-76f0b917e6cd",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-07-25T17:42:17.118Z",
+      "updatedAt": "2025-07-25T17:42:17.118Z",
+      "role": "workflow:owner",
+      "workflowId": "govaWVGWYvW3c6LE",
+      "projectId": "W84J5ordzl059lka"
+    }
+  ],
   "tags": [
     {
       "createdAt": "2025-07-30T13:23:47.543Z",
