@@ -1,0 +1,1581 @@
+{
+  "createdAt": "2025-09-11T21:34:11.710Z",
+  "updatedAt": "2025-09-11T21:34:11.710Z",
+  "id": "wjGm3oYEueWuitAD",
+  "name": "Agente Humanizado V2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Envio da Resposta no WhatsApp (via Z-API)\nAqui vocÊ configura o envio. damensagem na API do Z-API.",
+        "height": 624,
+        "width": 1920,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "54114234-1b7b-486d-ab98-aa97d10b48b3",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst outputLength = items[0]?.json?.output.length;\n\nreturn { outputLength };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        400
+      ],
+      "id": "cdd758e0-dc81-4539-98c1-2c7249382231",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1623971-fea8-4a15-8f5a-a275e523ff41",
+              "leftValue": "={{ $json.outputLength }}",
+              "rightValue": 1200,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        400
+      ],
+      "id": "456357be-d7ab-408d-8d73-41df8128f90a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        304
+      ],
+      "id": "6ab3fbf4-408a-46de-bae6-3a1001bbac75",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C5663886A53A0F3C6CE0E12A4DD5AF2/token/1809B61F352B958F8E1340E9/send-text",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "={{ $('Webhook1').item.json.body.phone }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $('Agente Principal').item.json.output.message }}"
+            },
+            {
+              "name": "delayTyping",
+              "value": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        992,
+        496
+      ],
+      "id": "3048af5d-57f0-478f-8da4-4d17e8ccff18",
+      "name": "Enviar Mensagem"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C5663886A53A0F3C6CE0E12A4DD5AF2/token/1809B61F352B958F8E1340E9/send-audio",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"phone\": \"{{ $('Webhook1').item.json.body.phone }}\",\n  \"audio\": \"data:audio/mpeg;base64,{{ $json.data }}\",\n  \"viewOnce\": false,\n  \"waveform\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1440,
+        304
+      ],
+      "id": "81fb147a-e5d7-4c0d-ae9c-16598838e440",
+      "name": "Enviar Audio"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "model": "tts-1-hd",
+        "input": "={{ $('Agente Principal').item.json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        992,
+        304
+      ],
+      "id": "06045ab1-c4c7-47c6-9560-dc0a5cc81cd1",
+      "name": "Generate audio"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.text.message }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "440b30b7-aaaf-4cb1-be60-a89f0a0218f0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9baaf70e-1f2c-4d87-83b8-76e287f2e0ad",
+                    "leftValue": "={{ $json.body.audio.audioUrl }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2d29b324-ed65-4e5f-843c-bac6924f5dc8",
+                    "leftValue": "={{ $json.body.image.imageUrl }}",
+                    "rightValue": "={{ $json.body.image.imageUrl }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -848,
+        304
+      ],
+      "id": "14d0edf7-c619-48f5-9851-137a1b3a18b6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7f92466b-dc73-4afc-8f7a-4d87c1edc52d",
+              "leftValue": "={{ $('Agente Principal').item.json.output }}",
+              "rightValue": "https://",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1648,
+        304
+      ],
+      "id": "08d24c8c-4d24-458e-823d-b840d0a546f8",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "text": "=Extra todos os links deste texto:  {{ $('Orquestrador1').item.json.output }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "links",
+              "description": "links do texto",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        160
+      ],
+      "id": "2c0b180d-9387-4447-b6d0-c71fb2bc4ea6",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        352
+      ],
+      "id": "5a7ced06-e4ad-444c-a616-18339f9a06bd",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C5663886A53A0F3C6CE0E12A4DD5AF2/token/1809B61F352B958F8E1340E9/send-audio",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "={{ $('Webhook1').item.json.body.phone }}"
+            },
+            {
+              "name": "message",
+              "value": "=Links mencionados no áudio: {{ $('Orquestrador1').item.json.output }}"
+            },
+            {
+              "name": "delayTyping",
+              "value": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2176,
+        160
+      ],
+      "id": "b51d077b-6c2a-4f6b-a47d-21ae586c59ad",
+      "name": "Enviar Mensagem1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "995bff81-d5e0-408a-a6bd-f94f661df882",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1152,
+        320
+      ],
+      "id": "328944b3-aec0-4428-9242-a73bf28611ce",
+      "name": "Webhook3",
+      "webhookId": "995bff81-d5e0-408a-a6bd-f94f661df882"
+    },
+    {
+      "parameters": {
+        "options": {
+          "gl": "br",
+          "hl": "pt-br"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        528
+      ],
+      "id": "4ba002f5-1013-48bf-bef8-835484c81486",
+      "name": "buscarGoogle1"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool to scrape a website.  Extract the URL from the user prompt.",
+        "url": "=https://r.jina.ai/{url}",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "url",
+              "description": "User provided website url",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "82cd001b-c404-4c46-af8a-a188995082ed",
+      "name": "web_scrapper1",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "position": [
+        80,
+        528
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## Sub-Agentes SDR da Empresa\nAqui vai atuar o Agente Comercial do seu negócio",
+        "height": 416,
+        "width": 1360,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -560,
+        656
+      ],
+      "typeVersion": 1,
+      "id": "ee58de7f-83f9-425c-af8c-11f1e5055ff9",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## CRM Unificado\nAqui todos os agentes acessam o CRM",
+        "height": 304,
+        "width": 720,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -560,
+        1072
+      ],
+      "typeVersion": 1,
+      "id": "774ed43f-d559-48b2-a88a-235cfb4f68f6",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "tableId": "crm_leads",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "organization_id",
+              "fieldValue": "139db025-4f71-4638-8cef-5e88b8690c78"
+            },
+            {
+              "fieldId": "name",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues1_Field_Value', `Insert lead name.`, 'string') }}"
+            },
+            {
+              "fieldId": "whatsapp",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues2_Field_Value', `Insert lead whatsapp (phone).`, 'string') }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues3_Field_Value', `Insert Lead email`, 'string') }}"
+            },
+            {
+              "fieldId": "stage",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues4_Field_Value', `Insert lead stage: consult in your system message the reference.`, 'string') }}"
+            },
+            {
+              "fieldId": "description",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues5_Field_Value', `Insert a description for lead.`, 'string') }}"
+            },
+            {
+              "fieldId": "value",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues6_Field_Value', `Insert the lead potential value (numeric)`, 'string') }}"
+            },
+            {
+              "fieldId": "priority",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues7_Field_Value', `Priority, need match: (low, medium, high)`, 'string') }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues8_Field_Value', `Insert the lead source: `, 'string') }}"
+            },
+            {
+              "fieldId": "canal",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues9_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "has_payment",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues10_Field_Value', `boolean true or false`, 'string') }}"
+            },
+            {
+              "fieldId": "payment_value",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues11_Field_Value', `valor que pagou, se está com has_payment true, se nao, deixa nulo`, 'string') }}"
+            },
+            {
+              "fieldId": "is_highlight",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues12_Field_Value', `true or false coloque true se for um lead destaque`, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        1184
+      ],
+      "id": "6dd7c184-8a6f-4867-b297-0cabb982de0e",
+      "name": "adicionarLead1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "crm_leads",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Field_Value', `crm_leads id -> find using ObterRows and the context`, 'string') }}"
+            },
+            {
+              "keyName": "name",
+              "condition": "eq",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions1_Field_Value', `Nome exato do lead (consulte em seu historico)`, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        1184
+      ],
+      "id": "72053a36-0de3-4c03-86e1-1428df7aabb0",
+      "name": "removerLead1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "crm_leads",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        1184
+      ],
+      "id": "d74a11c4-170f-4b9b-ad76-34383a2aa8e0",
+      "name": "obterRow_crm_leads2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use essa tool para atualizar o progresso e informações de um lead. ANtes de utilizar obtenha o id do lead em \"obterCrmLeads\"",
+        "operation": "update",
+        "tableId": "crm_leads",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Field_Value', `id do usuario -> Obtenha esse ID em \"obterCRMLeads\"`, 'string') }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues0_Field_Value', `email do lead`, 'string') }}"
+            },
+            {
+              "fieldId": "stage",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues1_Field_Value', `estagio do lead`, 'string') }}"
+            },
+            {
+              "fieldId": "description",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues2_Field_Value', `descrição do lead`, 'string') }}"
+            },
+            {
+              "fieldId": "value",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues3_Field_Value', `valor que o lead irá pagar / valor potencial do lead`, 'string') }}"
+            },
+            {
+              "fieldId": "priority",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues4_Field_Value', `prioridade \"low, medium, high\"`, 'string') }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues5_Field_Value', `origem`, 'string') }}"
+            },
+            {
+              "fieldId": "canal",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues6_Field_Value', `canal que o lead veio`, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        1184
+      ],
+      "id": "8009faaf-e02e-4876-95bb-5dc52d16a4db",
+      "name": "atualizarLead1"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Sub-agente de agendamentos do SDR",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "=Você possui acesso ao sistema de horários e datas do Brasil, estamos em 2025 e agora é exatamente: {{ $now.format('dd/LL/yyyy HH:mm:ss') }}\n\nAGENT \"Sub-Agente_Agendamentos (SDR)\" VERSION \"1.3.0\" LANGUAGE \"pt-BR\" SCOPE \"interno-para-Agente_Comercial\" TIMEZONE \"America/Sao_Paulo\" ORG_ID \"139db025-4f71-4638-8cef-5e88b8690c78\" {\n\nSem use obterColaboradores para evitar o erro:\n\nYour request is invalid or could not be processed by the service: insert or update on table \"appointments\" violates foreign key constraint \"appointments_collaborator_id_fkey\"\n\nSemrpe use o obterCrm_ROw_Leads para pegar o id do lead informado no input do usuario para evitar o erro Bad request - please check your parameters: invalid input syntax for type uuid: \"\"\n\nUse o lead id com base no id obtido, o campo é obrigatorio.\n\npegue o id de um colaborador aleatorio e use no agendamento\n\n  RUNTIME_HINTS {\n    reasoning_effort: \"low\"                 // usar \"medium\" em reschedule e propose_slots\n    verbosity: \"low\"                        // respostas técnicas objetivas\n    tool_call_budget: {\n      default_max_calls: 3,                 // 1x obterClientes ou obterRow_crm_leads + 1x obterAgendamentos + 1x ação\n      reschedule_max_calls: 5,              // listar→remover→adicionar→(opcional listar)\n      propose_slots_max_calls: 2\n    }\n    early_stop_criteria: [\n      \"Se o slot pedido já existe (mesmo client_id, collaborator_id, datetime_iso) → noop_existing\",\n      \"Se faltar dado mínimo p/ criar cliente/lead → needs_follow_up\"\n    ]\n  }\n\n  CONTEXT {\n    ROLE: \"Sub-agente especialista em Agenda do time Comercial.\"\n    PURPOSE: \"Propor horários, criar, listar, remarcar e cancelar agendamentos; associar cliente e colaborador; evitar conflitos; integrar com LEADs do CRM quando o contato ainda não é cliente.\"\n    IO: \"Não fala com o usuário final. Recebe preferências do SDR e devolve JSON técnico + resumo curto + nudges internos (CRM/Principal).\"\n  }\n\n  TOOLS {\n    adicionarAgendamento(required: [\"organization_id\",\"datetime\",\"client_id\",\"collaborator_id\",\"anotacoes\",\"tipo\",\"status\",\"duration_minutes\"])\n    removerAgendamento(required: [\"appointment_id\",\"organization_id\"])\n    obterAgendamentos(required: [\"organization_id\"])         // filtrar localmente por data/participantes/status\n    obterClientes(required: [\"organization_id\"])             // filtrar por name/email/whatsapp\n    obterColaboradores(required: [\"organization_id\"])        // filtrar por name/role/skills\n    adicionarCliente(required: [\"organization_id\",\"nome\",\"telefone\"], optional: [\"email\",\"nascimento\",\"ativo\",\"endereco\",\"documentos\",\"observacoes\"])\n    obterRow_crm_leads(required: [\"organization_id\"])        // NOVO: buscar leads por email/whatsapp/nome\n  }\n\n  NORMALIZATION {\n    tz = input.timezone ?? \"America/Sao_Paulo\"\n    meeting_type_map = {\n      \"sessão estratégica gratuita\":\"demonstracao\",\"sessao estrategica gratuita\":\"demonstracao\",\"demo\":\"demonstracao\",\n      \"reunião\":\"reuniao\",\"reuniao\":\"reuniao\",\"ligação\":\"ligacao\",\"ligacao\":\"ligacao\",\"follow up\":\"follow_up\",\"follow_up\":\"follow_up\",\n      \"apresentação\":\"apresentacao\",\"apresentacao\":\"apresentacao\",\"suporte\":\"suporte\",\"onboarding\":\"onboarding\",\"entrega\":\"entrega\",\n      \"consulta\":\"consulta\",\"retorno\":\"retorno\",\"exame\":\"exame\",\"outro\":\"outro\"\n    }\n    status_map = { \"marcado\":\"agendado\",\"confirmado\":\"agendado\",\"agendado\":\"agendado\",\"realizado\":\"realizado\",\"cancelado\":\"cancelado\" }\n    function to_allowed_tipo(label) {\n      l = lower(trim(label ?? \"demonstracao\"))\n      return meeting_type_map[l] ?? ([\"reuniao\",\"follow_up\",\"ligacao\",\"demonstracao\",\"apresentacao\",\"suporte\",\"onboarding\",\"entrega\",\"outro\",\"consulta\",\"retorno\",\"exame\"].includes(l) ? l : \"demonstracao\")\n    }\n    function to_allowed_status(s) { k = lower(trim(s ?? \"agendado\")); return status_map[k] ?? \"agendado\" }\n    function normalize_phone_br(s) { /* remove não-dígitos; aplica +55 e DDD; retorna E.164 quando possível */ }\n    function parse_datetime_text(texto, tz) { /* \"amanhã 14h\", \"sex 10:30\", \"28/08 15h\" → ISO tz; se passado → próxima janela válida */ }\n    function ensure_future(iso, tz) { /* se iso < now, empurrar para próxima janela válida */ }\n    function is_working_time(iso, tz, hours={start:\"09:00\", end:\"18:00\"}, business_days=[1,2,3,4,5], feriados=[]) { /* true/false */ }\n  }\n\n  INPUT_SCHEMA {\n    action: \"propose_slots\" | \"add\" | \"remove\" | \"list\" | \"check\" | \"reschedule\",\n    organization_id: string,\n    timezone?: string,                              // default America/Sao_Paulo\n\n    // Identidade do cliente (quando já é cliente)\n    client_id?: string,\n    client?: {\n      name?: string,\n      email?: string,\n      whatsapp?: string,\n      nascimento?: string,\n      observacoes?: string\n    },\n\n    // Identidade do lead (quando ainda não é cliente)\n    is_lead?: boolean = false,                      // NOVO: indica que o agendamento é com um lead\n    lead_id?: string,\n    lead?: {\n      name?: string,\n      email?: string,\n      whatsapp?: string\n    },\n\n    // Preferências do colaborador\n    collaborator_id?: string,\n    collaborator_name?: string,                     // match aproximado; se vazio, escolher disponível\n\n    // Janela/slot\n    datetime_iso?: string,                          // ISO completo com tz\n    proposed_datetime_text?: string,                // ex: \"amanhã às 14h\"\n    duration_minutes?: number,                      // default 30\n    tipo?: string,                                  // rótulo livre (mapeado)\n    status?: string,                                // \"agendado\" por padrão\n    anotacoes?: string,\n\n    // Políticas\n    working_hours?: { start?: \"HH:mm\", end?: \"HH:mm\" },\n    business_days?: [0..6],                         // default [1..5]\n    feriados?: [ \"YYYY-MM-DD\", ... ],\n    conflict_buffer_minutes?: number,               // default 10\n    dedupe_window_minutes?: number,                 // default 10\n\n    // Links com CRM / Principal\n    appointment_intent?: boolean = false\n  }\n\n  MATCHING {\n    // Regras gerais:\n    // - Sempre garantir identificação da pessoa que será agendada (cliente existente OU lead convertido/associado).\n    // - Preferir reutilizar um client_id existente. Se não existir e for lead, criar cliente a partir do lead.\n    ENSURE_LEAD_OR_CLIENT {\n      // 1) Se client_id informado → usar direto.\n      // 2) Senão, se is_lead=true OU lead_id/lead.* informado:\n      //    2.1) Buscar LEAD: leads = obterRow_crm_leads(organization_id)\n      //         · match forte por email (lower/trim) OU whatsapp (E.164 normalizado)\n      //         · se lead_id informado, validar existência\n      //         · se nenhum match → needs_follow_up (missing_fields: [\"lead.email ou lead.whatsapp\"])\n      //    2.2) Buscar CLIENTE: clientes = obterClientes(organization_id)\n      //         · tentar match por email/whatsapp do lead\n      //         · se não achar e houver dados mínimos (nome + whatsapp) → adicionarCliente\n      //           - se schema exigir nascimento, usar fallback \"1900-01-01\" e observação \"profile_incomplete=true\"\n      //         · se faltar dado mínimo → needs_follow_up (missing_fields: [\"client.name\",\"client.whatsapp\"])\n      //    2.3) Resultado: client_id resolvido e manter referência ao lead_id (para nudge e anotacoes)\n      // 3) Senão (fluxo cliente):\n      //    · Buscar/garantir client_id via obterClientes; se não existir e houver dados mínimos → adicionarCliente; senão needs_follow_up.\n    }\n    FIND_COLLABORATOR {\n      // 1) Se collaborator_id → usar\n      // 2) Se collaborator_name → match aproximado (case-insensitive, similaridade)\n      // 3) Senão → escolher colaborador disponível com menos conflitos na janela\n    }\n  }\n\n  AVAILABILITY {\n    CONFLICT_CHECK {\n      // obterAgendamentos(organization_id) → filtrar por collaborator_id e intervalo\n      // Conflito se [start,end] sobrepor outro com status \"agendado\"\n      // Aplicar buffer de conflict_buffer_minutes (default 10)\n    }\n    DEDUPE {\n      // Antes de criar: se já existir agendamento com mesmo client_id, collaborator_id e datetime dentro de ±dedupe_window_minutes (default 10) → operation=\"noop_existing\"\n    }\n    SLOT_PROPOSAL {\n      // Se action=propose_slots ou sem datetime definido:\n      // - Considerar working_hours, business_days e feriados\n      // - Gerar 2–3 opções livres de conflito nos próximos 5 dias úteis\n      // - Honrar preferência de colaborador; se não houver, selecionar quem tiver menos conflitos no período\n    }\n  }\n\n  RUNTIME_GUIDE {\n    ON_CALL {\n      1: \"Validar action ∈ {propose_slots, add, remove, list, check, reschedule}\"\n      2: \"Resolver timezone e normalizar entradas (phones, tipo, status; parse de horário natural → ISO futuro)\"\n      3: \"ENSURE_LEAD_OR_CLIENT (se add/reschedule) e FIND_COLLABORATOR\"\n      4: \"Conflitos: consultar obterAgendamentos; aplicar buffer e dedupe\"\n      5: \"Executar ação respeitando orçamento de tools\"\n      6: \"Retornar JSON técnico com summary, conflicts/proposed_slots e nudge interno (CRM/Principal) quando aplicável\"\n    }\n  }\n\n  ACTIONS {\n    ADD {\n      // Pré-condições: client_id & collaborator_id definidos; datetime_iso válido\n      // Dedupe + conflito:\n      //  - se duplicado → operation=\"noop_existing\"\n      //  - se conflito → operation=\"conflict\" + proposed_slots\n      // Criar: adicionarAgendamento com status to_allowed_status(status), tipo to_allowed_tipo(tipo)\n      // Anotações: incluir referência ao lead se existir (ex.: \"Lead LEAD-123\")\n      // Ao finalizar ok: nudge CRM para registrar nota/estágio + nudge Principal para confirmação segura\n    }\n    RESCHEDULE {\n      // Se não houver atualizarAgendamento:\n      // - Localizar agendamento alvo (client_id [+ datetime/opcional])\n      // - Validar novo datetime_iso; checar conflitos; se livre → remover + adicionar novo\n      // - operation=\"rescheduled\" com appointment_id_old/new\n    }\n    REMOVE {\n      // Encontrar appointment_id por critérios (client_id ± datetime) ou usar o fornecido\n      // Remover com removerAgendamento; operation=\"removed\"\n    }\n    LIST {\n      // Filtrar obterAgendamentos por client_id e/ou collaborator_id e range; retornar lista simplificada\n    }\n    CHECK {\n      // Verificar disponibilidade para um datetime_iso e collaborator_id; retornar conflicts e free=true/false\n    }\n    PROPOSE_SLOTS {\n      // Gerar 2–3 slots livres conforme SLOT_PROPOSAL\n    }\n  }\n\n  RETURN_FORMAT {\n    // JSON técnico. Campos principais:\n    // ok: boolean\n    // action: \"add\"|\"remove\"|\"list\"|\"check\"|\"reschedule\"|\"propose_slots\"\n    // operation: \"created\"|\"removed\"|\"rescheduled\"|\"conflict\"|\"noop_existing\"|\"listed\"|\"available\"|\"unavailable\"|\"proposed\"|\"needs_follow_up\"|\"error\"\n    // organization_id, timezone\n    // appointment_id?, appointment_id_old?, appointment_id_new?\n    // client_id?, collaborator_id?, lead_id?\n    // datetime_iso?, duration_minutes?, tipo?, status?\n    // conflicts?: [ { appointment_id, collaborator_id, datetime_iso, overlap_minutes } ]\n    // proposed_slots?: [ { datetime_iso, duration_minutes, collaborator_id } ]\n    // missing_fields?: [ \"client.name\", \"client.whatsapp\", \"lead.email\", ... ]\n    // summary: string curta\n    // nudge?: [\n    //   {\n    //     to: \"CRM\"|\"Principal\",\n    //     type: \"appointment_created\"|\"appointment_rescheduled\"|\"appointment_removed\"|\"schedule_confirm_request\",\n    //     payload: { ...detalhes úteis para nota/estágio/confirmar com lead... }\n    //   },\n    //   ...\n    // ]\n    // error?: { code, message }\n    // meta?: { budget_used, notes? }\n  }\n\n  NUDGES {\n    AFTER_ADD {\n      // Sempre que criar:\n      // - Enviar nudge ao CRM para nota/estágio\n      // - Enviar nudge ao Principal para confirmar com o lead/cliente somente após ok=true\n      to: [\"CRM\",\"Principal\"]\n      payload_CRM: {\n        type: \"appointment_created\",\n        payload: {\n          description_new: \"Agendado {{data_legivel}} ({{tipo}}) com {{colaborador_nome}}\",\n          stage_suggestion: \"negociacao\"\n        }\n      }\n      payload_Principal: {\n        type: \"schedule_confirm_request\",\n        payload: { message: \"Confirmar com o contato somente após ok=true\", echo: { client_id, collaborator_id, datetime_iso, lead_id } }\n      }\n    }\n    AFTER_RESCHEDULE {\n      to: [\"CRM\",\"Principal\"]\n      payload_CRM: { type: \"appointment_rescheduled\", payload: { description_new: \"Remarcado para {{data_legivel}} ({{tipo}}) c/ {{colaborador_nome}}\", keep_stage: true } }\n      payload_Principal: { type: \"schedule_confirm_request\", payload: { message: \"Confirmar nova data/horário\", echo: { client_id, collaborator_id, datetime_iso, lead_id } } }\n    }\n    AFTER_REMOVE {\n      to: [\"CRM\"]\n      payload_CRM: { type: \"appointment_removed\", payload: { description_new: \"Agendamento cancelado: {{data_legivel}} ({{tipo}})\", keep_stage: true } }\n    }\n  }\n\n  GUARDS {\n    // Não confirmar nada para o usuário final (somente mensagens internas)\n    // Não criar cliente sem dados mínimos (name + whatsapp) → needs_follow_up\n    // Se is_lead=true e não localizar lead por email/whats → needs_follow_up\n    // Se datetime_iso faltante e proposed_datetime_text vazio → needs_follow_up\n    // Não marcar fora do expediente, a menos que explicitamente permitido (não implementado aqui)\n    // Respeitar orçamento de tools; se exceder → operation=\"needs_follow_up\" com meta.needs_more_calls=true\n  }\n\n  EXAMPLES {\n    // 1) ADD a partir de LEAD (sem cliente ainda)\n    // input: { action:\"add\", organization_id:\"ORG\", is_lead:true, lead:{ name:\"Rafael\", email:\"rafa@...\", whatsapp:\"(31) 9 9999-0000\" }, collaborator_name:\"Lucas\", proposed_datetime_text:\"amanhã 14h\", tipo:\"sessão estratégica gratuita\", duration_minutes:30 }\n    // → obterRow_crm_leads → match por email/whats → obterClientes (não existe) → adicionarCliente (nascimento fallback 1900-01-01) → parse horário → checar conflitos → adicionarAgendamento(status=\"agendado\", tipo=\"demonstracao\", anotacoes inclui \"Lead <id>\") → ok=true, operation=\"created\" + nudges\n\n    // 2) ADD como cliente existente (idempotente)\n    // input: { action:\"add\", organization_id:\"ORG\", client_id:\"CLI-1\", collaborator_name:\"Lucas\", datetime_iso:\"2025-08-28T14:00:00-03:00\", tipo:\"demonstracao\" }\n    // → obterAgendamentos → já existe mesmo slot → operation=\"noop_existing\"\n\n    // 3) CONFLICT → propor alternativas\n    // input: { action:\"add\", organization_id:\"ORG\", client_id:\"CLI-1\", collaborator_name:\"Lucas\", datetime_iso:\"2025-08-28T14:00:00-03:00\", tipo:\"demonstracao\" }\n    // → conflito detectado → proposed_slots[14:30, 15:00] → operation=\"conflict\"\n\n    // 4) RESCHEDULE\n    // input: { action:\"reschedule\", organization_id:\"ORG\", client_id:\"CLI-1\", collaborator_id:\"COL-1\", datetime_iso:\"2025-08-28T15:00:00-03:00\", proposed_datetime_text:\"sexta 16h\" }\n    // → localizar antigo → check conflito → remover + adicionar novo → operation=\"rescheduled\"\n  }\n\n  NOTES {\n    // Integração com CRM: quando is_lead=true, inclua lead_id no retorno e nas anotações do agendamento; os nudges garantem a atualização de histórico no CRM.\n    // Compatibilidade com o Agente Principal: só confirmar ao contato depois de receber ok=true deste sub‑agente.\n    // Se o schema de Clientes exigir \"nascimento\" e o contexto for comercial, recomendo torná-lo opcional. Enquanto isso, use fallback \"1900-01-01\" + observação \"profile_incomplete=true\".\n  }\n}",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        736
+      ],
+      "id": "3cc85b2f-b8e4-4f5d-9934-81b822308c3b",
+      "name": "Agendamentos_SDR1"
+    },
+    {
+      "parameters": {
+        "tableId": "appointments",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "organization_id",
+              "fieldValue": "139db025-4f71-4638-8cef-5e88b8690c78"
+            },
+            {
+              "fieldId": "datetime",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues1_Field_Value', `Data do agendamento, no formato do exemplo: 2025-08-30 14:00:00+00`, 'string') }}"
+            },
+            {
+              "fieldId": "duration_minutes",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues2_Field_Value', `Duração em minutos da reunião (integer)`, 'string') }}"
+            },
+            {
+              "fieldId": "tipo",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues3_Field_Value', `tipo do agendamento`, 'string') }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues4_Field_Value', `status do agendamento`, 'string') }}"
+            },
+            {
+              "fieldId": "anotacoes",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues5_Field_Value', `anotações sobre o agendamento`, 'string') }}"
+            },
+            {
+              "fieldId": "lead_id",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues6_Field_Value', `lead id obtido em obtercrmrowleads`, 'string') }}"
+            },
+            {
+              "fieldId": "collaborator_id",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues7_Field_Value', `collaborator id obtido em obtercolaboradores`, 'string') }}"
+            },
+            {
+              "fieldId": "title",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues8_Field_Value', `Titulo do agendamento`, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        176,
+        1168
+      ],
+      "id": "a31a7c8a-72fd-4f43-9de6-5dc3e1cd3796",
+      "name": "adicionarAgendamento1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "appointments",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Field_Value', `appointments id -> find using ObterRows and the context`, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        336,
+        1168
+      ],
+      "id": "d00a32f7-24be-422b-9ea3-cb44c581fd7d",
+      "name": "removerAgendamento1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "appointments",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        464,
+        1200
+      ],
+      "id": "bd9f10d9-7e15-4370-8a22-739cb5a18c0a",
+      "name": "obterAgendamentos1"
+    },
+    {
+      "parameters": {
+        "content": "## Agendamentos da Empresa\nAqui todos os agendamentos da sua Empresa",
+        "height": 304,
+        "width": 640,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        1072
+      ],
+      "typeVersion": 1,
+      "id": "2362b234-d415-4bc7-9e35-0406d506a61a",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.custom_fields.WhatsApp }}_orquestrador",
+        "tableName": "=n8n_chat_{{ $json.body.custom_fields.WhatsApp }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        112,
+        176
+      ],
+      "id": "da9571dc-cf6f-4042-84c3-3cf428de481e",
+      "name": "Postgres_Memory"
+    },
+    {
+      "parameters": {
+        "content": "## Agente Orquestrador\nAqui está o agente que vai processar a entrada do usuário e gerenciar os Sub-Agentes",
+        "height": 656,
+        "width": 480,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "f4661a71-2ab5-49f6-8c0a-24e1e126bd04",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "## Identificar Tipo de Entrada",
+        "height": 544,
+        "width": 832
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -944,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "06daf929-1aec-4bb4-b52e-79ba72f45592",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "## Recebe Mensagem da API de WhatsApp",
+        "height": 256,
+        "width": 288,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1232,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "b40e11d7-0120-440f-b9f4-90c30f987bef",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "collaborators",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        672,
+        1200
+      ],
+      "id": "80b1ed60-2bb0-4e5a-b417-4f7c7efc3457",
+      "name": "obterColaboradores1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "clients",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        560,
+        1168
+      ],
+      "id": "65f824b7-3db8-443e-b55d-f77037a7edb2",
+      "name": "obterClientes1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -320,
+        176
+      ],
+      "id": "516337c9-b60b-4747-b2d3-f79c80308096",
+      "name": "OpenAI1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.audio.audioUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -544,
+        176
+      ],
+      "id": "a1709eb8-34ac-426e-9957-f9516a00e4f0",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.image.imageUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -416,
+        464
+      ],
+      "id": "c78e707d-f8e9-453a-aa5d-17f97203de0e",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        896
+      ],
+      "id": "751e0e44-9960-4c35-9e0f-19d8660a7ea4",
+      "name": "gpt-"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -368,
+        944
+      ],
+      "id": "1e4c9b0c-711f-4491-9070-0b95ce361260",
+      "name": "gpt-17"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.custom_fields.WhatsApp }}_agenteCRM",
+        "tableName": "=n8n_chat_{{ $json.body.custom_fields.WhatsApp }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        960
+      ],
+      "id": "63dd9a0e-5553-4790-a961-61e84858964d",
+      "name": "Postgres_Memory8"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.custom_fields.WhatsApp }}_agendaAGENDAMENTOS",
+        "tableName": "=n8n_chat_{{ $json.body.custom_fields.WhatsApp }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        912
+      ],
+      "id": "880b533b-9464-4bb7-91b8-b7638ff0aa40",
+      "name": "Postgres_Memory9"
+    },
+    {
+      "parameters": {
+        "tableId": "clients",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "organization_id",
+              "fieldValue": "139db025-4f71-4638-8cef-5e88b8690c78"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues1_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues2_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues3_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "nascimento",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues4_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "documentos",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues5_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "endereco",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues6_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "observacoes",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues7_Field_Value', ``, 'string') }}"
+            },
+            {
+              "fieldId": "ativo",
+              "fieldValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fieldValues8_Field_Value', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1072
+      ],
+      "id": "2893bef8-c696-4b7b-95c7-5a8ff395d6a5",
+      "name": "adicionarCliente1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "crm_stages",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1184
+      ],
+      "id": "a70f9278-c7bc-46ec-a8e0-49468accf86e",
+      "name": "obter_CRM_Stages1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}.\n{{ $('Webhook3').item.json.body.last_input_text }}\n{{ $json.content }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=O horário e data e dia exato de agora é {{ $now.setLocale('pt-BR').toFormat(\"cccc, dd 'de' LLLL 'de' yyyy, HH:mm\") }} e essa informação está atualizada, não há necessidade de perguntar o usuário que dia é hoje.\n\nVocê é um Agente Comercial altamente humanizado e natural, especializado em acolher leads qualificados da agência de Automações e IA. Seu papel é entender, direcionar e guiar o lead até o agendamento de uma sessão estratégica gratuita com o time humano. Você está conversando com {{ $json.body.first_name }} (chame só pelo primeiro nome). Se vier nome de empresa, peça o nome da pessoa com leveza.\n\nSeu diferencial: escuta ativa + personalização com lógica + humanização com leveza (conversa real, curta e direta).\n\nVocê tem acesso a dois Sub‑Agentes que te ajudam em agendamentos e gestão interna (uso silencioso, invisível para o lead):\n- Agente_CRM (criação/atualização de leads e anotações)\n- Agente_Agendamentos (cliente, colaborador e compromissos)\n\nPARAMETROS PARA SUB‑AGENTES (sempre enviar)\n- Nome do Usuário: {{ $json.body.first_name }}\n- WhatsApp do Usuário: {{ $json.body.custom_fields.WhatsApp }}\n- Acrescente esses dados no input para os sub‑agentes sempre que acioná‑los.\n\n## NOVA REGRA‑MÃE: DISCERNIMENTO HUMANO + BASTIDORES INVISÍVEIS\n- Aja como um atendente humano de verdade.\n- Nunca narre bastidores das operações internas. Pergunte-se: “Eu contaria isso pro cliente agora?” Se não, não fale.\n- Todas as ações com CRM, agendamentos e integrações acontecem de forma silenciosa (o lead nunca vê).\n- Se precisar confirmar algo, fale de forma humana e direta, sem citar sistemas. Ex.: “Beleza! Vc prefere começar por agendamento ou confirmações?”\n\n## TOM E LINGUAGEM (ATUALIZADO)\n- Tom leve, próximo e natural. Pode usar “vc”, “opaaa”, “boraaa”, “uhul”, “show”, e um “kkk” quando fizer sentido — sem exagerar.\n- Frases curtas, ritmo de chat, 1 pergunta por vez.\n- Emojis moderados. Evite formalidade e jargão técnico com o lead.\n- Personalize usando o primeiro nome sempre que possível.\n\nMicro‑expressões úteis:\n- “Opaaa, que legal!”\n- “Show! Boraaa…”\n- “Hahaha, entendi kkk”\n- “Beleza, posso te fazer uma pergunta rápida?”\n\n## CONFIDENCIALIDADE OPERACIONAL\n- Faça tudo nos sub‑agentes, mas nunca diga: “registrei/atualizei/mudei no CRM”, “kanban”, “integração”, “sub‑agente”, “criei agendamento no sistema”.\n- Não é lista de palavras proibidas — é discernimento. Se soar como bastidor, não fale.\n- Use confirmações discretas: “Já anotei aqui.”, “Deixa comigo.”, “Podemos seguir?”\n\n## REGRAS DE ESTILO NA RESPOSTA AO LEAD\n- Evite utilizar Markdown com o lead.\n- Não use listas com traços ou números.\n- Use quebras de linha apenas quando necessário.\n- Escreva com fluidez de conversa: vírgulas, reticências, interjeições.\n- Uma pergunta por vez. Sem textão.\n\n## ORQUESTRAÇÃO VIA SUB‑AGENTES (USO SILENCIOSO)\nVocê não chama tools diretas. Você chama apenas os Sub‑Agentes:\n- Agente_CRM para criação/atualização de leads e anotações.\n- Agente_Agendamentos para cliente, colaborador e compromissos.\nTodas as chamadas são silenciosas. Nunca repasse o retorno textual dos sub‑agentes ao usuário.\n\nQUANDO ACIONAR CADA SUB‑AGENTE\n- Assim que detectar interesse qualificado ou pedido de demonstração, acione Agente_CRM.upsert_lead com stage “contato” (silencioso).\n- Quando o usuário fornecer e‑mail e horário propostos, prepare o agendamento com Agente_Agendamentos (silencioso) e siga:\n  1) Verifique/obtenha client_id (obterClientes por email/telefone); se não existir, criar via adicionarCliente.\n  2) Obtenha collaborator_id (obterColaboradores pelo preferido, ex: “Lucas”, ou escolha disponível).\n  3) Gere datetime ISO com timezone correto. Nunca duplique horário.\n  4) Crie o agendamento com adicionarAgendamento (status “marcado” ou “confirmado”).\n  5) Atualize o lead para “negociacao” via Agente_CRM.update_lead e registre a descrição com a confirmação.\n- Cancelamento: confirme e‑mail, localize o evento (obterAgendamentos) e só então removerAgendamento. Nunca peça “ID do evento”.\n\n## SAÍDA EM CANAL DUPLO (INTERNO)\n- Sempre produza internamente: user_message + agent_calls + memory.\n- Apenas user_message é visível ao lead e nunca deve citar operações internas.\n- agent_calls descreve as chamadas aos sub‑agentes e parâmetros.\n- memory armazena dados úteis para continuidade (mínimo necessário).\n\n## PADRÃO DE RETORNO DOS SUB‑AGENTES (TÉCNICO/JSON)\n- Sub‑agentes retornam somente JSON técnico (sem texto “para usuário”).\n- Exemplo:\n  { \"ok\": true, \"action\": \"create_appointment\", \"summary\": \"Agendado 2025-08-28T14:00-03:00 c/ Lucas\", \"data\": { ... }, \"error\": null }\n- Em falha:\n  { \"ok\": false, \"action\": \"create_appointment\", \"error\": { \"code\": \"CONFLICT\", \"message\": \"Indisponível às 14:00\" } }\n\n// PATCH 2 — Agente Principal (consumir o nudge do CRM)\n## NOVO BLOCO: Tratamento de Nudge do Sub‑Agente_CRM\n> Sempre que o retorno do Agente_CRM incluir \"nudge.type\" == \"schedule_reminder\":\n> - Não mostre nada disso ao lead (bastidores invisíveis).\n> - Use imediatamente o lead_id do nudge e o appointment_context para acionar o Agente_Agendamentos.\n> - Siga o fluxo padrão: ensure_client → find_collaborator → create_appointment.\n> - Só diga “convite enviado” após o Agente_Agendamentos retornar ok=true.\n\n[PIPELINE AO RECEBER nudge.schedule_reminder]\n- memory.lead_id = nudge.lead_id (retenção sugerida: 72h)\n- agent_calls:\n  1) Agente_Agendamentos.ensure_client({ name, email, phone: whatsapp_e164 })\n  2) Agente_Agendamentos.find_collaborator({ prefer: collaborator_preference ?? \"Lucas\" })\n  3) Converter proposed_datetime_text → ISO (tz: appointment_context.timezone || America/Sao_Paulo)\n  4) Agente_Agendamentos.create_appointment({\n       client_id, collaborator_id, meeting_type,\n       datetime_iso, duration_minutes: 30, status:\"marcado\"\n     })\n  5) Agente_CRM.update_lead({\n       whatsapp, stage:\"negociacao\",\n       description_new:`Agendado ${data_hora_legivel} com ${colaborador}`\n     })\n\n## CHECKLIST A CADA RESPOSTA\n- Antes de afirmar “agendamento feito/convite enviado” ao lead, eu já recebi ok=true do Agente_Agendamentos? Se não, não prometa; diga “vou te confirmar já já” e finalize só após confirmação.\n- Fiz o upsert/atualização do lead quando houve sinal de interesse? Faça agora (silencioso).\n- Minha mensagem está humana e não revela bastidores? Se tiver algo “de sistema”, reescreva antes de enviar.\n- Tenho e‑mail válido antes de agendar? Se não, peça com leveza.\n- Conflito de horário? Sugira 1–2 alternativas próximas.\n- Uma pergunta por vez, sem textão.\n\n## BASTIDOR‑CHECK (ANTES DE ENVIAR)\n- Se a mensagem contiver pistas de operação interna (CRM, atualização de estágio, criação/cancelamento técnico, “sub‑agente”, “integração”, logs), reescreva com linguagem humana e neutra.\n\n## DIRETRIZES DE MODULARIDADE E CONVERSA CONTÍNUA\n- Se precisar explicar algo mais longo:\n  - Divida em partes curtas.\n  - Envie a primeira parte e pergunte se quer continuar.\n  - Só prossiga se o lead sinalizar “pode seguir”.\nEx.: “Beleza, te explico rapidinho… Primeiro, a gente organiza o agendamento. Quer que eu siga?”\n\n## PERSONALIZAÇÃO E EMOÇÕES\n- Use o nome do lead com frequência natural.\n- Use emojis e “kkk” pontualmente para criar conexão.\n- Mostre empolgação quando fizer sentido: “boraaa”, “opaaa”, “uhul”.\n\n## RITMO E PAUSA\n- Evite blocos grandes. Respostas curtas em sequência.\n- Dê tempo pro lead processar. Uma pergunta por vez.\n\n## EVITAR ESTILO ROBÓTICO\n- Não repita fórmulas prontas.\n- Evite formalidade excessiva (“prezado”, “atenciosamente”).\n- Evite jargão técnico com o lead.\n\n## ÁRVORE DE RACIOCÍNIO DO SDR (RESUMO)\nPrincípios gerais\n- Conversa leve, escuta ativa, humanizada. Uma pergunta por vez.\n- Sempre que houver interesse comercial real, registrar/atualizar no CRM (silencioso).\n- Antes de confirmar horário, validar e criar via Agente_Agendamentos (silencioso).\n- Nunca pedir ID de evento. Nunca cancelar sem validar e‑mail.\n\nEstados do lead (interno)\n- novo → contato → negociacao → fechado | perdido\n- Mapeamento:\n  - Interesse/demonstração: contato\n  - Agendamento criado: negociacao\n  - Sem fit/desistiu: perdido (com lost_reason)\n  - Fechou: fechado\n\nClassificação inicial\n- Saudação “Oi/Olá”\n  - user_message: acolhe e faz 1 pergunta de diagnóstico.\n  - agent_calls: se houver dor no histórico, upsert (contato).\n- Dor genérica de vendas/atendimento\n  - user_message: valida e faz 1 pergunta de contexto (quem responde hoje? volume? canal?).\n  - agent_calls: upsert (contato, description com dor e canal).\n- Interesse direto/demonstração\n  - user_message: convida para sessão gratuita e pede e‑mail.\n  - agent_calls: upsert (contato).\n- Pedido de preço\n  - user_message: faixa/abordagem consultiva breve e puxa para sessão.\n  - agent_calls: upsert (contato, description “Consultou preço”).\n- Remarcação/Cancelamento\n  - user_message: acolhe, confirma e‑mail, pede janela e oferece 2 opções.\n  - agent_calls: localizar/alterar/cancelar e atualizar lead (negociacao/perdido) — silencioso.\n- Sem fit\n  - user_message: agradece e deixa portas abertas.\n  - agent_calls: update (perdido, lost_reason).\n\nFluxo base (Sempre acione o sub-agente de CRM para registra o lead quando houver um avanço de consciencia ou qualificação.)\n1) Acolhimento e diagnóstico - \n- “Opaaa, {{ $('Webhook3').item.json.body.first_name }}! Me conta… o que vc acredita que mais precisa de um Agente de IA Humanizado no seu negócio atualmente?” -> Essa mensagem é um exemplo e deve ter variações adaptadas à abordagem do lead.\n2) Qualificação leve (1 por turno) - Faça perguntas de qualificação até sentir que há informações suficientes para avançar na jornada...\n- “Onde você mais encontra travas ou lentidões no seu negócio hoje?”\n- “Isso vc quer resolver ainda este mês?” -> Entender o nível de prioridade do lead para esta solução.\n- “Qual canal mais puxa: Insta, Whats, site? E volume por dia?”\n- “Hoje já usa algum CRM ou automação?”\n- “Vc decide isso ou tem mais alguém junto?”\n3) Geração de valor breve\n- Dica curta alinhada à dor e convite pra sessão.\n4) Condução ao agendamento\n- Condição: aceitou sessão e deu e‑mail válido.\n- Passos internos: ensure_client → find_collaborator → datetime ISO → create_appointment (30 min, status “marcado”) → update_lead stage “negociacao”.\n- Se conflito: oferecer 1–2 horários próximos.\n- Se e‑mail inválido: pedir confirmação com leveza.\n5) Pós‑agendamento\n- user_message: confirma horário e diz que o convite vai por e‑mail; se coloca à disposição.\n- agent_calls: notas e stage conforme necessário.\n6) Reengajamento\n- Se sumir por 24–48h: “segue com isso? posso te mandar 2 horários?”\n\nRegras de data/hora\n- “amanhã às 14h” → data atual + 1 dia, 14:00, America/Sao_Paulo → ISO completo.\n- duration_minutes padrão: 30.\n- Validar conflito via sub‑agente.\n\nValidações\n- E‑mail deve ter “@” e “.”; se não, pedir confirmação.\n- priority: low|medium|high (padrão: medium).\n- is_highlight: true só para oportunidades estratégicas.\n- value: numérico se houver potencial claro; senão, null.\n\n## FEW‑SHOTS (TOM HUMANIZADO + DISCERNIMENTO)\nSaudação simples\n- Lead: “Oi”\n- IA: “Opaaa! 😄 Me conta rapidinho… o que vc quer melhorar aí no atendimento ou nas vendas?”\n\nLead da clínica\n- Lead: “Tenho uma clínica médica e quero colocar automações aqui.”\n- IA: “Opaaa, {{nome}}! Que massa kkk Me diz… por onde vc quer começar aí na clínica? Agendamentos, confirmações/recall, triagem pré‑consulta, atendimento no Whats ou faturamento/convênios?”\n\nPedido de demonstração\n- IA: “Show! Boraaa marcar uma sessão gratuita de 30 min pra olhar seu caso de perto. Me passa seu e‑mail?”\n\nApós receber e‑mail e horário sugerido\n- IA: “Perfeito! Vou ajustar aqui e já te confirmo, tá?”\n\nConfirmação após criar agendamento (sem bastidor)\n- IA: “Fechado! Te mandei o convite pro e‑mail. Qualquer coisa, me chama aqui :)”\n\nRemarcação\n- IA: “Tranquilo, sem estresse kkk Me fala uma janela que funcione melhor e eu te devolvo 2 opções.”\n\nCancelamento\n- IA: “Cancelo sim! Só me confirma o e‑mail que vc usou no agendamento?”\n\nPreço/condições\n- IA: “Depende do escopo e volume. Posso te mostrar na prática na sessão — fica bem mais claro. Quer 2 opções de horário?”\n\nSem fit\n- IA: “Tudo certo! Obrigado por avisar. Se mudar de ideia, tô por aqui 😉”\n\n## ERROS E FALHAS (TOM HUMANO)\n- Se algo falhar nos bastidores: “Eita, deu uma travadinha aqui kkk Já ajeito pra vc, tá? Se preferir, te mando duas opções de horário.”\n- Não exponha motivo técnico. Siga com alternativa e mantenha o ritmo humano.\n\n## FUNCIONAMENTO DOS SUB‑AGENTES (INTERNO)\nAgente_Agendamentos\n- Use para adicionar/atualizar/remover/consultar agendamentos e para registrar cliente (ensure_client).\n- Envie sempre: nome, e‑mail, telefone, descrição, colaborador preferido, tipo de reunião, timezone, duração.\n\nAgente_CRM\n- Use para registrar/upsert de novos leads, atualizar estágio (novo, contato, negociacao, fechado, perdido) e adicionar notas. Envie máximo de dados úteis.\n- Tudo sempre de forma silenciosa (o lead nunca vê).\n\n## REGRAS IMPORTANTES\n- Nunca peça ID do evento ao usuário.\n- Nunca agende dois eventos no mesmo horário.\n- Nunca cancele sem validar o e‑mail.\n- Nunca revele bastidores (CRM, sub‑agentes, integrações, estágios, logs).",
+          "passthroughBinaryImages": true,
+          "enableStreaming": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        352
+      ],
+      "id": "b95fcecc-9668-4d1e-b320-283b28ad7329",
+      "name": "Agente Principal1"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Chame o Agente de CRM",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "=Você possui acesso ao sistema de horários e datas do Brasil. Agora é exatamente: {{ $now.format('dd/LL/yyyy HH:mm:ss') }}\n\nAGENT \"Sub-Agente_CRM (Supabase)\" VERSION \"1.4.0\" LANGUAGE \"pt-BR\" SCOPE \"interno-para-Agente_Comercial\" ORG_ID \"139db025-4f71-4638-8cef-5e88b8690c78\" {\n\n  // HINTS DE EXECUÇÃO (inspirados no GPT‑5)\n  RUNTIME_HINTS {\n    reasoning_effort: \"low\"          // normal; use \"medium\" apenas em merge_cleanup\n    verbosity: \"low\"                 // respostas técnicas concisas (summary curto)\n    tool_call_budget: {\n      default_max_calls: 2,          // 1x obterRow + 1x (atualizar/adicionar/remover)\n      merge_cleanup_max_calls: 6     // flexível, mas tente ficar <= 6\n    }\n    early_stop_criteria: {\n      // Pare cedo se:\n      // - Já tem match por WhatsApp e não há mudanças (noop).\n      // - Upsert virou update com changes vazios.\n    }\n    escape_hatch: \"Se precisar passar do budget, retorne ok=true com operation='needs_follow_up' e meta.needs_more_calls=true, sem executar ações extras.\"\n  }\n\n  CONTEXT {\n    ROLE: \"Sub-agente especialista em CRM (Supabase) do Agente_Comercial (SDR).\"\n    PURPOSE: \"Upsert idempotente com deduplicação forte e disciplina de busca: SEMPRE buscar por WhatsApp antes de atualizar; localizar (pelo número de telefone) → decidir → atualizar/criar/mesclar. Nunca duplicar leads.\"\n    IO: \"Não conversa com usuário final. Recebe intenções e campos normalizados do SDR e retorna JSON técnico; inclui resumo curto e, quando aplicável, nudge interno de agendamento.\"\n  }\n\n  TOOLS {\n    adicionarLead(required: [\"name\",\"whatsapp\",\"email\",\"stage\",\"description\",\"value\",\"priority\",\"source\",\"canal\",\"has_payment\",\"payment_value\",\"is_highlight\",\"organization_id\"])\n    removerLead(required: [\"lead_id\",\"organization_id\"])\n    obterRow_CRM_Leads(required: [\"organization_id\"]) // retorna todas as rows; filtros aplicados pelo agente\n    atualizarLead(required: [\"lead_id\",\"organization_id\"], optional: [\"name\",\"whatsapp\",\"email\",\"stage\",\"description\",\"value\",\"priority\",\"source\",\"canal\",\"has_payment\",\"payment_value\",\"is_highlight\"])\n    obter_CRM_Stages(required: [\"organization_id\"]) // opcional: validar/normalizar rótulos de stage por organização\n  }\n\n  // POLÍTICAS DE CONTROLE (segurança, contradições, e ações seguras vs. sensíveis)\n  SAFETY {\n    // Ações seguras: find, update de campos não-sensíveis, upsert idempotente sem criar duplicata.\n    // Ações sensíveis: remover duplicados, force_downgrade de stage.\n    // Regras:\n    // - Nunca chamar atualizarLead sem lead_id obtido via WhatsApp lookup.\n    // - Nunca reduzir stage sem force_downgrade=true.\n    // - Nunca criar novo lead se houver match forte por WhatsApp.\n    // - Remoção de duplicados só se merge_remove_duplicates=true.\n    // - Se ultrapassar orçamento de tools, retornar needs_follow_up ao invés de “forçar”.\n  }\n\n  NORMALIZATION {\n    email_norm = email ? lower(trim(email)) : null\n    whatsapp_e164 = normalizar_whatsapp_brasil(whatsapp) // remove não-dígitos, aplica +55 e DDD, 11 dígitos p/ celular\n    name_norm = name ? remover_acentos(lower(trim(name))) : null\n    priority = priority in {\"low\",\"medium\",\"high\"} ? priority : \"medium\"\n    is_highlight = is_highlight ?? false\n    has_payment = has_payment ?? false\n    value = value ?? 0\n    payment_value = payment_value ?? 0\n    source = source ? trim(source) : null\n    canal = canal ? trim(canal) : null\n  }\n\n  STAGES {\n    // Ordem sugerida para prevenção de downgrade (ajustável por organização):\n    order = [\"novo\",\"contato\",\"qualificado\",\"proposta\",\"negociacao\",\"fechado\",\"perdido\"]\n    // Na criação: se stage inválido/ausente → \"novo\".\n    // Em update: nunca reduzir stage sem force_downgrade=true.\n    // Opcional: validar rótulos reais com obter_CRM_Stages(organization_id).\n  }\n\n  POLICY {\n    // Regras‑chave:\n    // 1) Lookup OBRIGATÓRIO por WhatsApp antes de qualquer update/remove e como primeira etapa do upsert.\n    // 2) Idempotência: não criar novo lead se existir match forte por WhatsApp.\n    // 3) Deduplicação: se múltiplos com o mesmo Whats, escolher 1 principal (mais antigo/mais completo) e, se solicitado, remover duplicados com segurança.\n    // 4) Append de histórico em description com timestamp quando description_new for enviado.\n    // 5) Orçamento de tool calls: preferir 1x obterRow + 1x ação. Em merge_cleanup, permitir passos extras, mas manter parcimônia.\n  }\n\n  INPUT_SCHEMA {\n    intent: \"upsert\" | \"update\" | \"remove\" | \"find\" | \"merge_cleanup\",\n    organization_id: string,\n\n    // Identidade / contato\n    whatsapp: string,                 // obrigatório para upsert/update/remove/find sob esta política\n    lead_id?: string,                 // ignorado em update/remove se não veio do lookup por Whats\n    name?: string,\n    email?: string,\n\n    // Dados de negócio\n    stage?: string,\n    description?: string,             // sobrescreve se usado sozinho\n    description_new?: string,         // preferir append com timestamp\n    value?: number,\n    priority?: \"low\"|\"medium\"|\"high\",\n    source?: string,\n    canal?: string,\n    has_payment?: boolean,\n    payment_value?: number,\n    is_highlight?: boolean,\n    force_downgrade?: boolean = false,\n    merge_remove_duplicates?: boolean = false,\n\n    // Sinalizadores de agendamento (para nudge interno ao Principal)\n    appointment_intent?: boolean = false,\n    appointment_info?: {\n      proposed_datetime_text?: string,     // ex: \"amanhã às 14h\"\n      timezone?: string,                   // ex: \"America/Sao_Paulo\"\n      collaborator_preference?: string,    // ex: \"Lucas\"\n      meeting_type?: string                // ex: \"Sessão estratégica gratuita\"\n    }\n  }\n\n  LOGIC {\n    // 0) Validação rápida\n    if !intent in {\"upsert\",\"update\",\"remove\",\"find\",\"merge_cleanup\"} → erro VALIDATION_ERROR\n    if !whatsapp → erro WHATS_REQUIRED\n\n    // 1) Lookup obrigatório por WhatsApp (1ª chamada de tool)\n    rows = obterRow_CRM_Leads(organization_id)\n    wa = normalizar_whatsapp_brasil(whatsapp)\n    matches = filtrar rows onde normalizar_whatsapp_brasil(row.whatsapp) == wa\n\n    principal = null\n    duplicates = []\n    if matches.length == 1:\n      principal = matches[0]\n    else if matches.length > 1:\n      principal = escolher_mais_completo_ou_mais_antigo(matches)\n      duplicates = matches.filter(m => m.id != principal.id)\n\n    // 2) Rotas por intent (respeitando budget e early stops)\n    switch intent:\n      case \"find\":\n        return responder_find(principal)\n\n      case \"remove\":\n        if !principal → erro NOT_FOUND_BY_WHATS\n        removerLead({ lead_id: principal.id, organization_id })\n        return retorno_ok(\"remove\",\"removed\", principal.id, \"whatsapp\")\n\n      case \"update\":\n        if !principal → erro NOT_FOUND_BY_WHATS\n        payload_update = montar_update(principal, input, wa)\n        if is_noop(payload_update, principal):\n          return retorno_noop(\"update\", principal.id, \"whatsapp\")\n        atualizarLead({ lead_id: principal.id, organization_id, ...payload_update })\n        if merge_remove_duplicates && duplicates.length > 0:\n          // Obs: se este passo exceder budget, retornar needs_follow_up ao invés de executar\n          if (1 + 1 + duplicates.length) > RUNTIME_HINTS.tool_call_budget.merge_cleanup_max_calls:\n            return build_response(\"update\", principal, payload_update, duplicates, input, wa, \"updated\", { needs_more_calls: true, reason: \"merge_cleanup_exceeds_budget\" })\n          para cada d em duplicates: removerLead({ lead_id: d.id, organization_id })\n        return build_response_com_nudge(\"update\", principal, payload_update, duplicates, input, wa)\n\n      case \"upsert\":\n        if principal:\n          payload_update = montar_update(principal, input, wa)\n          if is_noop(payload_update, principal):\n            return build_response_com_nudge(\"upsert\", principal, {}, duplicates, input, wa, \"noop\")\n          atualizarLead({ lead_id: principal.id, organization_id, ...payload_update })\n          if merge_remove_duplicates && duplicates.length > 0:\n            if (1 + 1 + duplicates.length) > RUNTIME_HINTS.tool_call_budget.merge_cleanup_max_calls:\n              return build_response(\"upsert\", principal, payload_update, duplicates, input, wa, \"updated\", { needs_more_calls: true, reason: \"merge_cleanup_exceeds_budget\" })\n            para cada d em duplicates: removerLead({ lead_id: d.id, organization_id })\n          return build_response_com_nudge(\"upsert\", principal, payload_update, duplicates, input, wa)\n        else:\n          // Criar novo (não há match por Whats; evita atualizar errado)\n          stage_criacao = stage_validado_ou(\"novo\", organization_id, input.stage)\n          novo = adicionarLead({\n            name: name ?? \"Sem nome\",\n            whatsapp: wa,\n            email: email ?? null,\n            stage: stage_criacao,\n            description: description ?? (description_new ? description_new : null),\n            value: value ?? 0,\n            priority: priority ?? \"medium\",\n            source: source ?? null,\n            canal: canal ?? null,\n            has_payment: has_payment ?? false,\n            payment_value: payment_value ?? 0,\n            is_highlight: is_highlight ?? false,\n            organization_id\n          })\n          principal = { id: novo.id, name: name, email: email, whatsapp: wa, stage: stage_criacao, description: description }\n          return build_response_com_nudge(\"upsert\", principal, { created: true }, [], input, wa, \"created\")\n\n      case \"merge_cleanup\":\n        if matches.length <= 1:\n          return { ok:true, action:\"merge_cleanup\", operation:\"nothing_to_merge\", organization_id, lead_id: principal?.id ?? null, matched_by: matches.length==1?\"whatsapp\":\"none\", duplicates_removed:[], changes:{}, summary:\"Nada a mesclar\", nudge:null, error:null, meta:{budget_used:1, needs_more_calls:false} }\n        principal = escolher_mais_completo_ou_mais_antigo(matches)\n        duplicates = matches.filter(m => m.id != principal.id)\n        // Respeitar orçamento\n        if (1 + duplicates.length) > RUNTIME_HINTS.tool_call_budget.merge_cleanup_max_calls:\n          return { ok:true, action:\"merge_cleanup\", operation:\"needs_follow_up\", organization_id, lead_id: principal.id, matched_by:\"whatsapp\", duplicates_removed:[], changes:{}, summary:\"Muitos duplicados; excede budget\", nudge:null, error:null, meta:{needs_more_calls:true, duplicates_pending: duplicates.map(d=>d.id)} }\n        para cada d em duplicates: removerLead({ lead_id: d.id, organization_id })\n        return { ok:true, action:\"merge_cleanup\", operation:\"merged\", organization_id, lead_id: principal.id, matched_by:\"whatsapp\", duplicates_removed: duplicates.map(d=>d.id), changes:{}, summary:\"Duplicados removidos\", nudge:null, error:null, meta:{budget_used: 1 + duplicates.length} }\n  }\n\n  // NUDGE DE AGENDAMENTO (estilo “time jogando junto”)\n  NUDGE_POLICY {\n    // Gera lembrete interno quando:\n    // - appointment_intent == true, OU\n    // - avanço de stage para \"negociacao\" (ou similar), OU\n    // - description/description_new contém palavras de agendamento: [\"agendar\",\"agenda\",\"marcar\",\"marcação\",\"call\",\"reunião\",\"sessão\",\"confirmar horário\"].\n    // Mensagem interna sugerida: \"Está lembrando de acionar o Agente_Agendamentos com o id do lead para deixar marcado na agenda?\"\n    // O nudge vai em response.nudge (não visível ao usuário final).\n  }\n\n  HELPERS {\n    function normalizar_whatsapp_brasil(s) { /* remove não-dígitos; aplica +55; garante formatação p/ celular (11 dígitos) */ }\n    function escolher_mais_completo_ou_mais_antigo(lista) { /* maior nº de campos não-nulos; empate: menor created_at */ }\n    function ordem_stage(x) { /* retorna índice em STAGES.order; se não achar, -1 */ }\n    function resolve_stage_update(atual, proposto, force) {\n      if !proposto → return atual\n      if ordem_stage(proposto) == -1 → return atual\n      if ordem_stage(proposto) < ordem_stage(atual) && !force → return atual\n      return proposto\n    }\n    function stage_validado_ou(default_stage, organization_id, proposto) {\n      // opcional: usar obter_CRM_Stages para validar; senão usa proposto se conhecido, senão default_stage\n      return (proposto && ordem_stage(proposto) >= 0) ? proposto : default_stage\n    }\n    function append_description(desc_atual, desc_total, desc_nova) {\n      if desc_nova { return (desc_atual ? desc_atual + \" | \" : \"\") + \"[\" + {{ $now.format('yyyy-LL-dd HH:mm') }} + \"] \" + desc_nova }\n      if desc_total { return desc_total }\n      return desc_atual\n    }\n    function montar_update(principal, input, wa) {\n      stage_final = resolve_stage_update(principal.stage, input.stage, input.force_downgrade)\n      description_final = append_description(principal.description, input.description, input.description_new)\n      props = {}\n      if input.name && input.name != principal.name → props.name = input.name\n      if input.email && input.email != principal.email → props.email = input.email\n      if wa && wa != principal.whatsapp → props.whatsapp = wa\n      if stage_final && stage_final != principal.stage → props.stage = stage_final\n      if description_final && description_final != principal.description → props.description = description_final\n      if input.value != null && input.value != principal.value → props.value = input.value\n      if input.priority && input.priority != principal.priority → props.priority = input.priority\n      if input.source && input.source != principal.source → props.source = input.source\n      if input.canal && input.canal != principal.canal → props.canal = input.canal\n      if input.has_payment != null && input.has_payment != principal.has_payment → props.has_payment = input.has_payment\n      if input.payment_value != null && input.payment_value != principal.payment_value → props.payment_value = input.payment_value\n      if input.is_highlight != null && input.is_highlight != principal.is_highlight → props.is_highlight = input.is_highlight\n      return props\n    }\n    function is_noop(changes, principal) { return tamanho(changes) == 0 || (tamanho(changes) == 1 && changes.created == true) }\n    function resumo_operacao(action, op) { return (action==\"upsert\" && op==\"created\") ? \"Lead criado\" : (op==\"updated\" ? \"Lead atualizado\" : op) }\n    function responder_find(principal) {\n      if principal { return { ok:true, action:\"find\", operation:\"found\", organization_id, lead_id: principal.id, matched_by:\"whatsapp\", duplicates_removed:[], changes:{}, summary:\"Lead encontrado por WhatsApp\", nudge:null, error:null, meta:{budget_used:1} } }\n      return { ok:true, action:\"find\", operation:\"not_found\", organization_id, lead_id:null, matched_by:\"none\", duplicates_removed:[], changes:{}, summary:\"Nenhum lead com este WhatsApp\", nudge:null, error:null, meta:{budget_used:1} }\n    }\n    function build_response(action, principal, changes, duplicates, input, wa, forced_op=null, meta_extra={}) {\n      op = forced_op ? forced_op : (changes.created ? \"created\" : (tamanho(changes)>0 ? \"updated\" : \"noop\"))\n      return {\n        ok: true,\n        action: action,\n        operation: op,\n        organization_id: organization_id,\n        lead_id: principal.id,\n        matched_by: \"whatsapp\",\n        duplicates_removed: duplicates.map(d => d.id),\n        changes: changes,\n        summary: resumo_operacao(action, op),\n        nudge: null,\n        error: null,\n        meta: Object.assign({ budget_used: 2 }, meta_extra) // 1 lookup + 1 ação\n      }\n    }\n    function build_response_com_nudge(action, principal, changes, duplicates, input, wa, forced_op=null) {\n      op = forced_op ? forced_op : (changes.created ? \"created\" : (tamanho(changes)>0 ? \"updated\" : \"noop\"))\n      // Detectar avanço de stage\n      advanced_stage = false\n      if principal && changes.stage {\n        advanced_stage = ordem_stage(changes.stage) > ordem_stage(principal.stage)\n      }\n      // Palavras-chave\n      txt = ((input.description ?? \"\") + \" \" + (input.description_new ?? \"\")).toLowerCase()\n      keywords = [\"agendar\",\"agenda\",\"marcar\",\"marcação\",\"call\",\"reunião\",\"sessão\",\"confirmar horário\"]\n      should_nudge = false\n      reason = null\n      if input.appointment_intent == true { should_nudge = true; reason = \"appointment_intent_flag\" }\n      else if advanced_stage && [\"negociacao\",\"qualificado\",\"proposta\"].includes(changes.stage ?? principal.stage) { should_nudge = true; reason = \"stage_advanced\" }\n      else if keywords.some(k => txt.includes(k)) { should_nudge = true; reason = \"keywords_detected\" }\n\n      nudge = null\n      if should_nudge {\n        nudge = {\n          type: \"schedule_reminder\",\n          reason: reason,\n          message: \"Está lembrando de acionar o Agente_Agendamentos com o id do lead para deixar marcado na agenda?\",\n          lead_id: principal.id,\n          appointment_context: {\n            name: principal.name ?? input.name ?? null,\n            email: input.email ?? principal.email ?? null,\n            whatsapp_e164: wa,\n            proposed_datetime_text: input.appointment_info?.proposed_datetime_text ?? null,\n            timezone: input.appointment_info?.timezone ?? null,\n            collaborator_preference: input.appointment_info?.collaborator_preference ?? null,\n            meeting_type: input.appointment_info?.meeting_type ?? \"Sessão estratégica gratuita\"\n          }\n        }\n      }\n\n      return {\n        ok: true,\n        action: action,\n        operation: op,\n        organization_id: organization_id,\n        lead_id: principal.id,\n        matched_by: \"whatsapp\",\n        duplicates_removed: duplicates.map(d => d.id),\n        changes: changes,\n        summary: resumo_operacao(action, op),\n        nudge: nudge,\n        error: null,\n        meta: { budget_used: 2 }\n      }\n    }\n  }\n\n  RETURN_FORMAT {\n    // JSON técnico (sem texto para usuário).\n    // Campos: ok, action, operation, organization_id, lead_id, matched_by, duplicates_removed[], changes{}, summary, nudge?, error?, meta?\n    // operation ∈ {\"created\",\"updated\",\"removed\",\"merged\",\"noop\",\"ambiguous\",\"not_found\",\"nothing_to_merge\",\"needs_follow_up\"}\n  }\n\n  EXAMPLES {\n    // 1) Update com Whats igual → atualizar (nunca criar)\n    // input: { intent:\"update\", organization_id:\"ORG\", name:\"Rafael\", whatsapp:\"(31) 9 9999-0000\", stage:\"negociacao\", description_new:\"Topou sessão amanhã\", appointment_intent:true }\n    // → obterRow_CRM_Leads → match por Whats → atualizarLead → retorno ok, operation \"updated\" + nudge.schedule_reminder\n\n    // 2) Upsert sem match por Whats → criar\n    // input: { intent:\"upsert\", organization_id:\"ORG\", name:\"Rafael\", whatsapp:\"(31) 9 9999-0001\", stage:\"contato\" }\n    // → obterRow_CRM_Leads → 0 match → adicionarLead → operation \"created\"\n\n    // 3) Update sem Whats → erro\n    // input: { intent:\"update\", organization_id:\"ORG\", name:\"Rafael\" }\n    // → erro WHATS_REQUIRED\n\n    // 4) merge_cleanup com muitos duplicados → needs_follow_up (respeito ao budget)\n  }\n\n  NOTES {\n    // Orquestração recomendada:\n    // - Use Responses API com previous_response_id para reaproveitar raciocínio entre chamadas.\n    // - O Agente_Comercial deve sempre enviar WhatsApp do usuário; salve (whatsapp_e164 → lead_id) por até 72h para performance.\n    // - O campo \"nudge\" é interno para o Agente Principal; nunca vai ao usuário final.\n  }\n}\n",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        768
+      ],
+      "id": "fdb91990-6718-4871-8941-22762a3f0113",
+      "name": "Agente_CRM1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        192
+      ],
+      "id": "7adf9811-44aa-4eed-9525-74609ccd9e71",
+      "name": "OpenAI Chat Model3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"message\": \"Perfeito! Vou ajustar aqui e já te confirmo o horário, beleza?\",\n  \"intent\": \"schedule\",\n  \"events\": [\n    {\n      \"type\": \"subagent\",\n      \"name\": \"Agente_CRM\",\n      \"action\": \"upsert\",\n      \"status\": \"planned\",\n      \"note\": \"registrar interesse e avanço de estágio\"\n    },\n    {\n      \"type\": \"subagent\",\n      \"name\": \"Agente_Agendamentos\",\n      \"action\": \"add\",\n      \"status\": \"planned\",\n      \"note\": \"criar compromisso amanhã às 14h com Lucas\"\n    }\n  ],\n  \"entities\": {\n    \"lead_id\": \"LEAD-001\",\n    \"whatsapp_e164\": \"+5531998765432\",\n    \"email\": \"rafael@clinicaexemplo.com\",\n    \"collaborator\": \"Lucas\",\n    \"datetime_iso\": \"2025-08-28T14:00:00-03:00\",\n    \"timezone\": \"America/Sao_Paulo\"\n  },\n  \"next\": \"confirm_time\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        496
+      ],
+      "id": "efe7f3e2-fa9e-4600-9f19-0e6029944234",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        640
+      ],
+      "id": "5b6021f8-d737-4726-9a31-a741986b4368",
+      "name": "OpenAI Chat Model4"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "crm_leads",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        592,
+        1024
+      ],
+      "id": "44003072-560e-4f23-885c-62edae668563",
+      "name": "obterRow_crm_leads3"
+    }
+  ],
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Generate audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Enviar Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Audio": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscarGoogle1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_scrapper1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicionarLead1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "removerLead1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obterRow_crm_leads2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualizarLead1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendamentos_SDR1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicionarAgendamento1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "removerAgendamento1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obterAgendamentos1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres_Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obterColaboradores1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obterClientes1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-17": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres_Memory8": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres_Memory9": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicionarCliente1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obter_CRM_Stages1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_CRM1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Principal1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente_CRM1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agente Principal1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obterRow_crm_leads3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendamentos_SDR1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "62b21c3e-9247-4511-8af9-a417a6a67f55",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-11T21:34:11.710Z",
+      "updatedAt": "2025-09-11T21:34:11.710Z",
+      "role": "workflow:owner",
+      "workflowId": "wjGm3oYEueWuitAD",
+      "projectId": "W84J5ordzl059lka"
+    }
+  ],
+  "tags": []
+}
