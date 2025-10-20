@@ -1,57 +1,24 @@
 {
-  "createdAt": "2025-07-28T02:55:49.989Z",
-  "updatedAt": "2025-07-28T03:03:51.871Z",
-  "id": "zLJOXyZ7b7p8LwFi",
+  "createdAt": "2025-10-20T01:02:56.717Z",
+  "updatedAt": "2025-10-20T01:10:58.234Z",
+  "id": "jbNt6XXkxEW1s2Ea",
   "name": "My workflow",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "2161bd1a-b382-41c0-bb92-736528130fab",
+        "model": "gpt-4.1-mini",
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
+      "id": "cdffcce1-db88-485f-8f82-21618d105b60",
+      "name": "OpenAI3",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
       "position": [
-        0,
-        0
+        6336,
+        1920
       ],
-      "id": "c86965bc-106a-4ac1-9b68-02188e14e89a",
-      "name": "Webhook",
-      "webhookId": "2161bd1a-b382-41c0-bb92-736528130fab"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4.1-mini",
-          "mode": "list",
-          "cachedResultName": "GPT-4.1-MINI"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "={{ $json.body.data.message.conversation }}"
-            },
-            {
-              "content": "🎯 CONTEXTO GERAL\nYou are a world-class creative specialist in Instagram carousel design and visual storytelling.\n\nYour task is to generate highly detailed prompts — one for each carousel card — based on the topic and number of cards requested by the user via WhatsApp.\n\nThe final output must result in visually cohesive, emotionally engaging, and narratively structured carousel cards, designed for maximum engagement and conversion on Instagram.\n\n🧠 OBJETIVO DO CONTEÚDO\nEach carousel must present high-quality content that:\n\nEduca, inspira ou entretém o leitor\n\nMantém o interesse até o final do carrossel\n\nLeva o usuário à ação (comentar, compartilhar, seguir, salvar ou comprar)\n\nThe text inside the images should be claro, direto, com alto valor percebido.\nEvite frases genéricas. Cada frase deve ter propósito e impacto.\n\n🖼️ IDENTIDADE VISUAL FIXA\nBrand: EstetiqueAura\nSegmento: Clínica de estética facial e corporal\nEstilo visual: Luxuoso, feminino, moderno e clean\nPaleta de cores:\n\nPrincipal: Rosa antigo (#D9A5B3)\n\nSecundária: Dourado suave (#E6C8A5)\n\nFundo: Branco rosado (#FFF8F6)\nTipografia:\n\nTítulos: Playfair Display Bold, rosa antigo, tamanho grande\n\nTextos: Lato Regular, cinza escuro (#333333), tamanho médio\n\n⚠️ Em todos os cards, essas características visuais devem ser repetidas e reforçadas.\n⚠️ O estilo visual, cores, fontes e espaçamento devem ser idênticos entre os cards.\n\n📐 FORMATO DA IMAGEM\nTamanho da imagem: 1024x1024 pixels (formato quadrado)\n\nMargem de segurança: mínimo de 10% em todos os lados para texto e elementos\n\nHierarquia visual clara: título, imagem, texto complementar\n\nEmoção transmitida: elegância, confiança, bem-estar e cuidado\n\n🧱 ESTRUTURA VISUAL DOS CARDS\nCard 1: Hook visual + textual\n\nDeve ser impactante, com texto curto e visual forte\n\nLayout mais livre e expressivo\n\nNo canto inferior esquerdo:\n→ Texto: “Arraste para o lado →”\n→ Fonte pequena Lato Regular, cor #D9A5B3, sem setas extras\n\nCards 2 até o penúltimo: Conteúdo de valor\n\nVarie o formato: checklist, comparação, dica, ilustração com legenda\n\nLayout fixo: título no topo, imagem central, texto explicativo abaixo\n\nÚltimo card: Conclusão / CTA leve\n\nPode conter uma frase inspiradora, reforço da mensagem, ou convite sutil para ação (ex: “Siga a EstetiqueAura para mais beleza e bem-estar”)\n\n📚 NARRATIVA APLICADA AOS CARDS\nO carrossel deve sempre conter:\n\nHook (Card 1)\n\nDesenvolvimento (Cards intermediários)\n\nFechamento com CTA (Último Card)\n\n⚠️ Gere exatamente o número de cards solicitado pelo usuário via WhatsApp.\n⚠️ O conteúdo de cada card deve fazer sentido sozinho e conectado aos demais.\n\n📦 FORMATO DA SAÍDA (OBRIGATÓRIO)\nA resposta final deve conter apenas o JSON com os prompts de imagem, como abaixo:\n\n{\n  \"Card 1\": \"Prompt altamente detalhado da imagem 1 aqui...\",\n  \"Card 2\": \"Prompt altamente detalhado da imagem 2 aqui...\",\n  ...\n}\n⚠️ Sem markdown, comentários ou explicações.\n⚠️ Cada valor (prompt) deve conter:\n\n\nTexto completo em português que aparecerá na imagem\n\nLocalização de cada texto\n\nEstilo visual detalhado (ilustração, fonte, cores, emoções)\n\nConfirmação de tamanho e margens",
-              "role": "assistant"
-            }
-          ]
-        },
-        "jsonOutput": true,
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        208,
-        0
-      ],
-      "id": "b14d308a-a388-4285-b03f-32cf91e2d4b6",
-      "name": "Message a model",
       "credentials": {
         "openAiApi": {
           "id": "DJactF7wQNTfRMvR",
@@ -61,35 +28,2803 @@
     },
     {
       "parameters": {
-        "jsCode": "const input = items[0].json.message.content;\n\nconst results = [];\n\nfor (const [key, value] of Object.entries(input)) {\n  results.push({\n    json: {\n      cardTitle: key,\n      prompt: value\n    }\n  });\n}\n\nreturn results;"
+        "options": {}
       },
+      "id": "56020feb-384f-4200-9e14-66b7525cfb99",
+      "name": "Loop Over Items3",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        6912,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
+      },
+      "id": "58f2ee4d-586e-4528-b0f0-88db181c7048",
+      "name": "OutputParser1",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        6480,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Whatsapp message to be splitted and formated:{{ $json.output }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "={\n  \"messages\": [\n    \"Por favor, gere a saída no seguinte formato JSON: {\\\"messages\\\": [\\\"splitedMessage\\\", \\\"splitedMessage\\\", \\\"splitedMessage\\\"]}\",\n    \"As mensagens devem ser divididas de forma natural, afinal estamos conversando com um humano. Certifique-se de que a resposta siga exatamente essa estrutura, incluindo os colchetes e as aspas.\",\n    \"Jamais separe uma mensagem vazia. Cada mensagem deve ter entre 300 e 500 caracteres, sem cortar informações, pois é uma conversa de chat.\",\n    \"Certifique-se de que a resposta siga exatamente essa estrutura: *negrito* (substitua '**' por '*') não made nada em negrito remova todos '*'; ~tachado~ (caso seja algo excluído/alterado); _itálico_ (extremamente raro).\",\n    \"Tudo o que for link, pode colocar entre \\\"`\\\", ou seja, na seguinte formatação: `www.link.com.br`. Use sempre essa formatação para todos os links.\",\n\"troque essas palavra: Prazer por: feliz em conhecer\"\n  ]\n}"
+            }
+          ]
+        }
+      },
+      "id": "9f6bfc78-ebef-4b6c-9a52-c66a9c6809a1",
+      "name": "Parser  Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        6336,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Divisão de Mensagens Inteligente - Texto",
+        "height": 80,
+        "width": 1184,
+        "color": 4
+      },
+      "id": "d443005a-05b9-43cd-84c8-da868b778e6a",
+      "name": "Sticky Note19",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        6336,
+        1632
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.messages",
+        "options": {
+          "destinationFieldName": "output"
+        }
+      },
+      "id": "c51e02bd-16f5-4f50-8eda-2ef2b7d6c0a3",
+      "name": "Split de Mensagem",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        6672,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "bbd4cdf5-9c80-4a72-bdef-bf1a301390d1",
+      "name": "1 segundo",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        7168,
+        1744
+      ],
+      "webhookId": "aa7f729c-994f-4706-98be-e7d22555dfd4"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Dados').item.json.Telefone }}"
+      },
+      "id": "38f84495-cbe7-4be4-b782-40f49c786629",
+      "name": "Delete Memory",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        5216,
+        1728
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        1760
+      ],
+      "id": "7dbf782b-6c54-4b74-a02b-f355dafeef9e",
+      "name": "Supabase",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Cadastrar Cliente Supa Base",
+        "height": 80,
+        "width": 724,
+        "color": 4
+      },
+      "id": "201fffb7-070c-437e-ab9c-bc3544c0c5ec",
+      "name": "Sticky Note23",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        1648
+      ]
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "a89bf7b9-da1d-426b-8b8e-08ca0a5788e8",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "monica",
+        "options": {}
+      },
+      "id": "2bb010f9-d114-425e-b202-a0a7ace03036",
+      "name": "Webhook EVO",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        1744
+      ],
+      "webhookId": "555fca89-e08a-4570-960e-0cfda6d081de"
+    },
+    {
+      "parameters": {
+        "content": "# Pausar IA",
+        "height": 80,
+        "width": 616,
+        "color": 4
+      },
+      "id": "0a3fb361-ff81-43b6-bad2-36bea5f1c17e",
+      "name": "Sticky Note41",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table dados_cliente (\n  id bigserial primary key,\n  created_at TIMESTAMPTZ, \n  telefone text, \n  nomewpp text,\n  atendimento_ia text,\n  Setor text\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        320,
+        128
+      ],
+      "id": "e2ce8efd-23f0-4826-97f6-24869fa03023",
+      "name": "Cria Tabela Dados Cliente",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "a4b0dbb0-482d-4515-ad34-a3f4a8162d20",
+      "name": "Sticky Note49"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "19593898-e045-42e7-80b7-e42b75525939",
+      "name": "Sticky Note50"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "94eab4c5-3fdc-4121-bcf3-b7200bcb1042",
+      "name": "Sticky Note56"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "68818641-3cf3-43fa-aa1e-141ddf014cdd",
+      "name": "Sticky Note57"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from n8n_chat_histories",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        64,
+        528
+      ],
+      "id": "77bf11ec-5903-4700-91c3-8ff762de8879",
+      "name": "Deleta Histórico",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table chats (\n  id bigserial primary key,\n  created_at TIMESTAMPTZ, \n  phone text,\n  updated_at text\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        560,
+        128
+      ],
+      "id": "74608a42-b73d-431e-ba9e-3a0f92fc42e0",
+      "name": "Cria Tabela Chats",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "8d38da3e-b994-495b-ac3c-3d4bdc1b7f76",
+      "name": "Sticky Note65"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from chats",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        816,
+        528
+      ],
+      "id": "d77e4a8a-6402-4697-a430-3e50a68a6d98",
+      "name": "Deleta Conteúdo Chats",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from dados_cliente",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        576,
+        528
+      ],
+      "id": "d9231d91-cd03-4972-a52e-a2cfc5fd2a3e",
+      "name": "Deleta Conteúdo Dados Cliente",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "914ab216-0f97-42a2-af17-6893e4138b43",
+      "name": "Sticky Note66"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "delete from chat_messages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        320,
+        528
+      ],
+      "id": "d0fdc9f0-6a18-4c64-842a-c74863550484",
+      "name": "Deleta Conteúdo Chat_Messages",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "CREATE TABLE chat_messages (\n  id BIGSERIAL PRIMARY KEY,\n  created_at TIMESTAMPTZ, \n  phone TEXT,\n  nomewpp TEXT, \n  bot_message TEXT,\n  user_message TEXT, \n  message_type TEXT,\n  active BOOLEAN DEFAULT TRUE\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        64,
+        128
+      ],
+      "id": "c3ef5d8c-0e95-4e09-af2d-648341eb8cb7",
+      "name": "Cria Tabela Chat_Messages",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# WEBHOOK & ROTAS",
+        "height": 80,
+        "width": 948,
+        "color": 4
+      },
+      "id": "516b469f-cbc8-42e8-a267-c5e0ca844ba4",
+      "name": "Sticky Note67",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        1584
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "fileName": "file.png",
+          "mimeType": "image/png"
+        }
+      },
+      "id": "29291c1f-aeb8-4e6e-9448-aad2d270981f",
+      "name": "Convert to File1",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        3024,
+        1984
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c5ccbc9-69d1-4b13-a7c3-e6945bc8c655",
+              "name": "data",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "50c6f5c1-c31f-445b-99de-eeb413a6aa33",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2864,
+        1984
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $('Dados').item.json.message.content }}, {{ $json.content.replace(/\\n/g, \"\\\\n\").replace(/['\"]/g, '').trim()  }}",
+        "tail": true
+      },
+      "id": "6673a390-bec9-4aa5-9a4c-5d4e4b261f20",
+      "name": "Redis4",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3488,
+        2000
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $json.content.replace(/\\n/g, \"\\\\n\").replace(/['\"]/g, '').trim()  }}",
+        "tail": true
+      },
+      "id": "77457a34-aeea-4c4f-a2ea-eb44ec81d45a",
+      "name": "Redis5",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3488,
+        1824
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "52aaf749-fe4f-44e4-880e-15b2bfc027f1",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "extendedTextMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "e514e613-fd6a-48bd-b0ae-bae2448c810e",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "c0e434dd-1268-421d-b81b-3a5e90ed9550",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "86ae4dbd-66e9-4a1d-983f-bec59285804c",
+      "name": "Switch1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        2752,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Mensagem Picotada & Espera para a Resposta",
+        "height": 80,
+        "width": 956,
+        "color": 4
+      },
+      "id": "9cb86c3a-ed14-4df8-98bc-df9d5d29bc73",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3824,
+        1600
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Analise a imagem e me traga um resumo simples e o mais curto possível do que ela é",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "29d64450-241a-4c9f-884d-1ed3ef60242b",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        3184,
+        1984
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d5a342e9-585b-42ea-be44-644adae10199",
+              "leftValue": "={{ $json.Redis2 }}",
+              "rightValue": "={{ $json.Redis1 }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "01846da7-3bca-4860-a0b3-c3341899da0f",
+      "name": "Compara Get Memory1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4496,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $('Dados').item.json.message.content }}",
+        "tail": true
+      },
+      "id": "17f10084-df87-40f1-9779-0cf86933267d",
+      "name": "Text Memory1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3488,
+        1504
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $json.text }}",
+        "tail": true
+      },
+      "id": "e5ea9556-7eaa-4a89-8c44-2edeb9591dc2",
+      "name": "Audio Memory1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3488,
+        1664
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f336a1ff-e577-489d-a739-1eb8bd509245",
+              "name": "Redis2",
+              "value": "={{ $json.propertyName }}",
+              "type": "string"
+            },
+            {
+              "id": "946d1420-e379-46e3-8fcd-3816340fbabb",
+              "name": "Redis1",
+              "value": "={{ $('Get Memory ').item.json.propertyName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "09c7d526-d4ec-4b64-b43b-dc82bde0e413",
+      "name": "Edit Fields8",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4352,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const redis1 = JSON.parse($json.Redis1);\nconst redis2 = JSON.parse($json.Redis2);\n\nconst combinadoSemDuplicatas = Array.from(new Set([...redis1, ...redis2]));\n\nconst mensagem = combinadoSemDuplicatas.join(\" \");\n\nreturn [{ json: { mensagem_completa: mensagem } }];"
+      },
+      "id": "621956d0-9887-4f02-85aa-e0d05d3ed4f7",
+      "name": "Mensagem Completa",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        560,
-        0
+        4688,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "fileName": "file.ogg",
+          "mimeType": "application/ogg"
+        }
+      },
+      "id": "51b83c7c-fd63-4fcd-8154-9bf3a2154211",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        3120,
+        1792
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "bf4e0c62-34f0-4aa2-b4e5-068ddcc2df5d",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        3312,
+        1792
       ],
-      "id": "04f6348f-ef0b-4826-bdb6-59e44796f78f",
-      "name": "Code"
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table n8n_chat_histories (\n  id serial primary key,\n  session_id VARCHAR, \n  message jsonb\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        144
+      ],
+      "id": "9177c451-3eea-48be-af6d-1e7290de422b",
+      "name": "Criar n8n Chat stories",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ? \n**Aqui é para pausar a IA com interação humana e continuar salvando o histórico.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2080,
+        1024
+      ],
+      "typeVersion": 1,
+      "id": "77722598-66b8-4d6a-91a6-842b584a9a5f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "37aed4eb-ab30-4e31-9147-262671e58d49",
+      "name": "Espera para responder",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4000,
+        1744
+      ],
+      "webhookId": "9162d5f5-e5bd-4d2a-9499-c69ba0ada76b"
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona? \n*Conexão com o evolution, organização dos dados e tratamento do lid.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        1408
+      ],
+      "typeVersion": 1,
+      "id": "a0d49f08-6d46-4be5-97a6-522d50404622",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ? \n**Separa as msg e organiza.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2880,
+        1232
+      ],
+      "typeVersion": 1,
+      "id": "88ad5f4a-7779-4f24-b27b-1473caeaa393",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ? \n**Tempo de espera para multiplas msg do usuario.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3824,
+        1424
+      ],
+      "typeVersion": 1,
+      "id": "cc99d332-3125-40cb-81e1-cd9c2feea39b",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "TEMPO DE ESPERRA",
+        "height": 208,
+        "width": 198,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3952,
+        1696
+      ],
+      "typeVersion": 1,
+      "id": "cf259cf8-7ab0-4133-a185-e873c5aaad6b",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "functionCode": "return items.map(item => {\n  const raw = item.json.contato || ''; // substitua \"contato\" se o nome do campo for outro\n  const telefone = raw.split('@')[0]; // separa no \"@\" e pega a primeira parte\n  return {\n    json: {\n      ...item.json,\n      Telefone: telefone\n    }\n  };\n});\n"
+      },
+      "id": "0cb47001-8bdb-438d-bff4-68da1b4acef0",
+      "name": "Extrair Número",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        416,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "contato",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c787d763-9303-4c73-9848-6624cd0e0a62",
+      "name": "Entrada de Contato",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        208,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba2412cc-fd71-4caa-b0e0-869ec387ec95",
+              "name": "Telefone",
+              "value": "={{ $json.Telefone }}@s.whatsapp.net",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        1744
+      ],
+      "id": "bbaad204-c1cb-4cbf-b871-2604d1c0af5d",
+      "name": "Refaz numero"
+    },
+    {
+      "parameters": {
+        "tableId": "dados_cliente",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nomewpp",
+              "fieldValue": "={{ $('Dados').item.json.NomeWpp }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Dados').item.json.Telefone }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        1856
+      ],
+      "id": "3ec32f7e-1d94-439f-9841-994541397ed0",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ? \n** Divide as mensagens aqui.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        7280,
+        1456
+      ],
+      "typeVersion": 1,
+      "id": "400f246e-09ac-46c8-a33b-af8502f2d68e",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Dados').item.json.baseUrl }}/message/sendText/{{ $('Dados').item.json.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Dados').item.json.apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Dados').item.json.sender.replace('@s.whatsapp.net', '') }}\",\n  \"text\": \"{{ $('Split de Mensagem').item.json.output }}\",\n  \"delay\": 2500\n}",
+        "options": {}
+      },
+      "id": "1c3abcd9-1595-4cf5-ae7a-5e9e61f68a08",
+      "name": "Enviar Mensagem WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        7376,
+        1744
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        4960,
+        2272
+      ],
+      "id": "5b0a4eee-1683-49f8-96aa-8efd54d3c7c9",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c33f9527-e661-49e5-8e5e-64f3b430928a",
+              "name": "message.content_type",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.extendedTextMessage ? 'text' : '' }}{{ $('Webhook EVO').item.json.body.data.message.conversation ? 'text' : '' }}{{ $('Webhook EVO').item.json.body.data.message.audioMessage ? 'audio' : '' }}{{ $('Webhook EVO').item.json.body.data.message.imageMessage ? 'image' : '' }}{{ $('Webhook EVO').item.json.body.data.message.reactionMessage ? 'reaction' : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "06eba1c9-cff0-4f68-b6da-6bb0092466b7",
+              "name": "message.content",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.extendedTextMessage?.text || '' }}{{ $('Webhook EVO').item.json.body.data.message.imageMessage?.caption || '' }}{{ $('Webhook EVO').item.json.body.data.message.conversation || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b97f1af3-5361-46fc-9303-d644921231d8",
+              "name": "message.timestamp",
+              "value": "={{ $('Webhook EVO').item.json.body.data.messageTimestamp.toDateTime('s').toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "dc3dc59c-90a3-4a45-bea2-de092c91083b",
+              "name": "message.content_url",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.audioMessage?.url || '' }}{{ $('Webhook EVO').item.json.body.data.message.imageMessage?.url || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8b01a818-a456-476e-bace-adefe2f04eb4",
+              "name": "message.event",
+              "value": "={{ $('Webhook EVO').item.json.body.data.key.fromMe ? 'outcoming' : 'incoming' }}",
+              "type": "string"
+            },
+            {
+              "id": "886e3751-e39b-4fc6-98d1-3113eaeebbb4",
+              "name": "=body.event",
+              "value": "={{ $('Webhook EVO').item.json.body.event }}",
+              "type": "string"
+            },
+            {
+              "id": "d04a0c6e-7842-41d2-bdb0-c0ce51d6dad7",
+              "name": "Telefone",
+              "value": "={{ $json.Telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "a57db642-3e13-452e-bb5b-19f7e9f3bd5d",
+              "name": "NomeWpp",
+              "value": "={{ $('Webhook EVO').item.json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "32a9ffe3-5301-471f-93ea-b0a46248980f",
+              "name": "sender",
+              "value": "={{ $('Webhook EVO').item.json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "d04d7a57-831b-443e-ab8d-dba927410f6e",
+              "name": "baseUrl",
+              "value": "={{ $('Webhook EVO').item.json.body.server_url }}",
+              "type": "string"
+            },
+            {
+              "id": "134d139c-f55c-4939-844e-35be5c6fc156",
+              "name": "apikey",
+              "value": "={{ $('Webhook EVO').item.json.body.apikey }}",
+              "type": "string"
+            },
+            {
+              "id": "4e690790-7baa-4eda-9d83-947d4e30879a",
+              "name": "instance",
+              "value": "={{ $('Webhook EVO').item.json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "645c3783-ad69-44ba-83ec-e4ed29dd11a0",
+              "name": "fromMe",
+              "value": "={{ $('Webhook EVO').item.json.body.data.key.fromMe }}",
+              "type": "string"
+            },
+            {
+              "id": "a10c265a-c676-4afd-9327-307471510824",
+              "name": "reactionMessage",
+              "value": "={{ $json.body.data.message.reactionMessage.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2adee22a-e046-44a0-be94-3fbe7accef7b",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-5",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        4896,
+        1952
+      ],
+      "id": "9bbdf341-a5e8-40cc-b1c8-e3488bda954b",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Dados').item.json.Telefone }}",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        4992,
+        1952
+      ],
+      "id": "e9903cfe-2e58-454a-9282-00cfaf9592b4",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "XbUJ8LhrsC3uRgfA",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a6d9aac-8565-4c58-abe3-8741393a5535",
+              "leftValue": "={{ $json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        1760
+      ],
+      "id": "ac86680f-1206-49cf-8895-303f042bb423",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "ade56c50-1520-4760-8df5-e99617d6d3ad",
+              "leftValue": "={{ $('Webhook EVO').item.json.body.data.message.imageMessage.caption }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c7ce1c50-d2f6-42dc-9c06-67f87211dd04",
+      "name": "If4",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3328,
+        1984
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Dados').item.json.Telefone }}",
+        "options": {}
+      },
+      "id": "21c368e5-40bf-4bbe-a267-6feae1c77aba",
+      "name": "Get Memory ",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3824,
+        1744
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Dados').item.json.Telefone }}",
+        "options": {}
+      },
+      "id": "92512b00-1eea-44db-84c1-0afc28888d1e",
+      "name": "Get Memory 3",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4192,
+        1744
+      ],
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Filtro de mensagem",
+        "height": 80,
+        "width": 692,
+        "color": 4
+      },
+      "id": "e2e203c9-7ff6-4038-aaac-9e4a81e81f1c",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        1408
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c5ccbc9-69d1-4b13-a7c3-e6945bc8c655",
+              "name": "data",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2108c79b-d355-47e0-bf06-16c4b312eee5",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2960,
+        1792
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Ferramentas para criar\n\n",
+        "height": 80,
+        "width": 1016,
+        "color": 4
+      },
+      "id": "e87911a2-d1dc-4673-aa73-31ae9b49c038",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Ferramentaspara apagar\n\n",
+        "height": 80,
+        "width": 1008,
+        "color": 3
+      },
+      "id": "d1a534a2-c410-482f-944c-cbf40f34f8e5",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "2f4b4aa3-c338-4819-a58e-1a7483d79776",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ? \n*Registro do usuário no banco de dados.**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1344,
+        1472
+      ],
+      "typeVersion": 1,
+      "id": "170c59f3-2e6c-4f4e-8a1e-bd90b029a5d5",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Dados').item.json.Telefone }}_pausa",
+        "value": "=pausado"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        1568
+      ],
+      "id": "58e2768d-0e9a-4dcc-9f47-d6cb2c0a39ea",
+      "name": "Pause for Human Service2",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Dados').item.json.Telefone }}_pausa",
+        "value": "=ativo"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        1360
+      ],
+      "id": "62761b25-7c44-481a-89b4-7b607ada436a",
+      "name": "Despausa1",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c561af8e-a0f6-476e-8646-14d9ce83da4f",
+              "leftValue": "={{ $('Dados').item.json.message.content_type }}",
+              "rightValue": "=reaction",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2144,
+        1456
+      ],
+      "id": "2dd55c74-defb-4fec-9427-15c0c9e42338",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "content": "#### Despausa o Agente quando é uma Reação\n\n\n\n\n\n\n\n\n\n\n\n#### Pausa o Agente para Qualquer Tipo de Mensagem de um Humano\n",
+        "height": 448,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        1296
+      ],
+      "id": "f3cbad1b-84e8-4a6d-ae46-880419d681dd",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "#### Crie um gatilho de sua preferência que você/ o atendente deve fazer para Despausar o Agente\n- Eu geralmente uso uma mensagem de reação",
+        "height": 304,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        1296
+      ],
+      "id": "1d51f509-6145-4531-bc9c-948c922e5fe5",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9ef20125-3ee7-437c-8127-ebe521d2c782",
+              "leftValue": "={{ $('Dados').item.json.fromMe.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        1744
+      ],
+      "id": "45366e15-8522-4378-9911-00d2d5124149",
+      "name": "FromMe1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "14a8ad6d-80ba-437e-9ad7-361e8017a795",
+                    "leftValue": "={{ $json.evento }}",
+                    "rightValue": "motivo_transferencia",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "transferenciaAtendente"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        3984,
+        2064
+      ],
+      "id": "e035ecd7-2a4f-4d04-a6bc-835c67dc0aec",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('tool_humano').item.json.telefone }}_pausa",
+        "value": "=pausado"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4208,
+        2064
+      ],
+      "id": "c797e330-f10b-4503-afef-1b590c826043",
+      "name": "Pause for Human Service3",
+      "credentials": {
+        "redis": {
+          "id": "4SiUoUBw22jNHEdt",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('tool_humano').item.json.evo_endpoint }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "evolutionApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "5567992613156"
+            },
+            {
+              "name": "text",
+              "value": "=O cliente {{ $('tool_humano').item.json.telefone }} deseja falar com um atendente:\n\n- Motivo: {{ $('tool_humano').item.json.motivo_transferencia }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4384,
+        2064
+      ],
+      "id": "248ef04c-a7bf-45de-b3af-e3ee2e4122e4",
+      "name": "NotificarAtendente1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "yGbknPBGtQEGp57A",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa7503f2-b177-420a-915a-2a2b33badc6f",
+              "name": "response",
+              "value": "=Um especialista entrará em contato em breve!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4576,
+        2064
+      ],
+      "id": "67d56e23-1c1d-4b33-bdf3-0740177ad5b8",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensagem_completa }}",
+        "options": {
+          "systemMessage": "=# SYSTEM MESSAGE - VMG (Assistente Virtual Vila da Mônica)\n## Versão Anti-Alucinação com Tratamento de Ambiguidades\n\n---\n\n## 🎯 IDENTIDADE CORE\nVocê é o VMG, assistente virtual oficial da Vila da Mônica em Gramado/RS. Sua função é **informar com precisão absoluta** baseando-se EXCLUSIVAMENTE no documento de conhecimento via tool `Conhecimento`.\n\n---\n\n## ⚠️ REGRA MÁXIMA - ZERO INVENÇÃO\n\n### 🚫 PROIBIÇÃO ABSOLUTA:\n**JAMAIS invente, assuma ou deduza informações que não estejam explícitas no documento.**\n\n**Se a tool `Conhecimento` não retornar a informação solicitada:**\n1. ✅ Diga: \"Deixa eu confirmar isso pra você! Vou buscar na nossa central...\"\n2. ✅ Use a tool `Transferir para Atendente` se não conseguir resolver\n3. ❌ NUNCA diga \"não temos\" sem verificar primeiro\n4. ❌ NUNCA invente valores, horários ou regras\n\n---\n\n## 🧠 MAPA DE AMBIGUIDADES CRÍTICAS\n\n### 🚨 PERGUNTA AMBÍGUA #1: \"Vocês têm transfer?\"\n\n**❌ RESPOSTA ERRADA:**\n\"Não oferecemos transfer.\"\n\n**✅ RESPOSTA CORRETA:**\n\"Transfer próprio não temos, mas tem serviço terceirizado! 🚐\n\nEmpresa parceira: **Terra e Cor**\nWhatsApp: **(51) 99912-0355**\nAtende: Hospedados em Gramado ou Canela\n\nPosso passar mais informações sobre como chegar? 😊\"\n\n**LÓGICA:** Transfer ≠ serviço próprio. Sempre mencione a opção terceirizada.\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #2: \"Quanto custa o ingresso?\"\n\n**⚠️ ATENÇÃO:** Existem 8 tipos diferentes de ingresso!\n\n**✅ RESPOSTA CORRETA (sempre pergunte primeiro):**\n\"Claro! Pra te passar o valor certo, me conta: \n\nÉ pra adulto ou criança? E vai comprar antecipado ou na bilheteria? 🎫\"\n\n**TIPOS DE INGRESSO (memorize):**\n1. **Adulto (+15 anos):** R$ 298 (bilheteria) | R$ 179 (antecipado baixa temp.)\n2. **Criança (3 a 14 anos):** R$ 298 (bilheteria) | R$ 149,90 (antecipado baixa temp.)\n3. **Baby (1 a 2 anos e 11 meses):** R$ 29\n4. **Melhor Idade (60+):** R$ 99\n5. **PCD (3 a 14 anos):** ISENTO (com laudo)\n6. **PCD (15 a 100 anos):** R$ 99\n7. **Acompanhante PCD:** R$ 99 (só 1 por PCD)\n8. **Gratuidade:** 0 a 11 meses\n\n**NUNCA diga apenas \"R$ 298\" sem contexto!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #3: \"Quais atrações estão inclusas?\"\n\n**⚠️ ATENÇÃO:** Existem atrações INCLUSAS e atrações PAGAS À PARTE!\n\n**✅ RESPOSTA CORRETA:**\n\"O ingresso inclui 24 atrações incríveis! 🎠\n\nAs principais são:\n• Casa da Mônica\n• Casa do Cebolinha  \n• Roda Gigante\n• Dinolândia (bebês)\n• Shows com personagens\n• E muito mais!\n\nMas tem 6 atrações extras pagas à parte:\n• Casa da Magali\n• Laboratório do Franjinha\n• Cidade dos Carrinhos\n• Academia de Teatro\n• Limão Autoescola\n• Trem do Terminal da Vila\n\nQuer saber mais sobre alguma específica? ✨\"\n\n**NUNCA diga \"todas as atrações\" sem diferenciar!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #4: \"Pode levar comida?\"\n\n**⚠️ ATENÇÃO:** Regra complexa com exceções!\n\n**✅ RESPOSTA CORRETA:**\n\"Alimentos perecíveis de casa não pode, mas tem exceções! 🍴\n\n✅ PODE trazer:\n• Papinhas pra bebês (lacradas)\n• Comida pra veganos/vegetarianos\n• Alimentos pra restrições (com laudo médico)\n• Garrafinha de água (temos bebedouros)\n\n❌ NÃO PODE:\n• Lanches normais de casa\n• Frutas\n• Salgados\n\nO parque tem praça de alimentação com opções sem lactose, sem açúcar e veganas! 😊\"\n\n**NUNCA simplifique pra \"não pode\" ou \"pode\"!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #5: \"Meu bebê paga?\"\n\n**⚠️ ATENÇÃO:** Depende da idade EXATA!\n\n**✅ RESPOSTA CORRETA (sempre pergunte):**\n\"Qual a idade exata do bebê? 🍼\n\n📋 Regras:\n• 0 a 11 meses → GRATUITO\n• 1 ano a 2 anos e 11 meses → R$ 29 (ingresso Baby)\n• 3 anos em diante → R$ 149,90 (criança, antecipado)\"\n\n**NUNCA generalize \"bebês não pagam\"!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #6: \"Funciona na terça?\"\n\n**⚠️ ATENÇÃO:** Depende da temporada!\n\n**✅ RESPOSTA CORRETA:**\n\"Depende da temporada! 📅\n\n🏖️ **Alta Temporada:** Aberto TODO DIA (incluindo terças)\n🍂 **Baixa Temporada:** Fechado às TERÇAS\n🎉 **Feriados:** Sempre aberto\n\nQual mês você tá pensando em vir? Assim eu confirmo certinho! 😊\"\n\n**NUNCA diga só \"fecha às terças\"!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #7: \"Tem desconto pra morador?\"\n\n**⚠️ ATENÇÃO:** Lista específica de 9 cidades!\n\n**✅ RESPOSTA CORRETA:**\n\"Sim! Desconto especial R$ 99 pra moradores de: 🏡\n\n• Gramado • Canela • Nova Petrópolis\n• São Francisco de Paula • Igrejinha\n• Parobé • Santa Maria do Herval\n• Taquara • Três Coroas\n\nPrecisa apresentar conta de luz/água no seu nome, vale pra você + 4 acompanhantes! \n\nVocê mora em qual dessas cidades? 😊\"\n\n**NUNCA diga \"moradores da região\" sem especificar!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #8: \"Posso pagar meia-entrada?\"\n\n**⚠️ ATENÇÃO:** Regra específica + documentação!\n\n**✅ RESPOSTA CORRETA:**\n\"Meia-entrada é válida pra estudantes, mas tem regras! 📚\n\n✅ ACEITO:\n• Carteirinha estudantil padronizada (física ou digital)\n• Conforme Lei 12.933/2013\n\n❌ NÃO ACEITO:\n• Comprovante de matrícula\n• Comprovante de pagamento\n\nO desconto é sobre o valor inteiro (R$ 298).\n\nVocê tem a carteirinha padronizada? 😊\"\n\n**NUNCA diga só \"tem meia-entrada pra estudante\"!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #9: \"Criança com TDAH tem desconto?\"\n\n**⚠️ ATENÇÃO:** Informação explícita no documento!\n\n**✅ RESPOSTA CORRETA:**\n\"Crianças com TDAH não se enquadram nas categorias de isenção ou desconto PCD. \n\nMas existem outros descontos que podem ajudar:\n• Compra antecipada: R$ 149,90\n• Moradores (se aplicável): R$ 99\n• Meia-entrada estudante (com carteirinha)\n\nPosso te ajudar com alguma dessas opções? 💙\"\n\n**NUNCA invente \"tem desconto\" ou \"não tem desconto\" sem verificar!**\n\n---\n\n### 🚨 PERGUNTA AMBÍGUA #10: \"O parque aceita pets?\"\n\n**⚠️ ATENÇÃO:** Regra com exceção!\n\n**✅ RESPOSTA CORRETA:**\n\"O parque não é pet friendly. 🐕\n\nA única exceção são **cães-guia** com documentação comprobatória.\n\nMas olha que legal: temos o **Hospital Veterinário** e o **Hotel Pet** como atrações! As crianças adoram! 🏥🐾\"\n\n**NUNCA diga só \"não aceita\" sem mencionar a exceção!**\n\n---\n\n## 📋 CHECKLIST OBRIGATÓRIO ANTES DE CADA RESPOSTA\n\nAntes de responder QUALQUER pergunta sobre:\n\n### 💰 Preços/Ingressos:\n- [ ] Confirmei qual tipo de ingresso (adulto/criança/baby/PCD/melhor idade)?\n- [ ] Confirmei se é compra antecipada ou bilheteria?\n- [ ] Mencionei que compra antecipada só tem desconto via WhatsApp/site?\n\n### 🎠 Atrações:\n- [ ] Diferenciei atrações INCLUSAS de PAGAS À PARTE?\n- [ ] Consultei a tool `Conhecimento` antes de responder?\n\n### 📅 Funcionamento:\n- [ ] Confirmei se é alta ou baixa temporada?\n- [ ] Mencionei que terça fecha só na baixa temporada?\n- [ ] Avisei que feriados sempre abre?\n\n### 🍴 Alimentação:\n- [ ] Expliquei a regra completa (não pode perecíveis)?\n- [ ] Mencionei as exceções (bebês, veganos, restrições)?\n\n### 🚐 Transfer/Transporte:\n- [ ] Mencionei que NÃO tem próprio?\n- [ ] Informei a Terra e Cor (51) 99912-0355?\n- [ ] Ofereci outras opções (táxi, uber, carro)?\n\n---\n\n## 🎯 MATRIZ DE PERGUNTAS FREQUENTES (Respostas Prontas)\n\n### 1. \"Qual o horário?\"\n**R:** \"Das 9h45 às 17h! Recomendamos passar o dia todo pra aproveitar tudo. ⏰\"\n\n### 2. \"Quanto tempo de visita?\"\n**R:** \"Entre 3 a 5 horas em média, mas o ideal é reservar o dia inteiro! 🌟\"\n\n### 3. \"Tem estacionamento?\"\n**R:** \"Sim! R$ 35 por veículo, pago à parte (não tá incluso no ingresso). 🚗\"\n\n### 4. \"Bebês pagam?\"\n**R:** \"Depende da idade! Me conta quantos meses/anos o bebê tem? 🍼\"\n\n### 5. \"Pode fotografar?\"\n**R:** \"Pode! E se quiser, temos serviço profissional (pago à parte) no (54) 99989-5447. Ou você pode trazer seu fotógrafo (ele paga ingresso também). 📸\"\n\n### 6. \"Tem fraldário?\"\n**R:** \"Sim! Temos fraldário, banheiros familiares com trocadores e espaço pra amamentação. O parque é super preparado pra bebês! 🍼\"\n\n### 7. \"Aluga carrinho?\"\n**R:** \"Sim, temos carrinhos disponíveis pra aluguel! 🛒\"\n\n### 8. \"Como comprar?\"\n**R:** \"3 opções com desconto:\n• WhatsApp: (54) 3421-9999 ✅\n• Site: www.viladamonica.com.br ✅\n• Totem no parque ✅\n\nNa bilheteria também vende, mas sem desconto de compra antecipada.\"\n\n### 9. \"Parcela?\"\n**R:** \"Sim! Até 3x sem juros no cartão. 💳\"\n\n### 10. \"Tem comida?\"\n**R:** \"Sim! Praça de alimentação com lanches e pratos executivos, opções sem lactose, sem açúcar e veganas. 🍔\"\n\n---\n\n## 🛠️ INSTRUÇÕES DE USO DAS TOOLS\n\n### Tool: `Conhecimento`\n**SEMPRE use quando:**\n- Perguntarem sobre atrações específicas\n- Pedirem detalhes de experiências pedagógicas\n- Questionarem sobre certificações (LEED, WELL)\n- Dúvidas sobre regras/políticas\n\n**NUNCA responda sem consultar se:**\n- Não tiver 100% de certeza\n- A informação for técnica/específica\n- Envolver valores ou regras\n\n### Tool: `Verificar disponibilidade`\n**Use quando:**\n- Perguntarem sobre preços por data específica\n- Questionarem disponibilidade de ingressos\n- Pedirem informações de temporada\n\n### Tool: `Transferir para Atendente`\n**Use quando:**\n- Não conseguir resolver após 3 tentativas\n- Visitante pedir nota fiscal\n- Situação de reclamação/pós-venda\n- Parcerias (influencer, agência)\n- Qualquer situação fora do escopo padrão\n\n---\n\n## ✅ REGRAS DE OURO ANTI-ALUCINAÇÃO\n\n1. **SEMPRE consulte tool antes de responder** informações técnicas\n2. **NUNCA invente valores** que não estão no documento\n3. **NUNCA simplifique regras complexas** (explique as exceções)\n4. **SEMPRE pergunte detalhes** antes de dar respostas definitivas\n5. **NUNCA use \"não temos\"** sem verificar alternativas\n6. **SEMPRE diferencie** inclusões de pagamentos extras\n7. **NUNCA generalize temporadas** (especifique alta/baixa)\n8. **SEMPRE mencione prazos/idades exatas** em regras\n9. **NUNCA assuma contexto** (pergunte qual situação específica)\n10. **SEMPRE ofereça alternativas** quando algo não for possível\n\n---\n\n## 🎭 VARIAÇÃO NATURAL (Anti-Repetição)\n\n### Saudações Contextuais (use 1x por conversa):\n1. **Pergunta sobre ingresso:** \"Oba! Vai adorar a Vila! 🎠 Me conta...\"\n2. **Pergunta sobre atração:** \"Que legal! Essa atração é demais! ✨\"\n3. **Pergunta sobre horário:** \"Claro! Vou te passar os horários certinhos! ⏰\"\n4. **Dúvida geral:** \"Oi! Tô aqui pra ajudar! 💛 O que você quer saber?\"\n\n### Encerramentos Variados:\n1. \"Mais alguma dúvida? Tô aqui! 🌟\"\n2. \"Ficou tudo claro? Posso ajudar em mais algo? 💬\"\n3. \"Precisa de mais alguma info? 😊\"\n4. \"Quer saber mais alguma coisa? ⭐\"\n\n### Ofertas de Compra (varie sempre):\n1. \"Quer garantir pelo WhatsApp da central? É rapidinho! 📲 (54) 3421-9999\"\n2. \"Prefere comprar pelo site? 💻 www.viladamonica.com.br\"\n3. \"Posso passar o WhatsApp pra você fechar agora? (54) 3421-9999 📱\"\n\n---\n\n## 🚨 SITUAÇÕES CRÍTICAS (O que fazer)\n\n### Situação 1: Visitante reclama de preço\n**❌ Não diga:** \"Desculpa, mas é o preço\"\n**✅ Diga:** \"Entendo! Vou te mostrar opções de desconto:\n• Compra antecipada: até R$ 149,90\n• Moradores: R$ 99 (se aplicar)\n• PCD/Melhor idade: R$ 99\n\nQual se encaixa melhor pra você? 💙\"\n\n### Situação 2: Pergunta sobre algo não documentado\n**❌ Não invente:** \"Acho que sim/não\"\n**✅ Diga:** \"Deixa eu confirmar isso com nossa central! Vou transferir pra um especialista te ajudar melhor. 📞\"\n\n### Situação 3: Múltiplas perguntas de uma vez\n**❌ Não responda tudo:** (texto gigante)\n**✅ Responda 1 por vez:** \"Opa! Várias perguntas legais! Deixa eu te responder uma por vez pra ficar claro:\n\nSobre o ingresso: [resposta curta]\n\nQuer que eu continue com as outras? 😊\"\n\n### Situação 4: Visitante insiste em algo não possível\n**❌ Não seja rígido:** \"Não é possível\"\n**✅ Ofereça alternativa:** \"Essa opção específica não temos, mas olha que legal: [alternativa]. Funciona pra você? 💡\"\n\n---\n\n## 🎯 OBJETIVO FINAL\n\nSer o assistente mais **preciso, útil e confiável** do Brasil. Cada resposta deve:\n- ✅ Estar 100% correta (sem invenções)\n- ✅ Ser contextualmente adequada\n- ✅ Incluir todas as exceções relevantes\n- ✅ Oferecer próximos passos claros\n- ✅ Manter tom encantado mas profissional\n\n**Mantra:** \"Precisão > Velocidade | Clareza > Brevidade | Verdade > Conveniência\"\n\n---\n\n## 🧪 TESTE MENTAL ANTES DE ENVIAR\n\nPergunte a si mesmo:\n1. ❓ Consultei a tool apropriada?\n2. ❓ Esta informação está no documento?\n3. ❓ Expliquei todas as exceções relevantes?\n4. ❓ Ofereci próximos passos claros?\n5. ❓ Variei minha forma de expressão?\n\n**Se qualquer resposta for NÃO → reescreva antes de enviar.**\n\n---\n\n**IMPORTANTE:** Você está operando com GPT-5, o modelo mais avançado disponível. Use sua capacidade de raciocínio contextual para detectar ambiguidades e sempre priorizar a **precisão absoluta** sobre a velocidade de resposta.\n\n---\n\n# GUIA DE CONVERSAS - VMG\n## Exemplos Práticos: Correto ❌ vs Incorreto ✅\n\n---\n\n## EXEMPLO 1: Transfer\n\n### ❌ CONVERSA INCORRETA (Alucinação)\n```\nVisitante: \"Vocês têm transfer?\"\nVMG: \"Não oferecemos transfer.\"\n```\n**Problema:** Resposta incompleta que deixa visitante sem solução.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Vocês têm transfer?\"\nVMG: \"Transfer próprio não temos, mas tem serviço terceirizado! 🚐\n\nEmpresa: Terra e Cor\nWhatsApp: (51) 99912-0355\nAtende: Hospedados em Gramado/Canela\n\nOutras opções:\n• Táxi/Uber/99\n• Carro próprio (estacionamento R$ 35)\n\nQual funciona melhor pra você? 😊\"\n```\n**Por quê:** Oferece solução completa + alternativas.\n\n---\n\n## EXEMPLO 2: Preço de Ingresso\n\n### ❌ CONVERSA INCORRETA (Incompleta)\n```\nVisitante: \"Quanto custa o ingresso?\"\nVMG: \"R$ 298,00\"\n```\n**Problema:** Não diferenciou bilheteria vs antecipado, adulto vs criança.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Quanto custa o ingresso?\"\nVMG: \"Depende! Pra te passar certinho: 🎫\n\nÉ pra adulto (+15 anos) ou criança (3-14 anos)?\nVai comprar antecipado ou na hora?\n\nOs valores variam assim:\n• Bilheteria: R$ 298\n• Antecipado: R$ 179 (adulto) ou R$ 149,90 (criança)\n\nMe conta qual é o caso? 😊\"\n```\n**Por quê:** Pergunta detalhes antes de dar valor definitivo.\n\n---\n\n## EXEMPLO 3: Bebê Paga?\n\n### ❌ CONVERSA INCORRETA (Generalização)\n```\nVisitante: \"Meu bebê paga?\"\nVMG: \"Bebês não pagam!\"\n```\n**Problema:** Generalizou sem saber a idade exata.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Meu bebê paga?\"\nVMG: \"Depende da idade! 🍼\n\nQuantos meses/anos ele tem?\n\n📋 Regras:\n• 0-11 meses: GRATUITO\n• 1-2 anos e 11 meses: R$ 29\n• 3 anos+: R$ 149,90 (criança)\"\n```\n**Por quê:** Coleta informação antes de responder.\n\n---\n\n## EXEMPLO 4: Atrações Inclusas\n\n### ❌ CONVERSA INCORRETA (Imprecisa)\n```\nVisitante: \"O que tá incluso?\"\nVMG: \"Todas as atrações do parque!\"\n```\n**Problema:** Não diferenciou inclusas de pagas à parte.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"O que tá incluso?\"\nVMG: \"O ingresso inclui 24 atrações! 🎠\n\nPrincipais:\n• Casa da Mônica, Cebolinha, Cascão\n• Roda Gigante\n• Dinolândia (bebês)\n• Shows com personagens\n• Corpo de Bombeiros\n• Hospital Veterinário\n\n6 atrações extras (pagas à parte):\n• Casa da Magali\n• Laboratório do Franjinha\n• Cidade dos Carrinhos\n• Academia de Teatro\n• Limão Autoescola\n• Trem do Terminal\n\nQuer detalhes de alguma específica? ✨\"\n```\n**Por quê:** Diferencia claramente o que está incluso.\n\n---\n\n## EXEMPLO 5: Comida no Parque\n\n### ❌ CONVERSA INCORRETA (Simplificada demais)\n```\nVisitante: \"Posso levar lanche?\"\nVMG: \"Não pode trazer comida.\"\n```\n**Problema:** Não explicou as exceções importantes.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Posso levar lanche?\"\nVMG: \"Alimentos perecíveis não pode, mas tem exceções! 🍴\n\n✅ PODE:\n• Papinhas pra bebês (lacradas)\n• Comida vegana/vegetariana\n• Alimentos pra restrições (com laudo médico)\n• Garrafinha d'água (temos bebedouros)\n\nO parque tem praça de alimentação com opções sem lactose, sem açúcar e veganas! 😊\"\n```\n**Por quê:** Explica regra completa + alternativas.\n\n---\n\n## EXEMPLO 6: Funciona na Terça?\n\n### ❌ CONVERSA INCORRETA (Incompleta)\n```\nVisitante: \"Abre na terça?\"\nVMG: \"Não, fechamos às terças.\"\n```\n**Problema:** Não mencionou que depende da temporada.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Abre na terça?\"\nVMG: \"Depende da temporada! 📅\n\n🏖️ Alta Temporada: ABRE (todos os dias)\n🍂 Baixa Temporada: FECHA às terças\n🎉 Feriados: Sempre ABRE\n\nQuando você tá pensando em vir? Assim confirmo certinho! 😊\"\n```\n**Por quê:** Contextualiza a resposta com todas as variáveis.\n\n---\n\n## EXEMPLO 7: Desconto Morador\n\n### ❌ CONVERSA INCORRETA (Vaga)\n```\nVisitante: \"Moro em Caxias, tenho desconto?\"\nVMG: \"Sim, moradores da região têm desconto!\"\n```\n**Problema:** Caxias NÃO está na lista, informação incorreta.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Moro em Caxias, tenho desconto?\"\nVMG: \"O desconto de morador vale pra 9 cidades específicas: 🏡\n\n• Gramado • Canela • Nova Petrópolis\n• São Francisco de Paula • Igrejinha\n• Parobé • Santa Maria do Herval\n• Taquara • Três Coroas\n\nCaxias não tá na lista, mas você pode aproveitar:\n• Compra antecipada: R$ 179 (adulto)\n• Meia-entrada: R$ 149 (se estudante)\n\nAlguma dessas opções funciona? 💙\"\n```\n**Por quê:** Verifica lista exata + oferece alternativas.\n\n---\n\n## EXEMPLO 8: TDAH tem Desconto?\n\n### ❌ CONVERSA INCORRETA (Inventada)\n```\nVisitante: \"Meu filho tem TDAH, tem desconto?\"\nVMG: \"Sim, crianças com TDAH têm desconto PCD!\"\n```\n**Problema:** Informação FALSA - documento diz explicitamente que TDAH NÃO se enquadra.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Meu filho tem TDAH, tem desconto?\"\nVMG: \"Crianças com TDAH não se enquadram no desconto PCD, mas tem outras opções! 💙\n\nDescontos disponíveis:\n• Compra antecipada: R$ 149,90\n• Meia-entrada estudante: R$ 149 (com carteirinha)\n• Moradores (se aplicar): R$ 99\n\nO parque é super inclusivo e acessível pra todas as crianças! \n\nQual desconto se encaixa melhor? 😊\"\n```\n**Por quê:** Respeita informação do documento + oferece alternativas reais.\n\n---\n\n## EXEMPLO 9: Meia-Entrada\n\n### ❌ CONVERSA INCORRETA (Simplificada)\n```\nVisitante: \"Sou estudante, tenho meia?\"\nVMG: \"Sim, apresenta a carteirinha!\"\n```\n**Problema:** Não explicou os requisitos específicos.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Sou estudante, tenho meia?\"\nVMG: \"Sim! Mas precisa ser carteirinha padronizada! 📚\n\n✅ ACEITO:\n• Carteirinha estudantil nacional (física ou digital)\n• Conforme Lei 12.933/2013\n\n❌ NÃO ACEITO:\n• Comprovante de matrícula\n• Comprovante de pagamento\n\nO desconto é sobre R$ 298 (valor inteiro).\n\nVocê tem a carteirinha padronizada? 😊\"\n```\n**Por quê:** Explica regra completa para evitar frustração na hora.\n\n---\n\n## EXEMPLO 10: Pet no Parque\n\n### ❌ CONVERSA INCORRETA (Incompleta)\n```\nVisitante: \"Posso levar meu cachorro?\"\nVMG: \"Não, o parque não aceita pets.\"\n```\n**Problema:** Não mencionou a exceção de cães-guia.\n\n### ✅ CONVERSA CORRETA\n```\nVisitante: \"Posso levar meu cachorro?\"\nVMG: \"O parque não é pet friendly. 🐕\n\nA única exceção são cães-guia com documentação comprobatória.\n\nMas olha que legal: o parque tem atrações temáticas de pets!\n• Hospital Veterinário\n• Hotel Pet Melhor Amigo\n\nAs crianças adoram! 🐾\n\nÉ cão-guia ou pet de estimação? 😊\"\n```\n**Por quê:** Menciona exceção + oferece contexto positivo.\n\n---\n\n## CHECKLIST FINAL: Como saber se sua resposta está correta?\n\n✅ **SUA RESPOSTA ESTÁ BOA SE:**\n- Consultou a tool `Conhecimento` antes\n- Incluiu todas as exceções relevantes\n- Ofereceu próximos passos claros\n- Perguntou detalhes quando necessário\n- Não inventou nenhuma informação\n\n❌ **SUA RESPOSTA ESTÁ RUIM SE:**\n- Generalizou demais (\"tudo\" / \"nada\" / \"sempre\")\n- Não diferenciou casos específicos\n- Deixou visitante sem alternativa\n- Inventou ou assumiu informações\n- Usou a mesma frase repetidas vezes\n\n---\n\n**Use estes exemplos como referência sempre que tiver dúvida sobre como responder!**"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        4896,
+        1728
+      ],
+      "id": "b8bb7ac5-7070-46cc-a24e-8f631da0dcf6",
+      "name": "VMG"
+    },
+    {
+      "parameters": {
+        "toolDescription": "=ingressos por data específica. Use quando o visitante perguntar sobre valores ou datas disponíveis.",
+        "url": "=https://ticketia-api-precarrinho.api.cloud.ssl.pwi.net.br/api/v1/produtos/1/2025-10-17T15%3A06%3A44.913Z",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        5104,
+        1952
+      ],
+      "id": "59da1bff-54e6-416d-8903-a17162d32330",
+      "name": "Verificar disponibilidade"
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que for necessário transferir para um atendente. As situações que você DEVE TRANSFERIR SÃO:\n\n- Solicitação de nota fiscal",
+        "workflowId": {
+          "__rl": true,
+          "value": "8Bvj3VIcytxaTsoo",
+          "mode": "list",
+          "cachedResultName": "Teste se funciona"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "evo_endpoint": "={{ $('Dados').item.json.baseUrl }}/message/sendText/{{ $('Dados').item.json.instance }}",
+            "telefone": "={{ $('Dados').item.json.Telefone }}",
+            "motivo_transferencia": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('motivo_transferencia', `Preencha com o motivo da transferencia para que o atendente humano consiga dar continuidade`, 'string') }}",
+            "evento": "motivo_transferencia"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "evo_endpoint",
+              "displayName": "evo_endpoint",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "motivo_transferencia",
+              "displayName": "motivo_transferencia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "evento",
+              "displayName": "evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        5200,
+        1952
+      ],
+      "id": "7f487ef3-2338-4741-9e1d-e092f057175a",
+      "name": "Transferir para Atendente"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Utilize esta tool para buscar informações sobre o Parque Vila da Monica",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        4960,
+        2112
+      ],
+      "id": "93c6988c-affb-41ee-ae6a-081f5c460928",
+      "name": "Conhecimento",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "evo_endpoint"
+            },
+            {
+              "name": "telefone"
+            },
+            {
+              "name": "motivo_transferencia"
+            },
+            {
+              "name": "evento"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        3808,
+        2064
+      ],
+      "id": "cd33883b-eb6c-43ae-acf3-347ec90e7c96",
+      "name": "tool_humano"
+    },
+    {
+      "parameters": {
+        "content": "ROTA PARA TESTE",
+        "height": 208,
+        "width": 198,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        1680
+      ],
+      "typeVersion": 1,
+      "id": "210bf28f-17a9-48b8-b41e-f7b834ffe547",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5922557b-71e7-4390-af21-10b683e7a875",
+                    "leftValue": "={{ $json.Telefone }}",
+                    "rightValue": "numeroqueseratestadoaqui@s.whatsapp.net",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Numero pessoal"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "9865cb5b-33da-490c-afc3-186457d5b564",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notStartsWith"
+                    },
+                    "leftValue": "={{ $json.Telefone }}",
+                    "rightValue": "553173374875@s.whatsapp.net"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rota normal"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "11d17413-70e9-4ac6-afb4-e2d0d8301c1f",
+      "name": "Rotas",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        1072,
+        1744
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1U1emQn9exVQJADcS76PHrbaxAFWrXmz4",
+          "mode": "list",
+          "cachedResultName": "Agente VMG",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1U1emQn9exVQJADcS76PHrbaxAFWrXmz4"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        4528,
+        2560
+      ],
+      "id": "849f7a32-2a0d-4acd-b20b-5263e8e79a63",
+      "name": "Google Drive Trigger1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4944,
+        2560
+      ],
+      "id": "c9280328-aa90-430e-9371-b1dd375e75b2",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8MAiyh89YVmVxJ49",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        5152,
+        2560
+      ],
+      "id": "dd6086f8-d161-4d5e-b0fa-b1f1eed09f94",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        5360,
+        2560
+      ],
+      "id": "2665ab7d-eb93-4fc0-8335-ee25cd52e589",
+      "name": "Supabase Vector Store2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "EJC32cBIZ8aidg1P",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        5360,
+        2752
+      ],
+      "id": "a66dd241-e09e-49d5-9a1b-32971065c36c",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DJactF7wQNTfRMvR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        5456,
+        2752
+      ],
+      "id": "d84a71e7-9ddc-47d5-9a04-85857bf418fe",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa793704-9ada-454f-89a9-cf4d6d48a16e",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4736,
+        2560
+      ],
+      "id": "b378fbdb-1945-4963-bc35-74d7360a80fe",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## Como funciona ?\n**PDF que contém todas as informações que o ai agent precisa**"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4528,
+        2272
+      ],
+      "typeVersion": 1,
+      "id": "01ac8cbf-0da9-440d-80a4-5d440f40b20d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# RAG",
+        "height": 80,
+        "width": 1108,
+        "color": 4
+      },
+      "id": "466c2a00-b74c-476d-af32-6fd4e5873101",
+      "name": "Sticky Note21",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4528,
+        2448
+      ]
     }
   ],
   "connections": {
-    "Webhook": {
-      "main": [
+    "OpenAI3": {
+      "ai_languageModel": [
         [
           {
-            "node": "Message a model",
+            "node": "Parser  Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "1 segundo",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Message a model": {
+    "OutputParser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Parser  Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser  Chain": {
       "main": [
         [
           {
-            "node": "Code",
+            "node": "Split de Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split de Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 segundo": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Memory": {
+      "main": [
+        [
+          {
+            "node": "Parser  Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook EVO": {
+      "main": [
+        [
+          {
+            "node": "Entrada de Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis4": {
+      "main": [
+        [
+          {
+            "node": "Get Memory ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis5": {
+      "main": [
+        [
+          {
+            "node": "Get Memory ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Text Memory1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text Memory1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compara Get Memory1": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Completa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Memory1": {
+      "main": [
+        [
+          {
+            "node": "Get Memory ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audio Memory1": {
+      "main": [
+        [
+          {
+            "node": "Get Memory ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Compara Get Memory1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Completa": {
+      "main": [
+        [
+          {
+            "node": "VMG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Audio Memory1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera para responder": {
+      "main": [
+        [
+          {
+            "node": "Get Memory 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Número": {
+      "main": [
+        [
+          {
+            "node": "Refaz numero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada de Contato": {
+      "main": [
+        [
+          {
+            "node": "Extrair Número",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refaz numero": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "FromMe1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Mensagem WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Conhecimento",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Rotas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "VMG",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "VMG",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "FromMe1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Redis5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Memory ": {
+      "main": [
+        [
+          {
+            "node": "Espera para responder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Memory 3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Despausa1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pause for Human Service2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FromMe1": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Pause for Human Service3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pause for Human Service3": {
+      "main": [
+        [
+          {
+            "node": "NotificarAtendente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NotificarAtendente1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VMG": {
+      "main": [
+        [
+          {
+            "node": "Delete Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar disponibilidade": {
+      "ai_tool": [
+        [
+          {
+            "node": "VMG",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transferir para Atendente": {
+      "ai_tool": [
+        [
+          {
+            "node": "VMG",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "VMG",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tool_humano": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rotas": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
             "type": "main",
             "index": 0
           }
@@ -100,84 +2835,25 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Google Drive Trigger1": {
+      "lastTimeChecked": "2025-10-20T01:28:30Z"
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "x2id7y0t-n8n.cloudfy.cloud",
-            "user-agent": "axios/1.10.0",
-            "content-length": "1114",
-            "accept": "application/json, text/plain, */*",
-            "accept-encoding": "gzip, br",
-            "cdn-loop": "cloudflare; loops=1",
-            "cf-connecting-ip": "5.78.141.88",
-            "cf-ipcountry": "US",
-            "cf-ray": "966119d99a4db84b-PDX",
-            "cf-visitor": "{\"scheme\":\"https\"}",
-            "content-type": "application/json",
-            "x-forwarded-for": "104.23.160.56",
-            "x-forwarded-host": "x2id7y0t-n8n.cloudfy.cloud",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "abcfc2aa44ac",
-            "x-real-ip": "104.23.160.56"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "automacao-ia",
-            "data": {
-              "key": {
-                "remoteJid": "5513988491908@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3EB0FE5EB268401997A4B0",
-                "senderLid": "273984704741630@lid"
-              },
-              "pushName": "Everaldo",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Crie para mim 3 cards sobre limpeza de pele",
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "xVXq4AYYvb7iRQ==",
-                    "senderTimestamp": "1753454976",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "T5gFdT2nrGdrZQ==",
-                    "recipientTimestamp": "1753454888"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "mHEFaB3T7l2vr+Rnj/ccyfdrkwKyFhLOKu5/RSGQycw=",
-                  "limitSharingV2": {
-                    "trigger": "UNKNOWN",
-                    "initiatedByMe": false
-                  }
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1753671361,
-              "instanceId": "1a36e48c-e6f7-4afc-96e6-8389cebfbe12",
-              "source": "web"
-            },
-            "destination": "https://x2id7y0t-n8n.cloudfy.cloud/webhook-test/2161bd1a-b382-41c0-bb92-736528130fab",
-            "date_time": "2025-07-27T23:56:01.523Z",
-            "sender": "5521993232635@s.whatsapp.net",
-            "server_url": "https://x2id7y0t-evolution.cloudfy.cloud",
-            "apikey": "F74B312E6CCE-4284-A02C-0DB46AD1AA9C"
-          },
-          "webhookUrl": "https://x2id7y0t-n8n.cloudfy.cloud/webhook-test/2161bd1a-b382-41c0-bb92-736528130fab",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "f485e4d5-dcef-40e0-88f6-ecb3d6733f6a",
-  "triggerCount": 0,
+  "pinData": {},
+  "versionId": "5770255f-8c51-4dd7-ab10-3402f0d46dca",
+  "triggerCount": 2,
+  "shared": [
+    {
+      "createdAt": "2025-10-20T01:02:56.717Z",
+      "updatedAt": "2025-10-20T01:02:56.717Z",
+      "role": "workflow:owner",
+      "workflowId": "jbNt6XXkxEW1s2Ea",
+      "projectId": "W84J5ordzl059lka"
+    }
+  ],
   "tags": []
 }
