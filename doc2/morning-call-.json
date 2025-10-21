@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-25T14:53:35.416Z",
-  "updatedAt": "2025-08-09T00:36:51.434Z",
+  "updatedAt": "2025-10-20T12:45:12.045Z",
   "id": "ZoU66jcwILgFvijm",
   "name": "Morning Call",
   "active": true,
@@ -227,14 +227,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Trigger Diário": [
-      {
-        "json": {}
-      }
-    ]
-  },
-  "versionId": "8da041c5-1a14-43b9-abfc-83b12e05775a",
+  "pinData": {},
+  "versionId": "a2f5fc45-28dc-4470-9610-47be09a981ac",
   "triggerCount": 1,
   "shared": [
     {
